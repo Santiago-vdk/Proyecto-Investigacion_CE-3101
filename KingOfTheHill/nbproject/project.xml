@@ -94,7 +94,7 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.mongo-java-driver-3.0.2.jar}</file>
+                    <file>${file.reference.mongo-java-driver-2.13.2.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>

@@ -29,7 +29,8 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(kingofthehill.servicios.FirstResource.class);
+        resources.add(kingofthehill.servicios.MarkersResource.class);
+        resources.add(kingofthehill.servicios.UserResource.class);
     }
     
 }

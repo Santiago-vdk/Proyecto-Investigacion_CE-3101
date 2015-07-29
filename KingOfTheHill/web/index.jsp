@@ -10,7 +10,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
         <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
 
         <link rel="stylesheet" href="css/reset.css">
@@ -33,17 +32,37 @@
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGh7D7tuU8uPFGbK2Og8cVz0bRC9vYkfo"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script type="text/javascript" src="js/maps.js"></script>
-        
-        <script>
-            function get(){
-            var nameValue = document.getElementById("test").value;
-            
-        }
+        <script type="text/javascript" src="js/md5-min.js"></script>
+
+        <script type="text/javascript">
+            function registerUser() {
+                var username = document.getElementById("signup-username").value;
+                var email = document.getElementById("signup-email").value;
+                var password = document.getElementById("signup-password").value;
+                var hash = hex_md5(password);
+
+
+
+
+                return $.ajax({
+                    url: 'http://localhost:8080/KingOfTheHill/webresources/user/register',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: 'extraparam=45869159&another=32',
+                    success: function (data) {
+                        alert(data);
+                    }
+                });
+
+            }
         </script>
-        
+
+
+
 
     </head>
     <body>
+
         <header role="banner">
             <!--<div id="cd-logo">
                 <a href="#0"><img src="img/cd-logo.svg" alt="Logo"></a>
@@ -99,44 +118,39 @@
                 <!-- cd-login -->
 
                 <div id="cd-signup">
-                   
-                    <form onSubmit="return get()">
-                        
-                       <input type="text" name="name" id="test" value="value" />
-                       <input type="submit" value="GO">
-                    </form>
-                   
+                    <!-- sign up form 
                     
+                    action="http://localhost:8080/php/login.php"
                     
-                    <!-- sign up form -->
-                    <form class="cd-form" action="http://localhost:8080/php/login.php" method="post">
+                    -->
+                    <form class="cd-form">
                         <p class="fieldset">
                             <label class="image-replace cd-username" for="signup-username">Username</label>
-                            <input name="username" class="full-width has-padding has-border" id="signup-username" type="text" placeholder="Username" pattern=".{3,}"  required title="Mínimo de caracteres: 4">
+                            <input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="Username" pattern=".{3,}"  required title="Mínimo de caracteres: 4">
                             <!--  <span class="cd-error-message">Error message here!</span> -->
                         </p>
-                        
+
                         <p class="fieldset">
                             <label class="image-replace cd-email" for="signup-email">E-mail</label>
-                            <input name="email" class="full-width has-padding has-border" id="signup-email" type="email" placeholder="E-mail" required>
+                            <input class="full-width has-padding has-border" id="signup-email" type="email" placeholder="E-mail" required>
                             <!--  <span class="cd-error-message">Error message here!</span> -->
                         </p>
 
                         <p class="fieldset">
                             <label class="image-replace cd-password" for="signup-password">Password</label>
-                            <input name="password" class="full-width has-padding has-border" id="signup-password" type="text" placeholder="Password" pattern=".{6,}" required title="Mínimo de caracteres: 6">
+                            <input class="full-width has-padding has-border" id="signup-password" type="text" placeholder="Password" pattern=".{6,}" required title="Mínimo de caracteres: 6">
                             <a href="#0" class="hide-password">Hide</a>
                             <!--  <span class="cd-error-message">Error message here!</span> -->
                         </p>
-                         <!-- 
+                        <!-- 
+                       <p class="fieldset">
+                           <input type="checkbox" id="accept-terms">
+                           <label for="accept-terms">I agree to the <a href="#0">Terms</a></label>
+                       </p>
+                        -->
+
                         <p class="fieldset">
-                            <input type="checkbox" id="accept-terms">
-                            <label for="accept-terms">I agree to the <a href="#0">Terms</a></label>
-                        </p>
-                         -->
-                         
-                        <p class="fieldset">
-                            <input class="full-width has-padding" type="submit" value="Create account">
+                            <input class="full-width has-padding" type="submit" value="Create account" onclick="registerUser()">
                         </p>
 
                     </form>
@@ -169,6 +183,7 @@
             <!-- cd-user-modal-container -->
         </div>
         <!-- cd-user-modal -->
+
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="js/main.js"></script>
