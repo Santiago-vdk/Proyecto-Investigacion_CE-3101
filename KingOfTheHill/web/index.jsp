@@ -36,21 +36,32 @@
 
         <script type="text/javascript">
             function registerUser() {
-                var username = document.getElementById("signup-username").value;
-                var email = document.getElementById("signup-email").value;
-                var password = document.getElementById("signup-password").value;
-                var hash = hex_md5(password);
 
+                var paramUsername = document.getElementById("signup-username").value;
+                var paramPassword = document.getElementById("signup-password").value;
+                //var paramQuestion = document.getElementById("signup-question").value;
+                //var paramAnswer = document.getElementById("signup-answer").value;
+                //alert(paramQuestion);
+                //Hash para la contraseña
+                var hash = hex_md5(paramPassword);
 
-
-
-                return $.ajax({
-                    url: 'http://localhost:8080/KingOfTheHill/webresources/user/register',
-                    type: 'GET',
-                    dataType: 'json',
-                    data: 'extraparam=45869159&another=32',
+                var postData = {
+                    "username": paramUsername,
+                    "password": hash
+                    //"question": paramQuestion,
+                   // "answer": paramAnswer
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:8080/KingOfTheHill/webresources/users/register',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(postData),
+                    dataType: "json", //linea fragil
                     success: function (data) {
-                        alert(data);
+                        alert('success');
+                    },
+                    error: function () {
+                        alert('failure');
                     }
                 });
 
@@ -90,14 +101,14 @@
                     <!-- log in form -->
                     <form class="cd-form">
                         <p class="fieldset">
-                            <label class="image-replace cd-email" for="signin-email">E-mail</label>
-                            <input class="full-width has-padding has-border" id="signin-email" type="email" placeholder="E-mail">
+                            <label class="image-replace cd-username" for="signup-username">Username</label>
+                            <input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="Username" pattern=".{3,}"  required title="Mínimo de caracteres: 4">
                             <span class="cd-error-message">Error message here!</span>
                         </p>
 
                         <p class="fieldset">
                             <label class="image-replace cd-password" for="signin-password">Password</label>
-                            <input class="full-width has-padding has-border" id="signin-password" type="text" placeholder="Password">
+                            <input class="full-width has-padding has-border" id="signup-password" type="text" placeholder="Password" pattern=".{6,}" required title="Mínimo de caracteres: 6">
                             <a href="#0" class="hide-password">Hide</a>
                             <span class="cd-error-message">Error message here!</span>
                         </p>
@@ -129,12 +140,13 @@
                             <input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="Username" pattern=".{3,}"  required title="Mínimo de caracteres: 4">
                             <!--  <span class="cd-error-message">Error message here!</span> -->
                         </p>
-
+                        <!--
                         <p class="fieldset">
                             <label class="image-replace cd-email" for="signup-email">E-mail</label>
                             <input class="full-width has-padding has-border" id="signup-email" type="email" placeholder="E-mail" required>
-                            <!--  <span class="cd-error-message">Error message here!</span> -->
+                            <span class="cd-error-message">Error message here!</span>
                         </p>
+                        -->
 
                         <p class="fieldset">
                             <label class="image-replace cd-password" for="signup-password">Password</label>
@@ -142,13 +154,20 @@
                             <a href="#0" class="hide-password">Hide</a>
                             <!--  <span class="cd-error-message">Error message here!</span> -->
                         </p>
-                        <!-- 
-                       <p class="fieldset">
-                           <input type="checkbox" id="accept-terms">
-                           <label for="accept-terms">I agree to the <a href="#0">Terms</a></label>
-                       </p>
-                        -->
-
+                       <!--
+                        <p class="fieldset">
+                            <label for="question" style="font-size:110%">Security Question:</label>
+                            <select name="question" id="signup-question" readonly="readonly">
+                                <option value="Nombre mascota">Nombre mascota</option>
+                                <option value="Curso Favorito" selected>Curso Favorito</option>
+                            </select>
+                        </p>
+                       
+                        <p class="fieldset">
+                            <label class="image-replace cd-form" for="signup-password">Answer</label>
+                            <input class="full-width has-padding has-border" id="signup-answer" type="text" placeholder="Answer" required>
+                        </p>
+                       -->
                         <p class="fieldset">
                             <input class="full-width has-padding" type="submit" value="Create account" onclick="registerUser()">
                         </p>

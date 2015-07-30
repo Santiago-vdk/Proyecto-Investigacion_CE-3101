@@ -22,32 +22,31 @@ import javax.ws.rs.core.Response;
  *
  * @author Shagy
  */
-@Path("user")
-public class UserResource {
+@Path("users")
+public class UsersResource {
 
     @Context
     private UriInfo context;
 
     /**
-     * Creates a new instance of UserResource
+     * Creates a new instance of UsersResource
      */
-    public UserResource() {
+    public UsersResource() {
     }
 
     /**
-     * Retrieves representation of an instance of kingofthehill.servicios.UserResource
+     * Retrieves representation of an instance of kingofthehill.servicios.UsersResource
      * @return an instance of java.lang.String
      */
     @GET
     @Produces("application/json")
     public String getJson() {
         //TODO return proper representation object
-        //throw new UnsupportedOperationException();
-        return "Test";
+        throw new UnsupportedOperationException();
     }
 
     /**
-     * PUT method for updating or creating an instance of UserResource
+     * PUT method for updating or creating an instance of UsersResource
      * @param content representation for the resource
      * @return an HTTP response with content of the updated or created resource.
      */
@@ -57,8 +56,24 @@ public class UserResource {
     }
     
     
+         
 
-
+    /**
+     *
+     * @param msg
+     * @return
+     */
+    @POST
+    @Path("/register")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response register(String msg) {
+        
+        //Pasar a BD, validar y retornar success
+        
+        return Response.status(200).entity(msg).build();
+        
+    }
     
     
 }
