@@ -98,10 +98,6 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.javax.json-api-1.0.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
-                <library dirs="200">
                     <file>${file.reference.org.json-20120521.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
