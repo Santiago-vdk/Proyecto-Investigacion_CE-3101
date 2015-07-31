@@ -15,15 +15,23 @@ import javax.ws.rs.GET;
 import static javax.ws.rs.HttpMethod.POST;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
+import static org.glassfish.hk2.utilities.reflection.Pretty.array;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * REST Web Service
  *
  * @author Shagy
  */
+
+
+
 @Path("markers")
 public class MarkersResource {
 
+    
     @Context
     private UriInfo context;
 
@@ -34,7 +42,9 @@ public class MarkersResource {
     }
 
     /**
-     * Retrieves representation of an instance of kingofthehill.servicios.MarkersResource
+     * Retrieves representation of an instance of
+     * kingofthehill.servicios.MarkersResource
+     *
      * @return an instance of java.lang.String
      */
     @GET
@@ -47,6 +57,7 @@ public class MarkersResource {
 
     /**
      * PUT method for updating or creating an instance of MarkersResource
+     *
      * @param content representation for the resource
      * @return an HTTP response with content of the updated or created resource.
      */
@@ -54,12 +65,24 @@ public class MarkersResource {
     @Consumes("application/json")
     public void putJson(String content) {
     }
-    
+
     @GET
-    @Path("/test")
+    @Path("/vehicles")
     @Produces("application/json")
-    public String getUser() {
+    public String getUser() throws JSONException {
+        JSONArray outerArray = new JSONArray();
+        JSONObject innerObject = new JSONObject();
+        JSONObject innerArray2 = new JSONObject();
+
+        innerArray2.put("lat","50");
+        innerArray2.put("long","40");
         
-        return "Llego el user";
+        innerObject.put("id", "1");
+        innerObject.put("name", "Santiago");
+        innerObject.put("pos", innerArray2);   
+        
+        outerArray.put(innerObject);
+
+        return outerArray.toString();
     }
 }

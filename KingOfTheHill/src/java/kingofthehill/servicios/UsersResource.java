@@ -54,9 +54,6 @@ public class UsersResource {
     @Consumes("application/json")
     public void putJson(String content) {
     }
-    
-    
-         
 
     /**
      *
@@ -68,6 +65,24 @@ public class UsersResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     public Response register(String msg) {
+        
+        //Pasar a BD, validar y retornar success
+        
+        return Response.status(200).entity(msg).build();
+        
+    }
+    
+    
+     /**
+     *
+     * @param msg
+     * @return
+     */
+    @POST
+    @Path("/login")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response login(String msg) {
         
         //Pasar a BD, validar y retornar success
         

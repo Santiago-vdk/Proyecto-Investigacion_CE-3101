@@ -35,22 +35,34 @@
         <script type="text/javascript" src="js/md5-min.js"></script>
 
         <script type="text/javascript">
-            function registerUser() {
+            
+            window.onload = function () {
+                    
+                    
+                    getMarkers();
+                    //validation code to see State field is mandatory.  
+                
+            }
 
+        </script>
+
+
+
+        <script type="text/javascript">
+            function registerUser() {
                 var paramUsername = document.getElementById("signup-username").value;
                 var paramPassword = document.getElementById("signup-password").value;
-                //var paramQuestion = document.getElementById("signup-question").value;
-                //var paramAnswer = document.getElementById("signup-answer").value;
-                //alert(paramQuestion);
+                var paramQuestion = document.getElementById("signup-question").value;
+                var paramAnswer = document.getElementById("signup-answer").value;
                 //Hash para la contraseña
                 var hash = hex_md5(paramPassword);
 
                 var postData = {
                     "username": paramUsername,
-                    "password": hash
-                    //"question": paramQuestion,
-                   // "answer": paramAnswer
-                }
+                    "password": hash,
+                    "question": paramQuestion,
+                    "answer": paramAnswer
+                };
                 $.ajax({
                     type: 'POST',
                     url: 'http://localhost:8080/KingOfTheHill/webresources/users/register',
@@ -58,17 +70,47 @@
                     data: JSON.stringify(postData),
                     dataType: "json", //linea fragil
                     success: function (data) {
-                        alert('success');
+                        alert('success register');
+                        window.location.reload();
                     },
                     error: function () {
                         alert('failure');
                     }
                 });
-
             }
         </script>
 
+        <script type="text/javascript">
+            function loginUser() {
+                var paramUsername = document.getElementById("login-username").value;
+                var paramPassword = document.getElementById("login-password").value;
+                var paramSchool = document.getElementById("login-school").value;
+                //Hash para la contraseña
+                var hash = hex_md5(paramPassword);
 
+
+                var postData = {
+                    "username": paramUsername,
+                    "password": hash,
+                    "question": paramSchool
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:8080/KingOfTheHill/webresources/users/login',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(postData),
+                    dataType: "json", //linea fragil
+                    success: function (data) {
+                        alert('success login');
+                        window.location.reload();
+                        //Terminar
+                    },
+                    error: function () {
+                        alert('failure');
+                    }
+                });
+            }
+        </script>
 
 
     </head>
@@ -99,18 +141,31 @@
 
                 <div id="cd-login">
                     <!-- log in form -->
-                    <form class="cd-form">
+                    <form class="cd-form" action="javascript:loginUser();" method="POST">
                         <p class="fieldset">
-                            <label class="image-replace cd-username" for="signup-username">Username</label>
-                            <input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="Username" pattern=".{3,}"  required title="Mínimo de caracteres: 4">
+                            <label class="image-replace cd-username" for="login-username">Username</label>
+                            <input class="full-width has-padding has-border" id="login-username" type="text" placeholder="Username" pattern=".{3,}"  required title="Mínimo de caracteres: 4">
                             <span class="cd-error-message">Error message here!</span>
                         </p>
 
                         <p class="fieldset">
-                            <label class="image-replace cd-password" for="signin-password">Password</label>
-                            <input class="full-width has-padding has-border" id="signup-password" type="text" placeholder="Password" pattern=".{6,}" required title="Mínimo de caracteres: 6">
+                            <label class="image-replace cd-password" for="login-password">Password</label>
+                            <input class="full-width has-padding has-border" id="login-password" type="text" placeholder="Password" pattern=".{6,}" required title="Mínimo de caracteres: 6">
                             <a href="#0" class="hide-password">Hide</a>
                             <span class="cd-error-message">Error message here!</span>
+                        </p>
+
+                        <p class="fieldset">
+                            <label for="school" style="font-size:110%">Seleccione una Escuela:</label>
+                            <select name="school" id="login-school">
+                                <option value="Computacion">Computacion</option>
+                                <option value="Matematica" selected>Matematica</option>
+                                <option value="Fisica">Fisica</option>
+                                <option value="Forestal" selected>Forestal</option>
+                                <option value="Electromecanica">Electromecanica</option>
+                                <option value="Produccion Indus" selected>Produccion Indus.</option>
+                                <option value="Disenio Indus">Diseño Indus.</option>
+                            </select>
                         </p>
 
                         <p class="fieldset">
@@ -119,7 +174,7 @@
                         </p>
 
                         <p class="fieldset">
-                            <input class="full-width" type="submit" value="Login">
+                            <input class="full-width" type="submit" value="Login" >
                         </p>
                     </form>
 
@@ -131,10 +186,8 @@
                 <div id="cd-signup">
                     <!-- sign up form 
                     
-                    action="http://localhost:8080/php/login.php"
-                    
                     -->
-                    <form class="cd-form">
+                    <form class="cd-form" action="javascript:registerUser();" method="POST">
                         <p class="fieldset">
                             <label class="image-replace cd-username" for="signup-username">Username</label>
                             <input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="Username" pattern=".{3,}"  required title="Mínimo de caracteres: 4">
@@ -154,22 +207,22 @@
                             <a href="#0" class="hide-password">Hide</a>
                             <!--  <span class="cd-error-message">Error message here!</span> -->
                         </p>
-                       <!--
+
                         <p class="fieldset">
                             <label for="question" style="font-size:110%">Security Question:</label>
-                            <select name="question" id="signup-question" readonly="readonly">
+                            <select name="question" id="signup-question">
                                 <option value="Nombre mascota">Nombre mascota</option>
                                 <option value="Curso Favorito" selected>Curso Favorito</option>
                             </select>
                         </p>
-                       
+
                         <p class="fieldset">
-                            <label class="image-replace cd-form" for="signup-password">Answer</label>
+                            <label class="image-replace cd-form" for="signup-answer">Answer</label>
                             <input class="full-width has-padding has-border" id="signup-answer" type="text" placeholder="Answer" required>
                         </p>
-                       -->
+
                         <p class="fieldset">
-                            <input class="full-width has-padding" type="submit" value="Create account" onclick="registerUser()">
+                            <input class="full-width has-padding" type="submit" value="Create account">
                         </p>
 
                     </form>
