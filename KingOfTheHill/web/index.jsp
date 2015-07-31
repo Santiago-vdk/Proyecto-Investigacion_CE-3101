@@ -65,7 +65,7 @@
                 };
                 $.ajax({
                     type: 'POST',
-                    url: 'http://localhost:8080/KingOfTheHill/webresources/users/register',
+                    url: 'http://192.168.1.135:8080/KingOfTheHill/webresources/users/register',
                     contentType: 'application/json; charset=utf-8',
                     data: JSON.stringify(postData),
                     dataType: "json", //linea fragil
@@ -96,7 +96,7 @@
                 };
                 $.ajax({
                     type: 'POST',
-                    url: 'http://localhost:8080/KingOfTheHill/webresources/users/login',
+                    url: 'http://192.168.1.135:8080/KingOfTheHill/webresources/users/login',
                     contentType: 'application/json; charset=utf-8',
                     data: JSON.stringify(postData),
                     dataType: "json", //linea fragil

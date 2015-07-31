@@ -106,7 +106,7 @@ var INTERVAL = 1;
 function getMarkers() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/KingOfTheHill/webresources/markers/vehicles',
+        url: 'http://192.168.1.135:8080/KingOfTheHill/webresources/markers/vehicles',
         contentType: 'application/json',
         dataType: "json", //linea fragril
         success: function (res) {
