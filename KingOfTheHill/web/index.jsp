@@ -35,16 +35,11 @@
         <script type="text/javascript" src="js/md5-min.js"></script>
 
         <script type="text/javascript">
-            
             window.onload = function () {
-                    
-                    
-                    getMarkers();
-                    //validation code to see State field is mandatory.  
-                
-            }
-
+                getMarkers();
+            };
         </script>
+        
 
 
 
@@ -56,7 +51,6 @@
                 var paramAnswer = document.getElementById("signup-answer").value;
                 //Hash para la contraseña
                 var hash = hex_md5(paramPassword);
-
                 var postData = {
                     "username": paramUsername,
                     "password": hash,
@@ -65,11 +59,12 @@
                 };
                 $.ajax({
                     type: 'POST',
-                    url: 'http://192.168.1.135:8080/KingOfTheHill/webresources/users/register',
+                    url: 'http://localhost:8080/KingOfTheHill/webresources/users/register',
                     contentType: 'application/json; charset=utf-8',
                     data: JSON.stringify(postData),
                     dataType: "json", //linea fragil
                     success: function (data) {
+                        //Mensaje del server
                         alert('success register');
                         window.location.reload();
                     },
@@ -87,23 +82,22 @@
                 var paramSchool = document.getElementById("login-school").value;
                 //Hash para la contraseña
                 var hash = hex_md5(paramPassword);
-
-
                 var postData = {
                     "username": paramUsername,
                     "password": hash,
-                    "question": paramSchool
+                    "school": paramSchool
                 };
                 $.ajax({
                     type: 'POST',
-                    url: 'http://192.168.1.135:8080/KingOfTheHill/webresources/users/login',
+                    url: 'http://localhost:8080/KingOfTheHill/webresources/users/login',
                     contentType: 'application/json; charset=utf-8',
                     data: JSON.stringify(postData),
-                    dataType: "json", //linea fragil
-                    success: function (data) {
-                        alert('success login');
+                    dataType: 'json',
+                    success: function (response) {
+                        var parsed = JSON.parse(JSON.stringify(response));
+                        window.sessionStorage.accessToken = parsed.access_token;
+                        window.sessionStorage.expiresIn = parsed.expires_in;
                         window.location.reload();
-                        //Terminar
                     },
                     error: function () {
                         alert('failure');
@@ -112,6 +106,29 @@
             }
         </script>
 
+        <script type="text/javascript">
+
+            function forgotPassword() {
+                var paramUsername = document.getElementById("reset-username").value;
+                var postData = {
+                    "username": paramUsername
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:8080/KingOfTheHill/webresources/users/forgotpassword',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(postData),
+                    dataType: "json", //linea fragil
+                    success: function (data) {
+                        alert('success recover');
+                        window.location.reload();
+                    },
+                    error: function () {
+                        alert('failure reset');
+                    }
+                });
+            }
+        </script>
 
     </head>
     <body>
@@ -193,13 +210,6 @@
                             <input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="Username" pattern=".{3,}"  required title="Mínimo de caracteres: 4">
                             <!--  <span class="cd-error-message">Error message here!</span> -->
                         </p>
-                        <!--
-                        <p class="fieldset">
-                            <label class="image-replace cd-email" for="signup-email">E-mail</label>
-                            <input class="full-width has-padding has-border" id="signup-email" type="email" placeholder="E-mail" required>
-                            <span class="cd-error-message">Error message here!</span>
-                        </p>
-                        -->
 
                         <p class="fieldset">
                             <label class="image-replace cd-password" for="signup-password">Password</label>
@@ -233,13 +243,13 @@
 
                 <div id="cd-reset-password">
                     <!-- reset password form -->
-                    <p class="cd-form-message">Lost your password? Please enter your email address. You will receive a link to create a new password.</p>
+                    <p class="cd-form-message">Lost your password? Please enter your username. Let the monkeys bring you the Security Question</p>
 
-                    <form class="cd-form">
+                    <form class="cd-form" action="javascript:forgotPassword();" method="POST">
                         <p class="fieldset">
-                            <label class="image-replace cd-email" for="reset-email">E-mail</label>
-                            <input class="full-width has-padding has-border" id="reset-email" type="email" placeholder="E-mail">
-                            <span class="cd-error-message">Error message here!</span>
+                            <label class="image-replace cd-username" for="reset-user">Username</label>
+                            <input class="full-width has-padding has-border" id="reset-username" type="user" placeholder="Username" pattern=".{3,}"  required title="Mínimo de caracteres: 4">
+
                         </p>
 
                         <p class="fieldset">

@@ -14,6 +14,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -35,30 +36,41 @@ public class UserResource {
     }
 
     /**
-     * Retrieves representation of an instance of kingofthehill.servicios.UserResource
-     * @return an instance of java.lang.String
+     *
+     * @param msg
+     * @return
      */
-    @GET
-    @Produces("application/json")
-    public String getJson() {
-        //TODO return proper representation object
-        //throw new UnsupportedOperationException();
-        return "Test";
+    @POST
+    @Path("/send-position")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response sendPosition(String msg) {
+
+        //Pasar a BD, validar y retornar success
+        return Response.status(200).entity(msg).build();
+
     }
 
     /**
-     * PUT method for updating or creating an instance of UserResource
-     * @param content representation for the resource
-     * @return an HTTP response with content of the updated or created resource.
+     *
+     * @param msg
+     * @param headers
+     * @return
      */
-    @PUT
-    @Consumes("application/json")
-    public void putJson(String content) {
+    @GET
+    @Path("/retrieve-position")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response retrievePosition(String msg, @Context HttpHeaders headers) {
+        
+        
+        //Si el token es correcto signifca que el usuario esta autenticado y procedo a ver si es
+        //admin o user si es user le devuelvo su posicion del marker
+        String s = headers.getRequestHeaders().getFirst("userToken");
+        System.out.println(s);
+        
+        return Response.status(200).entity(msg).build();
+
     }
-    
-    
 
-
-    
-    
 }

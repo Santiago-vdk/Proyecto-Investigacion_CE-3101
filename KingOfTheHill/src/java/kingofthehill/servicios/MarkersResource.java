@@ -15,23 +15,19 @@ import javax.ws.rs.GET;
 import static javax.ws.rs.HttpMethod.POST;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.HttpHeaders;
 import static org.glassfish.hk2.utilities.reflection.Pretty.array;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  * REST Web Service
  *
  * @author Shagy
  */
-
-
-
 @Path("markers")
 public class MarkersResource {
 
-    
     @Context
     private UriInfo context;
 
@@ -59,30 +55,42 @@ public class MarkersResource {
      * PUT method for updating or creating an instance of MarkersResource
      *
      * @param content representation for the resource
-     * @return an HTTP response with content of the updated or created resource.
      */
     @PUT
     @Consumes("application/json")
     public void putJson(String content) {
     }
 
+    /**
+     *
+     * @param headers
+     * @return
+     */
     @GET
     @Path("/vehicles")
     @Produces("application/json")
-    public String getUser() throws JSONException {
-        JSONArray outerArray = new JSONArray();
-        JSONObject innerObject = new JSONObject();
-        JSONObject innerArray2 = new JSONObject();
+    public String getUser(@Context HttpHeaders headers) {
 
-        innerArray2.put("lat","50");
-        innerArray2.put("long","40");
-        
-        innerObject.put("id", "1");
-        innerObject.put("name", "Santiago");
-        innerObject.put("pos", innerArray2);   
-        
-        outerArray.put(innerObject);
+        String s = headers.getRequestHeaders().getFirst("userToken");
 
-        return outerArray.toString();
+        if (s.compareTo("NeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2IjowLCJkIjp7InVpZCI6IlNhbnRpYWdvIiwicGFzc3dvcmQiOiJlMTBhZGMzOTQ5YmE1OWFiYmU1NmUwNTdmMjBmODgzZSJ9LCJpYXQiOjE0Mzg0NzAxNjd9.RND6K55KycIOhfWY9xl7Pu8d86qYZSy35kxikK7iyPo") == 0) {
+            JSONArray outerArray = new JSONArray();
+            JSONObject innerObject = new JSONObject();
+            JSONObject innerArray2 = new JSONObject();
+
+            innerArray2.put("lat", "50");
+            innerArray2.put("long", "40");
+
+            innerObject.put("id", "1");
+            innerObject.put("name", "Santiago");
+            innerObject.put("pos", innerArray2);
+
+            outerArray.add(innerObject);
+
+            return outerArray.toString();
+        } else {
+            return "{}";
+        }
+
     }
 }

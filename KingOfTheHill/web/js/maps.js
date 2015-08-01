@@ -100,16 +100,22 @@ google.maps.event.addDomListener(window, 'load', initialize);
 var markerStore = {};
 
 //Time between marker refreshes
-var INTERVAL = 1;
+var INTERVAL = 2000;
 
 
 function getMarkers() {
     $.ajax({
         type: 'GET',
-        url: 'http://192.168.1.135:8080/KingOfTheHill/webresources/markers/vehicles',
+        url: 'http://localhost:8080/KingOfTheHill/webresources/markers/vehicles',
         contentType: 'application/json',
         dataType: "json", //linea fragril
-        success: function (res) {
+        beforeSend: function (xhr) {
+            // Set the CSRF Token in the header for security
+            var token = window.sessionStorage.accessToken;
+            if (token)
+                xhr.setRequestHeader('userToken', token);
+        },
+        success: function (res, textStatus, jqXHR) {
             for (var i = 0, len = res.length; i < len; i++) {
                 if (markerStore.hasOwnProperty(res[i].id)) {
                     markerStore[res[i].id].setPosition(new google.maps.LatLng(res[i].pos.lat, res[i].pos.long));
