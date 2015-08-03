@@ -22,8 +22,29 @@ body {
 }
 
 a {
-  color: #2f889a;
+  visibility: hidden;
+  color: #FFFFFF;
   text-decoration: none;
+  font-family: "Open Sans", sans-serif;
+  //font-size: 18px;
+}
+
+user {
+  visibility: hidden;
+  color: #FFFFFF;
+  text-decoration: none;
+  font-family: "Open Sans", sans-serif;
+  //font-size: 18px;
+}
+
+
+
+logoutBtn {
+  visibility: hidden;
+  color: #3140FF;
+  text-decoration: none;
+  font-family: "Open Sans", sans-serif;
+  font-size: 15px;
 }
 
 img {
@@ -78,7 +99,7 @@ header[role=banner]::after {
     height: 54px;
   }
   header[role=banner] #cd-logo {
-    margin: 20px 0 0 5%;
+    margin: 19px 0 0 5%;
     -webkit-transform: scale(1);
     -moz-transform: scale(1);
     -ms-transform: scale(1);

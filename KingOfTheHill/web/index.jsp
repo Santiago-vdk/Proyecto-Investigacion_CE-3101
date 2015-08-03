@@ -9,8 +9,24 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGh7D7tuU8uPFGbK2Og8cVz0bRC9vYkfo"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        
+        <script src="js/sweetalert.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/sweetalert.css">
+        <script src="js/spin.js"></script>
+        <script type="text/javascript" src="js/maps.js"></script>
+        <script type="text/javascript" src="js/md5-min.js"></script>
+        <script type="text/javascript" src="js/sessions.js"></script>
+
+        <script type="text/javascript">
+            $(window).load(function () {
+                isLogged();
+                //getMarkers();
+            });
+        </script>
 
         <link rel="stylesheet" href="css/reset.css">
         <!-- CSS reset -->
@@ -18,7 +34,6 @@
         <!-- Gem style -->
         <script src="js/modernizr.js"></script>
         <!-- Modernizr -->
-
         <style type="text/css">
             html,
             body,
@@ -29,119 +44,20 @@
                 padding: 0;
             }
         </style>
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGh7D7tuU8uPFGbK2Og8cVz0bRC9vYkfo"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <script type="text/javascript" src="js/maps.js"></script>
-        <script type="text/javascript" src="js/md5-min.js"></script>
-
-        <script type="text/javascript">
-            window.onload = function () {
-                getMarkers();
-            };
-        </script>
-        
-
-
-
-        <script type="text/javascript">
-            function registerUser() {
-                var paramUsername = document.getElementById("signup-username").value;
-                var paramPassword = document.getElementById("signup-password").value;
-                var paramQuestion = document.getElementById("signup-question").value;
-                var paramAnswer = document.getElementById("signup-answer").value;
-                //Hash para la contraseña
-                var hash = hex_md5(paramPassword);
-                var postData = {
-                    "username": paramUsername,
-                    "password": hash,
-                    "question": paramQuestion,
-                    "answer": paramAnswer
-                };
-                $.ajax({
-                    type: 'POST',
-                    url: 'http://localhost:8080/KingOfTheHill/webresources/users/register',
-                    contentType: 'application/json; charset=utf-8',
-                    data: JSON.stringify(postData),
-                    dataType: "json", //linea fragil
-                    success: function (data) {
-                        //Mensaje del server
-                        alert('success register');
-                        window.location.reload();
-                    },
-                    error: function () {
-                        alert('failure');
-                    }
-                });
-            }
-        </script>
-
-        <script type="text/javascript">
-            function loginUser() {
-                var paramUsername = document.getElementById("login-username").value;
-                var paramPassword = document.getElementById("login-password").value;
-                var paramSchool = document.getElementById("login-school").value;
-                //Hash para la contraseña
-                var hash = hex_md5(paramPassword);
-                var postData = {
-                    "username": paramUsername,
-                    "password": hash,
-                    "school": paramSchool
-                };
-                $.ajax({
-                    type: 'POST',
-                    url: 'http://localhost:8080/KingOfTheHill/webresources/users/login',
-                    contentType: 'application/json; charset=utf-8',
-                    data: JSON.stringify(postData),
-                    dataType: 'json',
-                    success: function (response) {
-                        var parsed = JSON.parse(JSON.stringify(response));
-                        window.sessionStorage.accessToken = parsed.access_token;
-                        window.sessionStorage.expiresIn = parsed.expires_in;
-                        window.location.reload();
-                    },
-                    error: function () {
-                        alert('failure');
-                    }
-                });
-            }
-        </script>
-
-        <script type="text/javascript">
-
-            function forgotPassword() {
-                var paramUsername = document.getElementById("reset-username").value;
-                var postData = {
-                    "username": paramUsername
-                };
-                $.ajax({
-                    type: 'POST',
-                    url: 'http://localhost:8080/KingOfTheHill/webresources/users/forgotpassword',
-                    contentType: 'application/json; charset=utf-8',
-                    data: JSON.stringify(postData),
-                    dataType: "json", //linea fragil
-                    success: function (data) {
-                        alert('success recover');
-                        window.location.reload();
-                    },
-                    error: function () {
-                        alert('failure reset');
-                    }
-                });
-            }
-        </script>
 
     </head>
-    <body>
-
-        <header role="banner">
-            <!--<div id="cd-logo">
-                <a href="#0"><img src="img/cd-logo.svg" alt="Logo"></a>
-            </div> -->
+    <body>    
+        <header id="menu" role="banner">
+            <div id="cd-logo">
+                <user id="screenName" disabled>Santiago</user>
+                <logoutBtn id="btnlogout" onclick="logout()">logout</logoutBtn>
+                
+            </div> 
             <nav class="main-nav">
                 <ul>
                     <!-- inser more links here -->
-                    <li><a class="cd-signin" href="#0">Sign in</a></li>
-                    <li><a class="cd-signup" href="#0">Sign up</a></li>
+                    <li><a id="menuLogin" class="cd-signin" href="#0">Sign in</a></li>
+                    <li><a id="menuRegister" class="cd-signup" href="#0">Sign up</a></li>
                 </ul>
             </nav>
         </header>
@@ -158,7 +74,8 @@
 
                 <div id="cd-login">
                     <!-- log in form -->
-                    <form class="cd-form" action="javascript:loginUser();" method="POST">
+                    <form class="cd-form" onSubmit="loginUser();
+                return false;" method="POST">
                         <p class="fieldset">
                             <label class="image-replace cd-username" for="login-username">Username</label>
                             <input class="full-width has-padding has-border" id="login-username" type="text" placeholder="Username" pattern=".{3,}"  required title="Mínimo de caracteres: 4">
@@ -191,7 +108,7 @@
                         </p>
 
                         <p class="fieldset">
-                            <input class="full-width" type="submit" value="Login" >
+                            <input class="full-width" type="submit" value="Login" id="test">
                         </p>
                     </form>
 
@@ -204,7 +121,8 @@
                     <!-- sign up form 
                     
                     -->
-                    <form class="cd-form" action="javascript:registerUser();" method="POST">
+                    <form class="cd-form" onSubmit="registerUser();
+                            return false;" method="POST">
                         <p class="fieldset">
                             <label class="image-replace cd-username" for="signup-username">Username</label>
                             <input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="Username" pattern=".{3,}"  required title="Mínimo de caracteres: 4">
@@ -245,7 +163,8 @@
                     <!-- reset password form -->
                     <p class="cd-form-message">Lost your password? Please enter your username. Let the monkeys bring you the Security Question</p>
 
-                    <form class="cd-form" action="javascript:forgotPassword();" method="POST">
+                    <form class="cd-form" onSubmit="forgotPassword();
+                            return false;" method="POST">
                         <p class="fieldset">
                             <label class="image-replace cd-username" for="reset-user">Username</label>
                             <input class="full-width has-padding has-border" id="reset-username" type="user" placeholder="Username" pattern=".{3,}"  required title="Mínimo de caracteres: 4">

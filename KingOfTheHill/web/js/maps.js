@@ -91,6 +91,118 @@ function initialize() {
                 new google.maps.LatLng(9.856634, -83.912552))
     });
 
+    var rectangle1 = new google.maps.Rectangle({
+        strokeColor: '#929292',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#929292',
+        fillOpacity: 0.35,
+        map: map,
+        bounds: new google.maps.LatLngBounds(
+                new google.maps.LatLng(9.855782, -83.913328),
+                new google.maps.LatLng(9.855640, -83.912978))
+    });
+
+    var rectangle2 = new google.maps.Rectangle({
+        strokeColor: '#929292',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#929292',
+        fillOpacity: 0.35,
+        map: map,
+        bounds: new google.maps.LatLngBounds(
+                new google.maps.LatLng(9.855536, -83.912368),
+                new google.maps.LatLng(9.855354, -83.912114))
+    });
+
+    var rectangle3 = new google.maps.Rectangle({
+        strokeColor: '#929292',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#929292',
+        fillOpacity: 0.35,
+        map: map,
+        bounds: new google.maps.LatLngBounds(
+                new google.maps.LatLng(9.855559, -83.913191),
+                new google.maps.LatLng(9.855210, -83.912668))
+    });
+
+    var rectangle4 = new google.maps.Rectangle({
+        strokeColor: '#929292',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#929292',
+        fillOpacity: 0.35,
+        map: map,
+        bounds: new google.maps.LatLngBounds(
+                new google.maps.LatLng(9.856709, -83.912279),
+                new google.maps.LatLng(9.856467, -83.911637))
+    });
+
+    var rectangle5 = new google.maps.Rectangle({
+        strokeColor: '#929292',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#929292',
+        fillOpacity: 0.35,
+        map: map,
+        bounds: new google.maps.LatLngBounds(
+                new google.maps.LatLng(9.856678, -83.913144),
+                new google.maps.LatLng(9.856528, -83.912855))
+    });
+
+    var rectangle6 = new google.maps.Rectangle({
+        strokeColor: '#929292',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#929292',
+        fillOpacity: 0.35,
+        map: map,
+        bounds: new google.maps.LatLngBounds(
+                new google.maps.LatLng(9.856071, -83.912315),
+                new google.maps.LatLng(9.855907, -83.911844))
+    });
+
+    var rectangle7 = new google.maps.Rectangle({
+        strokeColor: '#929292',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#929292',
+        fillOpacity: 0.35,
+        map: map,
+        bounds: new google.maps.LatLngBounds(
+                new google.maps.LatLng(9.856420, -83.909943),
+                new google.maps.LatLng(9.855754, -83.908950))
+    });
+
+    var rectangle8 = new google.maps.Rectangle({
+        strokeColor: '#929292',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#929292',
+        fillOpacity: 0.35,
+        map: map,
+        bounds: new google.maps.LatLngBounds(
+                new google.maps.LatLng(9.855752, -83.912468),
+                new google.maps.LatLng(9.855604, -83.912107))
+    });
+    var rectangle9 = new google.maps.Rectangle({
+        strokeColor: '#929292',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#929292',
+        fillOpacity: 0.35,
+        map: map,
+        bounds: new google.maps.LatLngBounds(
+                new google.maps.LatLng(9.855699, -83.912021),
+                new google.maps.LatLng(9.855555, -83.911671))
+    });
+
+    google.maps.event.addListener(rectangleMate, 'click', function (event) {
+        alert("Latitude: " + event.latLng.lat() + " " + ", longitude: " + event.latLng.lng());
+    });
+
+
 
 }
 
@@ -136,22 +248,6 @@ function getMarkers() {
             alert('failure');
         }
     });
-//        
-//        $.get('http://localhost:8080/KingOfTheHill/webresources/markers/vehicles', {}, function (res, resp) {
-//            for (var i = 0, len = res.length; i < len; i++) {
-//                alert("here");
-//                var marker = new google.maps.Marker({
-//                    position: new google.maps.LatLng(res[i].position.lat, res[i].position.long),
-//                    title: res[i].name,
-//                    map: map
-//                });
-//            }
-//            window.setTimeout(getMarkers, INTERVAL);
-//        }, "json");
-//        
-//        
-
-
 }
 
 
