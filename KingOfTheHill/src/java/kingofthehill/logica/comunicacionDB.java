@@ -1,16 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package kingofthehill.logica;
 
 import com.firebase.security.token.TokenGenerator;
 import java.net.UnknownHostException;
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
-import kingofthehill.datos.consultasDB;
+import kingofthehill.datos.conexionBD;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -18,14 +13,15 @@ import kingofthehill.datos.consultasDB;
  */
 public class comunicacionDB {
 
-    consultasDB _DB;
+    //conexionBD _DB;
 
     /**
      *
      * @throws UnknownHostException
      */
     public comunicacionDB() throws UnknownHostException {
-        _DB = new consultasDB();
+        //_DB = conexionBD.getInstance();
+       
     }
 
     /**
@@ -36,24 +32,22 @@ public class comunicacionDB {
      * @return 
      */
     public String login(String pUsername, String pPassword, String pSchool) {
-        if (_DB.consultaLogin(pUsername, pPassword, pSchool)) {
+        if (conexionBD.consultaLogin(pUsername, pPassword, pSchool)) {
+            
             //Usuario autenticado correctamente genero token
-
             Map<String, Object> authPayload = new HashMap<String, Object>();
             authPayload.put("uid", pUsername);
             authPayload.put("password", pPassword);
-
-          
             
             TokenGenerator tokenGenerator = new TokenGenerator("D5kWnfUVl9BiR2NzzOMEvze6ulKpqfDeoJ2LVPGX");
             String token = tokenGenerator.createToken(authPayload);
-            System.out.println("HERE");
             return token;
+            
         }
         else{
             return null;
         }
-
+        
     }
 
     /**
@@ -64,11 +58,19 @@ public class comunicacionDB {
      * @param pAnswer
      */
     public void register(String pUsername, String pPassword, String pQuestion, String pAnswer) {
-        _DB.consultaRegistrer(pUsername, pPassword, pQuestion, pAnswer);
+        conexionBD.consultaRegistrer(pUsername, pPassword, pQuestion, pAnswer);
     }
 
-    public void forgotpassword(String pUsername) {
-        _DB.consultaForgot(pUsername);
+    public String[] forgotpassword(String pUsername) throws ParseException {
+        String[] consulta;
+        consulta = conexionBD.consultaForgot(pUsername);
+        if(consulta == null){
+            return null;
+        }
+        else{
+            return consulta;
+        }
+        
     }
 
     /**
