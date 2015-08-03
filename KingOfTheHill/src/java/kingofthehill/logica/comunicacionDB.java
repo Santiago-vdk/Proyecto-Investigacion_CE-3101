@@ -23,6 +23,10 @@ public class comunicacionDB {
         //_DB = conexionBD.getInstance();
        
     }
+    
+    public boolean setPassword(String pUsername, String pPassword){
+        return conexionBD.insercionPassword(pUsername,pPassword);   
+    }
 
     /**
      *

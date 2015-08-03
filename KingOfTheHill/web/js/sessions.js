@@ -7,7 +7,7 @@ function loginUser() {
     var paramSchool = document.getElementById("login-school").value;
     //Hash para la contraseña
     var hash = hex_md5(paramPassword);
-    
+
     var postData = {
         "username": paramUsername,
         "password": hash,
@@ -261,7 +261,6 @@ function checkAnswer(paramUsername, inputValue) {
         "question": "false",
         "answer": inputValue
     };
-
     $.ajax({
         type: 'POST',
         url: 'http://localhost:8080/KingOfTheHill/webresources/users/forgotpassword',
@@ -281,25 +280,64 @@ function checkAnswer(paramUsername, inputValue) {
                         return false;
                     }
                 });
-
             }
             else {
 
-                swal({title: ":)!",
-                    text: "Su contraseña: " + data,
-                    type: "success",
-                    confirmButtonColor: "#8CD4F5",
-                    confirmButtonText: "Gracias!",
-                    closeOnConfirm: false},
-                function (isConfirm) {
-                    if (isConfirm) {
-                        window.location.reload();
+                swal({title: "Correcto, cual sera su nueva contraseña:",
+                    text: data,
+                    type: "input",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    animation: "slide-from-top",
+                    inputPlaceholder: "Contraseña:"},
+                function (inputValue) {
+                    if (inputValue === false) { //Glitch
+                        return false;
                     }
+                    if (inputValue === "") {
+                        swal.showInputError("You need to write something!");
+                        return false;
+                    }
+                    changePassword(paramUsername, inputValue);
                 });
             }
         }, error: function () {
             alert('failure answer');
         }
     });
+}
 
+
+function changePassword(paramUsername, inputValue) {
+    var hash = hex_md5(inputValue);
+    var postAnswer = {
+        "username": paramUsername,
+        "password": hash,
+    };
+    $.ajax({
+        type: 'POST',
+        url: 'http://localhost:8080/KingOfTheHill/webresources/users/setpassword',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(postAnswer),
+        dataType: 'text',
+        success: function (data, textStatus, jqXHR) {
+            if (jqXHR.status === 200) {
+                swal({title: ":)!",
+                    text: "Su contraseña fue modificada!",
+                    type: "success",
+                    confirmButtonColor: "#8CD4F5",
+                    confirmButtonText: "Go!",
+                    closeOnConfirm: true},
+                function (isConfirm) {
+                    if (isConfirm) {
+                        window.location.reload();
+                        return false;
+                    }
+                });
+                
+            }
+        }, error: function () {
+            alert('failure answer');
+        }
+    });
 }

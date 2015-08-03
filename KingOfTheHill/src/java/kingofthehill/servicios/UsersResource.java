@@ -172,6 +172,44 @@ public class UsersResource {
         //return Response.status(200).header("question", info[0]).build();
     }
 
+    
+    
+    @POST
+    @Path("/setpassword")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.TEXT_HTML})
+    public String setPassword(String msg) throws ParseException {
+        //Obtengo una lista con los valores enviados por el usuario
+        String[] parsedData = passwordParser(msg);
+        //Voy por pregunta a la BD
+        if(_db.setPassword(parsedData[0], parsedData[1])){
+            return "correct";
+        } else {
+            return null;
+        }
+        
+
+     
+    }
+    
+    
+    private String[] passwordParser(String pData) throws ParseException {
+        JSONParser parser = new JSONParser();
+        Object obj = parser.parse(pData);
+        JSONObject jsonObject = (JSONObject) obj;
+
+        String username = (String) jsonObject.get("username");
+        String password = (String) jsonObject.get("password");
+
+        String[] parsed = new String[2];
+        parsed[0] = username;
+        parsed[1] = password;
+
+        return parsed;
+
+    }    
+    
+    
     private String[] loginParser(String pData) throws ParseException {
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(pData);

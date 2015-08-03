@@ -15,6 +15,7 @@ import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.where;
+import com.mongodb.client.result.UpdateResult;
 import com.mongodb.util.JSON;
 import java.net.UnknownHostException;
 import static java.util.Arrays.asList;
@@ -46,19 +47,17 @@ public class conexionBD {
      */
     public conexionBD() {
         // To connect to mongodb server
-        _mongoClient = new MongoClient("192.168.1.135",27017);
+        _mongoClient = new MongoClient("192.168.1.135", 27017);
         // Now connect to your databases
         _db = _mongoClient.getDatabase("KingOfTheHill");
 
     }
 
     /* Static 'instance' method */
-
     /**
      *
      * @return
      */
-    
     public static conexionBD getInstance() {
         return singleton;
     }
@@ -75,6 +74,18 @@ public class conexionBD {
         MongoCollection<Document> collection = _db.getCollection("users");
         Document query = collection.find(and(eq("username", pUsername), eq("password", pPassword))).first();
         return query != null;
+    }
+
+    /**
+     *
+     * @param pUsername
+     * @param pPassword
+     * @return 
+     */
+    public static boolean insercionPassword(String pUsername, String pPassword) {
+        MongoCollection<Document> collection = _db.getCollection("users");
+        UpdateResult query = collection.updateOne(new Document("username", pUsername), new Document("$set", new Document("password", pPassword)));
+        return query.wasAcknowledged();
     }
 
     /**
@@ -99,8 +110,7 @@ public class conexionBD {
     public static String[] consultaForgot(String pUsername) throws ParseException {
         MongoCollection<Document> collection = _db.getCollection("users");
         FindIterable<Document> doc = collection.find(eq("username", pUsername));
-       
-        
+
         if (!doc.iterator().hasNext()) {
             return null;
         } else {
@@ -148,6 +158,15 @@ public class conexionBD {
     }
 
     private static Document documentLogin(String pUsername, String pPassword) {
+        Document document = new Document();
+        document.put("username", pUsername);
+        document.put("password", pPassword);
+
+        return document;
+    }
+    
+    
+    private static Document documentPassword(String pUsername, String pPassword) {
         Document document = new Document();
         document.put("username", pUsername);
         document.put("password", pPassword);
