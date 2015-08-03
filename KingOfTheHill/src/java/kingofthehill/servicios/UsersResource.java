@@ -92,7 +92,6 @@ public class UsersResource {
     /**
      *
      * @param headers
-     * @param msg
      * @return
      * @throws org.json.simple.parser.ParseException
      */
@@ -135,6 +134,7 @@ public class UsersResource {
      *
      * @param msg
      * @return
+     * @throws org.json.simple.parser.ParseException
      */
     @POST
     @Path("/forgotpassword")

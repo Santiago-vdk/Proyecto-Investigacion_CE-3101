@@ -61,6 +61,12 @@ public class comunicacionDB {
         conexionBD.consultaRegistrer(pUsername, pPassword, pQuestion, pAnswer);
     }
 
+    /**
+     *
+     * @param pUsername
+     * @return
+     * @throws ParseException
+     */
     public String[] forgotpassword(String pUsername) throws ParseException {
         String[] consulta;
         consulta = conexionBD.consultaForgot(pUsername);

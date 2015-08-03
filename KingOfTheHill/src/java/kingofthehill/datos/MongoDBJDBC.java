@@ -18,7 +18,6 @@ public class MongoDBJDBC {
     /**
      *
      * @param args
-     * @throws ParseException
      */
     public static void main(String args[]){
 

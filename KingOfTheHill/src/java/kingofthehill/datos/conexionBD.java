@@ -46,13 +46,19 @@ public class conexionBD {
      */
     public conexionBD() {
         // To connect to mongodb server
-        _mongoClient = new MongoClient();
+        _mongoClient = new MongoClient("192.168.1.135",27017);
         // Now connect to your databases
         _db = _mongoClient.getDatabase("KingOfTheHill");
 
     }
 
     /* Static 'instance' method */
+
+    /**
+     *
+     * @return
+     */
+    
     public static conexionBD getInstance() {
         return singleton;
     }
@@ -84,6 +90,12 @@ public class conexionBD {
         collection.insertOne(documentRegister(pUsername, pPassword, pQuestion, pAnswer));
     }
 
+    /**
+     *
+     * @param pUsername
+     * @return
+     * @throws ParseException
+     */
     public static String[] consultaForgot(String pUsername) throws ParseException {
         MongoCollection<Document> collection = _db.getCollection("users");
         FindIterable<Document> doc = collection.find(eq("username", pUsername));
