@@ -95,10 +95,18 @@ public class conexionBD {
      * @param pPassword
      * @param pQuestion
      * @param pAnswer
+     * @return 
      */
-    public static void consultaRegistrer(String pUsername, String pPassword, String pQuestion, String pAnswer) {
+    public static boolean consultaRegistrer(String pUsername, String pPassword, String pQuestion, String pAnswer) {
         MongoCollection<Document> collection = _db.getCollection("users");
-        collection.insertOne(documentRegister(pUsername, pPassword, pQuestion, pAnswer));
+        Document query = collection.find(eq("username", pUsername)).first();
+        if(query == null){
+            collection.insertOne(documentRegister(pUsername, pPassword, pQuestion, pAnswer));
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     /**

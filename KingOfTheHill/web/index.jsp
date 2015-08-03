@@ -20,6 +20,7 @@
         <script type="text/javascript" src="js/maps.js"></script>
         <script type="text/javascript" src="js/md5-min.js"></script>
         <script type="text/javascript" src="js/sessions.js"></script>
+        <script src="js/chance.js"></script>
 
         <script type="text/javascript">
             $(window).load(function () {

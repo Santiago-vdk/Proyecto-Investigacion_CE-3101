@@ -60,9 +60,10 @@ public class comunicacionDB {
      * @param pPassword
      * @param pQuestion
      * @param pAnswer
+     * @return 
      */
-    public void register(String pUsername, String pPassword, String pQuestion, String pAnswer) {
-        conexionBD.consultaRegistrer(pUsername, pPassword, pQuestion, pAnswer);
+    public boolean register(String pUsername, String pPassword, String pQuestion, String pAnswer) {
+        return conexionBD.consultaRegistrer(pUsername, pPassword, pQuestion, pAnswer);
     }
 
     /**

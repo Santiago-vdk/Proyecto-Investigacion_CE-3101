@@ -1,4 +1,4 @@
-/* global swal */
+/* global swal, chance */
 
 function loginUser() {
 
@@ -7,7 +7,6 @@ function loginUser() {
     var paramSchool = document.getElementById("login-school").value;
     //Hash para la contraseña
     var hash = hex_md5(paramPassword);
-
     var postData = {
         "username": paramUsername,
         "password": hash,
@@ -44,7 +43,6 @@ function loginUser() {
             };
             var target = document.getElementById('cd-login');
             var spinner = new Spinner(opts).spin(target);
-
             if (jqXHR.status === 204) {
                 swal({title: ":(!",
                     text: "Credenciales Invalidas ",
@@ -57,11 +55,9 @@ function loginUser() {
                         window.location.reload();
                     }
                 });
-
             }
             else {
                 var parsed = JSON.parse(JSON.stringify(data));
-
                 window.sessionStorage.accessToken = parsed.access_token;
                 window.sessionStorage.expiresIn = parsed.expires_in;
                 window.location.reload();
@@ -92,24 +88,34 @@ function registerUser() {
         url: 'http://localhost:8080/KingOfTheHill/webresources/users/register',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(postData),
-        dataType: "json", //linea fragil
-        success: function (data) {
-            //Mensaje del server
-            //swal("Good job!", "You clicked the button!", "success");
+        dataType: "text", //linea fragil
+        success: function (data, textStatus, jqXHR) {
+            if (jqXHR.status === 200) {
+                swal({title: "Registrado!",
+                    text: "Utilice el boton de Login!",
+                    type: "success",
+                    confirmButtonColor: "#8CD4F5",
+                    confirmButtonText: "Go!",
+                    closeOnConfirm: false},
+                function (isConfirm) {
+                    if (isConfirm) {
+                        window.location.reload();
+                    }
+                });
+            } else {
 
-            swal({title: "Registrado!",
-                text: "Utilice el boton de Login!",
-                type: "success",
-                confirmButtonColor: "#8CD4F5",
-                confirmButtonText: "Go!",
-                closeOnConfirm: false},
-            function (isConfirm) {
-                if (isConfirm) {
-                    window.location.reload();
-                }
-            });
+                swal({title: ":(!",
+                    text: "Ese usuario ya existe! " + "Este esta libre: " + chance.word({length: 8}),
+                    type: "error",
+                    confirmButtonColor: "#8CD4F5",
+                    confirmButtonText: "Ups, ok.",
+                    closeOnConfirm: true},
+                function (isConfirm) {
+                    if (isConfirm) {
 
-
+                    }
+                });
+            }
         },
         error: function () {
             alert('failure');
@@ -134,13 +140,11 @@ function isLogged() {
             if (jqXHR.status === 202) {
                 $('user').css('visibility', 'visible');
                 $('logoutBtn').css('visibility', 'visible');
-
                 $('a').css('visibility', 'hidden');
             }
             else {
                 $('user').css('visibility', 'hidden');
                 $('logoutBtn').css('visibility', 'hidden');
-
                 $('a').css('visibility', 'visible');
                 //Ense;o si el auth es correcto
 
@@ -148,8 +152,6 @@ function isLogged() {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert(jqXHR.status);
-
-
         }, complete: function (jqXHR, textStatus) {
 
         }
@@ -174,26 +176,20 @@ function logout() {
                 window.sessionStorage.removeItem("expiresIn");
                 $('user').css('visibility', 'hidden');
                 $('logoutBtn').css('visibility', 'hidden');
-
                 $('a').css('visibility', 'visible');
                 window.location.reload();
-
-
             }
             else {
                 $('user').css('visibility', 'visible');
                 $('logoutBtn').css('visibility', 'visible');
                 $('a').css('visibility', 'hidden');
                 window.location.reload();
-
                 //Ense;o si el auth es correcto
 
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert(jqXHR.status);
-
-
         }, complete: function (jqXHR, textStatus) {
 
         }
@@ -226,7 +222,6 @@ function forgotPassword() {
                         window.location.reload();
                     }
                 });
-
             } else {
                 swal({title: "Su Pregunta es:",
                     text: data,
@@ -245,7 +240,6 @@ function forgotPassword() {
                     }
                     checkAnswer(paramUsername, inputValue);
                 });
-
             }
 
         },
@@ -307,7 +301,6 @@ function checkAnswer(paramUsername, inputValue) {
     });
 }
 
-
 function changePassword(paramUsername, inputValue) {
     var hash = hex_md5(inputValue);
     var postAnswer = {
@@ -334,7 +327,6 @@ function changePassword(paramUsername, inputValue) {
                         return false;
                     }
                 });
-                
             }
         }, error: function () {
             alert('failure answer');

@@ -49,17 +49,22 @@ public class UsersResource {
     @POST
     @Path("/register")
     @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_JSON})
-    public Response register(String msg) throws ParseException {
+    @Produces({MediaType.TEXT_HTML})
+    public String register(String msg) throws ParseException {
 
         //Obtengo una lista con los valores enviados por el usuario
         String[] parsedData = registerParser(msg);
 
         //Pasar a BD, validar y retornar success
-        _db.register(parsedData[0], parsedData[1], parsedData[2], parsedData[3]);
+        if(_db.register(parsedData[0], parsedData[1], parsedData[2], parsedData[3])){
+            return "success";
+        }
+        else{
+            return null;
+        }
 
         //Pasar a BD, validar y retornar success
-        return Response.status(200).entity(msg).build();
+        //return Response.status(200).entity(msg).build();
 
     }
 
