@@ -7,16 +7,15 @@ package kingofthehill.servicios;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.PathParam;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
-import static javax.ws.rs.HttpMethod.POST;
-import javax.ws.rs.POST;
+
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.HttpHeaders;
-import static org.glassfish.hk2.utilities.reflection.Pretty.array;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -73,7 +72,8 @@ public class MarkersResource {
 
         String s = headers.getRequestHeaders().getFirst("userToken");
 
-        if (s.compareTo("NeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2IjowLCJkIjp7InVpZCI6IlNhbnRpYWdvIiwicGFzc3dvcmQiOiJlMTBhZGMzOTQ5YmE1OWFiYmU1NmUwNTdmMjBmODgzZSJ9LCJpYXQiOjE0Mzg0NzAxNjd9.RND6K55KycIOhfWY9xl7Pu8d86qYZSy35kxikK7iyPo") == 0) {
+        //Comparar token
+        if (s.compareTo("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2IjowLCJkIjp7InVpZCI6IlNhbnRpYWdvIiwicGFzc3dvcmQiOiJlMTBhZGMzOTQ5YmE1OWFiYmU1NmUwNTdmMjBmODgzZSJ9LCJpYXQiOjE0Mzg0ODY5Mzl9.X2aJSetOiy0AyoXOdyHAYgsdgozZ3-P4oCEpdIxPn7Q") == 0) {
             JSONArray outerArray = new JSONArray();
             JSONObject innerObject = new JSONObject();
             JSONObject innerArray2 = new JSONObject();

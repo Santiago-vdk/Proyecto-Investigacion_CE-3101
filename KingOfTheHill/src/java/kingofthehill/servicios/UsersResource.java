@@ -1,5 +1,6 @@
 package kingofthehill.servicios;
 
+import static com.sun.xml.ws.tx.coord.common.CoordinationContextBuilder.headers;
 import java.net.UnknownHostException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -8,6 +9,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import kingofthehill.logica.comunicacionDB;
@@ -72,7 +74,6 @@ public class UsersResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     public String login(String msg) throws ParseException {
-
         //Obtengo una lista con los valores enviados por el usuario
         String[] parsedData = loginParser(msg);
 
@@ -85,11 +86,50 @@ public class UsersResource {
             json.put("access_token", userToken);
             json.put("expires_in", 3600);
             return json.toString();
+        }
+    }
 
+    /**
+     *
+     * @param headers
+     * @param msg
+     * @return
+     * @throws org.json.simple.parser.ParseException
+     */
+    @GET
+    @Path("/logout")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response logout(@Context HttpHeaders headers) throws ParseException {
+
+        String token = headers.getRequestHeaders().getFirst("userToken");
+        if (token == null) {
+            return Response.noContent().type(MediaType.TEXT_HTML).build();
+        } //Check if token matches with a user
+        else {
+            return Response.accepted().type(MediaType.TEXT_HTML).build();
         }
 
     }
 
+    /**
+     *
+     * @param headers
+     * @return
+     */
+    @GET
+    @Path("/auth")
+    @Produces({MediaType.TEXT_HTML})
+    public Response isLogged(@Context HttpHeaders headers) {
+        String token = headers.getRequestHeaders().getFirst("userToken");
+        if (token == null) {
+            return Response.noContent().type(MediaType.TEXT_HTML).build();
+        } //Check if token matches with a user
+        else {
+            return Response.accepted().type(MediaType.TEXT_HTML).build();
+        }
+
+    }
 
     /**
      *
@@ -99,16 +139,37 @@ public class UsersResource {
     @POST
     @Path("/forgotpassword")
     @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_JSON})
-    public Response forgotPassword(String msg) throws ParseException {
+    @Produces({MediaType.TEXT_HTML})
+    public String forgotPassword(String msg) throws ParseException {
         //Obtengo una lista con los valores enviados por el usuario
         String[] parsedData = forgotParser(msg);
+        //Voy por pregunta a la BD
+        if (parsedData[1].compareTo("true") == 0) {
+            //Pasar a BD, validar y retornar success
+            String[] info = new String[2];
+            info = _db.forgotpassword(parsedData[0]);
+            
+            if(info == null){
+                return null;
+            }
+            else{
+                return info[0];
+            }
+        }
+        //Voy por respuesta
+        else {
+            String[] info = new String[2];
+            info = _db.forgotpassword(parsedData[0]);
+            if(info[1].compareTo(parsedData[2]) == 0){
+                return "correct";
+            }
+            else{
+                return null;
+            }
+            
+        }
 
-        //Pasar a BD, validar y retornar success
-        _db.forgotpassword(parsedData[0]);
-
-        return Response.status(200).entity(msg).build();
-
+        //return Response.status(200).header("question", info[0]).build();
     }
 
     private String[] loginParser(String pData) throws ParseException {
@@ -155,9 +216,13 @@ public class UsersResource {
         JSONObject jsonObject = (JSONObject) obj;
 
         String username = (String) jsonObject.get("username");
+        String question = (String) jsonObject.get("question");
+        String answer = (String) jsonObject.get("answer");
 
-        String[] parsed = new String[1];
+        String[] parsed = new String[3];
         parsed[0] = username;
+        parsed[1] = question;
+        parsed[2] = answer;
 
         return parsed;
 
