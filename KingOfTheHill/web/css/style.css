@@ -44,7 +44,7 @@ logoutBtn {
   color: #3140FF;
   text-decoration: none;
   font-family: "Open Sans", sans-serif;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 img {
@@ -85,6 +85,7 @@ header[role=banner] #cd-logo {
   -o-transform: scale(0.8);
   transform: scale(0.8);
 }
+
 header[role=banner] #cd-logo img {
   display: block;
 }
@@ -145,6 +146,7 @@ header[role=banner]::after {
 }
 @media only screen and (min-width: 768px) {
   .main-nav {
+ 
     width: auto;
     height: auto;
     background: none;
@@ -511,4 +513,12 @@ xsigin/signup popup
 
 #cd-login.is-selected, #cd-signup.is-selected, #cd-reset-password.is-selected {
   display: block;
+}
+
+#cd-logout{
+    position: fixed;
+    float: right;
+    margin-top: 19px;
+    margin-left:12px;
+    cursor: pointer;
 }

@@ -5,7 +5,6 @@
  */
 package kingofthehill.datos;
 
-import com.mongodb.Block;
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 
@@ -14,19 +13,9 @@ import com.mongodb.client.MongoDatabase;
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Filters.where;
 import com.mongodb.client.result.UpdateResult;
-import com.mongodb.util.JSON;
-import java.net.UnknownHostException;
 import static java.util.Arrays.asList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.Query;
-import javax.persistence.Tuple;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import org.bson.Document;
-import org.bson.types.ObjectId;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -45,7 +34,7 @@ public class conexionBD {
     /**
      *
      */
-    public conexionBD() {
+    private conexionBD() {
         // To connect to mongodb server
         _mongoClient = new MongoClient("192.168.1.135", 27017);
         // Now connect to your databases
@@ -80,12 +69,38 @@ public class conexionBD {
      *
      * @param pUsername
      * @param pPassword
-     * @return 
+     * @param pAnswer
+     * @return
+     * @throws org.json.simple.parser.ParseException
      */
-    public static boolean insercionPassword(String pUsername, String pPassword) {
+    public static boolean insercionPassword(String pUsername, String pPassword, String pAnswer) throws ParseException {
         MongoCollection<Document> collection = _db.getCollection("users");
-        UpdateResult query = collection.updateOne(new Document("username", pUsername), new Document("$set", new Document("password", pPassword)));
-        return query.wasAcknowledged();
+         FindIterable<Document> doc = collection.find(eq("username", pUsername));
+
+        if (!doc.iterator().hasNext()) {
+            return false; //Si el usuario no existe
+        } else {
+            //El usuario si existe
+            JSONParser parser = new JSONParser();
+
+            //Extraigo secret
+            Object obj = parser.parse(doc.first().toJson());
+            JSONObject json = (JSONObject) obj;
+            JSONArray array = (JSONArray) json.get("secret");
+
+            //La segunda posicion posee la respuesta, la comparo, si es correcta procedo a cambiar la contrase;a
+            if(array.get(1).toString().compareTo(pAnswer) == 0){
+                UpdateResult query = collection.updateOne(new Document("username", pUsername), new Document("$set", new Document("password", pPassword)));
+                return query.wasAcknowledged();
+            } else {
+                return false; //Respuesta incorreta
+            }
+
+            
+        }
+        
+        
+        
     }
 
     /**
@@ -95,16 +110,15 @@ public class conexionBD {
      * @param pPassword
      * @param pQuestion
      * @param pAnswer
-     * @return 
+     * @return
      */
     public static boolean consultaRegistrer(String pUsername, String pPassword, String pQuestion, String pAnswer) {
         MongoCollection<Document> collection = _db.getCollection("users");
         Document query = collection.find(eq("username", pUsername)).first();
-        if(query == null){
+        if (query == null) {
             collection.insertOne(documentRegister(pUsername, pPassword, pQuestion, pAnswer));
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -141,9 +155,38 @@ public class conexionBD {
     //ObjectId secrets = query.getObjectId("secret");
     /**
      *
+     * @param pUsername
+     * @return
+     * @throws org.json.simple.parser.ParseException
      */
-    protected static void consultaScore() {
+    public int consultaScore(String pUsername) throws ParseException {
+        MongoCollection<Document> collection = _db.getCollection("users");
+        FindIterable<Document> doc = collection.find(eq("username", pUsername));
+        if (!doc.iterator().hasNext()) {
+            return -1;
+        } else {
+            JSONParser parser = new JSONParser();
 
+            Object obj = parser.parse(doc.first().toJson());
+            JSONObject json = (JSONObject) obj;
+            
+           return Integer.decode(json.get("score").toString());
+        }
+    }
+    
+       public boolean consultaAdmin(String pUsername) throws ParseException {
+        MongoCollection<Document> collection = _db.getCollection("users");
+        FindIterable<Document> doc = collection.find(eq("username", pUsername));
+        if (!doc.iterator().hasNext()) {
+            return false;
+        } else {
+            JSONParser parser = new JSONParser();
+
+            Object obj = parser.parse(doc.first().toJson());
+            JSONObject json = (JSONObject) obj;
+            
+           return (boolean) json.get("admin");
+        }
     }
 
     private static Document documentRegister(String pUsername, String pPassword, String pQuestion, String pAnswer) {
@@ -172,8 +215,7 @@ public class conexionBD {
 
         return document;
     }
-    
-    
+
     private static Document documentPassword(String pUsername, String pPassword) {
         Document document = new Document();
         document.put("username", pUsername);

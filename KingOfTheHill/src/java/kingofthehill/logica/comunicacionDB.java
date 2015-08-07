@@ -24,8 +24,16 @@ public class comunicacionDB {
        
     }
     
-    public boolean setPassword(String pUsername, String pPassword){
-        return conexionBD.insercionPassword(pUsername,pPassword);   
+    /**
+     *
+     * @param pUsername
+     * @param pPassword
+     * @param pAnswer
+     * @return
+     * @throws org.json.simple.parser.ParseException
+     */
+    public boolean setPassword(String pUsername, String pPassword, String pAnswer) throws ParseException{
+        return conexionBD.insercionPassword(pUsername,pPassword,pAnswer);   
     }
 
     /**
@@ -34,8 +42,9 @@ public class comunicacionDB {
      * @param pPassword
      * @param pSchool
      * @return 
+     * @throws org.json.simple.parser.ParseException 
      */
-    public String login(String pUsername, String pPassword, String pSchool) {
+    public String login(String pUsername, String pPassword, String pSchool) throws ParseException {
         if (conexionBD.consultaLogin(pUsername, pPassword, pSchool)) {
             
             //Usuario autenticado correctamente genero token
@@ -45,8 +54,11 @@ public class comunicacionDB {
             
             TokenGenerator tokenGenerator = new TokenGenerator("D5kWnfUVl9BiR2NzzOMEvze6ulKpqfDeoJ2LVPGX");
             String token = tokenGenerator.createToken(authPayload);
-            return token;
             
+            //Creo usuario en logica
+            Jugadores.getInstance().conectarJugador(pUsername, token, pSchool, 0, 0, getScore(pUsername),getAdmin(pUsername));
+            
+            return token;
         }
         else{
             return null;
@@ -86,9 +98,18 @@ public class comunicacionDB {
 
     /**
      *
+     * @param pUsername
+     * @return 
+     * @throws ParseException
      */
-    public void score() {
-
+    public int getScore(String pUsername) throws ParseException {
+        return conexionBD.getInstance().consultaScore(pUsername);
+        
+    }
+    
+    public boolean getAdmin(String pUsername) throws ParseException {
+        return conexionBD.getInstance().consultaAdmin(pUsername);
+        
     }
 
 }

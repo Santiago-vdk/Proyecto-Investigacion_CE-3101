@@ -1,25 +1,6 @@
 /* global swal, chance */
 
-function loginUser() {
-
-    var paramUsername = document.getElementById("login-username").value;
-    var paramPassword = document.getElementById("login-password").value;
-    var paramSchool = document.getElementById("login-school").value;
-    //Hash para la contraseña
-    var hash = hex_md5(paramPassword);
-    var postData = {
-        "username": paramUsername,
-        "password": hash,
-        "school": paramSchool
-    };
-    $.ajax({
-        type: 'POST',
-        url: 'http://localhost:8080/KingOfTheHill/webresources/users/login',
-        contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify(postData),
-        dataType: 'json',
-        success: function (data, textStatus, jqXHR) {
-            var opts = {
+ var opts = {
                 lines: 13 // The number of lines to draw
                 , length: 28 // The length of each line
                 , width: 14 // The line thickness
@@ -41,6 +22,27 @@ function loginUser() {
                 , hwaccel: false // Whether to use hardware acceleration
                 , position: 'absolute' // Element positioning
             };
+
+function loginUser() {
+
+    var paramUsername = document.getElementById("login-username").value;
+    var paramPassword = document.getElementById("login-password").value;
+    var paramSchool = document.getElementById("login-school").value;
+    //Hash para la contraseña
+    var hash = hex_md5(paramPassword);
+    var postData = {
+        "username": paramUsername,
+        "password": hash,
+        "school": paramSchool
+    };
+    $.ajax({
+        type: 'POST',
+        url: 'webresources/users/login',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(postData),
+        dataType: 'json',
+        success: function (data, textStatus, jqXHR) {
+           
             var target = document.getElementById('cd-login');
             var spinner = new Spinner(opts).spin(target);
             if (jqXHR.status === 204) {
@@ -85,7 +87,7 @@ function registerUser() {
     };
     $.ajax({
         type: 'POST',
-        url: 'http://localhost:8080/KingOfTheHill/webresources/users/register',
+        url: 'webresources/users/register',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(postData),
         dataType: "text", //linea fragil
@@ -126,7 +128,7 @@ function registerUser() {
 function isLogged() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/KingOfTheHill/webresources/users/auth',
+        url: 'webresources/users/auth',
         // contentType: 'application/json',
         // dataType: "json", //linea fragril
         beforeSend: function (xhr) {
@@ -141,17 +143,30 @@ function isLogged() {
                 $('user').css('visibility', 'visible');
                 $('logoutBtn').css('visibility', 'visible');
                 $('a').css('visibility', 'hidden');
+                $('#screenName').text(jqXHR.getResponseHeader("username"));
+                $('#screenScore').text(jqXHR.getResponseHeader("score"));
             }
             else {
                 $('user').css('visibility', 'hidden');
                 $('logoutBtn').css('visibility', 'hidden');
                 $('a').css('visibility', 'visible');
-                //Ense;o si el auth es correcto
+                $('screenName').text("null");
 
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert(jqXHR.status);
+            
+            if (jqXHR.status === 500) {
+                 window.sessionStorage.removeItem("accessToken");
+                window.sessionStorage.removeItem("expiresIn");
+                window.location.reload();
+                $('user').css('visibility', 'hidden');
+                $('logoutBtn').css('visibility', 'hidden');
+                $('a').css('visibility', 'visible');
+                $('screenName').text("null");
+                
+            }
+
         }, complete: function (jqXHR, textStatus) {
 
         }
@@ -161,7 +176,7 @@ function isLogged() {
 function logout() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/KingOfTheHill/webresources/users/logout',
+        url: 'webresources/users/logout',
         beforeSend: function (xhr) {
             // Set the CSRF Token in the header for security
             var token = window.sessionStorage.accessToken;
@@ -205,7 +220,7 @@ function forgotPassword() {
     };
     $.ajax({
         type: 'POST',
-        url: 'http://localhost:8080/KingOfTheHill/webresources/users/forgotpassword',
+        url: 'webresources/users/forgotpassword',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(postData),
         dataType: 'text',
@@ -250,6 +265,7 @@ function forgotPassword() {
 }
 
 function checkAnswer(paramUsername, inputValue) {
+    var answer = inputValue;
     var postAnswer = {
         "username": paramUsername,
         "question": "false",
@@ -257,7 +273,7 @@ function checkAnswer(paramUsername, inputValue) {
     };
     $.ajax({
         type: 'POST',
-        url: 'http://localhost:8080/KingOfTheHill/webresources/users/forgotpassword',
+        url: 'webresources/users/forgotpassword',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(postAnswer),
         dataType: 'text',
@@ -292,7 +308,7 @@ function checkAnswer(paramUsername, inputValue) {
                         swal.showInputError("You need to write something!");
                         return false;
                     }
-                    changePassword(paramUsername, inputValue);
+                    changePassword(paramUsername, inputValue,answer );
                 });
             }
         }, error: function () {
@@ -301,15 +317,16 @@ function checkAnswer(paramUsername, inputValue) {
     });
 }
 
-function changePassword(paramUsername, inputValue) {
+function changePassword(paramUsername, inputValue, answer) {
     var hash = hex_md5(inputValue);
     var postAnswer = {
         "username": paramUsername,
         "password": hash,
+        "answer":answer
     };
     $.ajax({
         type: 'POST',
-        url: 'http://localhost:8080/KingOfTheHill/webresources/users/setpassword',
+        url: 'webresources/users/setpassword',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(postAnswer),
         dataType: 'text',

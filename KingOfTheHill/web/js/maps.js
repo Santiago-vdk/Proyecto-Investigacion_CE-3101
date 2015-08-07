@@ -13,11 +13,15 @@ function initialize() {
             mapOptions);
 
     // Limit the zoom level
-    /* google.maps.event.addListener(map, 'zoom_changed', function () {
-     if (map.getZoom() < 18)
-     map.setZoom(18);
-     
-     });*/
+    google.maps.event.addListener(map, 'zoom_changed', function () {
+        if (map.getZoom() < 18)
+            map.setZoom(18);
+
+    });
+
+    
+
+
 
     var rectangleMate = new google.maps.Rectangle({
         strokeColor: '#FF0000',
@@ -218,7 +222,7 @@ var INTERVAL = 2000;
 function getMarkers() {
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/KingOfTheHill/webresources/markers/vehicles',
+        url: 'webresources/mobile/retrieve-position',
         contentType: 'application/json',
         dataType: "json", //linea fragril
         beforeSend: function (xhr) {

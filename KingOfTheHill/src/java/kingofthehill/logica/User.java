@@ -1,7 +1,7 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this tempLate file, choose Tools | TempLates
+ * and open the tempLate in the editor.
  */
 package kingofthehill.logica;
 
@@ -18,14 +18,26 @@ public class User {
     private int _puntaje =  0;
     private double _lat = 0;
     private double _long = 0;
+    private boolean _admin;
 
-    public User(String pnombre,String ptoken,String pescuela,double plat,double plong,int ppuntaje){
-        _nombre = pnombre;
-        _token = ptoken;
-        _escuela = pescuela;
-        _lat = plat;
-        _long = plong;
-        _puntaje  = ppuntaje;
+    /**
+     *
+     * @param pNombre
+     * @param pToken
+     * @param pEscuela
+     * @param pLat
+     * @param pLong
+     * @param pPuntaje
+     * @param pAdmin
+     */
+    public User(String pNombre,String pToken,String pEscuela,double pLat,double pLong,int pPuntaje,boolean pAdmin){
+        _nombre = pNombre;
+        _token = pToken;
+        _escuela = pEscuela;
+        _lat = pLat;
+        _long = pLong;
+        _puntaje  = pPuntaje;
+        _admin = pAdmin;
     }
     
     /**
@@ -36,10 +48,10 @@ public class User {
     }
 
     /**
-     * @param pnext the _next to set
+     * @param pNext the _next to set
      */
-    public void setNext(User pnext) {
-        _next = pnext;
+    public void setNext(User pNext) {
+        _next = pNext;
     }
 
     /**
@@ -50,10 +62,10 @@ public class User {
     }
 
     /**
-     * @param pprev the _prev to set
+     * @param pPrev the _prev to set
      */
-    public void setPrev(User pprev) {
-        _prev = pprev;
+    public void setPrev(User pPrev) {
+        _prev = pPrev;
     }
 
     /**
@@ -64,10 +76,10 @@ public class User {
     }
 
     /**
-     * @param pnombre the _nombre to set
+     * @param pNombre the _nombre to set
      */
-    public void setNombre(String pnombre) {
-        _nombre = pnombre;
+    public void setNombre(String pNombre) {
+        _nombre = pNombre;
     }
 
     /**
@@ -78,10 +90,10 @@ public class User {
     }
 
     /**
-     * @param ppuntaje the puntaje to set
+     * @param pPuntaje the puntaje to set
      */
-    public void setPuntaje(int ppuntaje) {
-        _puntaje = ppuntaje;
+    public void setPuntaje(int pPuntaje) {
+        _puntaje = pPuntaje;
     }
 
     /**
@@ -92,10 +104,10 @@ public class User {
     }
 
     /**
-     * @param plat the _lat to set
+     * @param pLat the _lat to set
      */
-    public void setLat(double plat) {
-        _lat = plat;
+    public void setLat(double pLat) {
+        _lat = pLat;
     }
 
     /**
@@ -106,10 +118,10 @@ public class User {
     }
 
     /**
-     * @param plong the _long to set
+     * @param pLong the _long to set
      */
-    public void setLong(double plong) {
-        _long = plong;
+    public void setLong(double pLong) {
+        _long = pLong;
     }
 
     /**
@@ -120,10 +132,10 @@ public class User {
     }
 
     /**
-     * @param ptoken the _token to set
+     * @param pToken the _token to set
      */
-    public void setToken(String ptoken) {
-        _token = ptoken;
+    public void setToken(String pToken) {
+        _token = pToken;
     }
 
     /**
@@ -134,11 +146,24 @@ public class User {
     }
 
     /**
-     * @param pescuela the _escuela to set
+     * @param pEscuela the _escuela to set
      */
-    public void setEscuela(String pescuela) {
-        _escuela = pescuela;
+    public void setEscuela(String pEscuela) {
+        _escuela = pEscuela;
     }
-    
+
+    /**
+     * @return the _admin
+     */
+    public boolean isAdmin() {
+        return _admin;
+    }
+
+    /**
+     * @param pAdmin the pAdmin to set
+     */
+    public void setAdmin(boolean pAdmin) {
+        _admin = pAdmin;
+    }
     
 }

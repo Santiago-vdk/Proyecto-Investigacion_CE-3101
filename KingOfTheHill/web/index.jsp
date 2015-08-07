@@ -21,12 +21,13 @@
         <script type="text/javascript" src="js/md5-min.js"></script>
         <script type="text/javascript" src="js/sessions.js"></script>
         <script src="js/chance.js"></script>
-
+        
         <script type="text/javascript">
             $(window).load(function () {
                 isLogged();
                 //getMarkers();
             });
+
         </script>
 
         <link rel="stylesheet" href="css/reset.css">
@@ -50,10 +51,14 @@
     <body>    
         <header id="menu" role="banner">
             <div id="cd-logo">
-                <user id="screenName" disabled>Santiago</user>
-                <logoutBtn id="btnlogout" onclick="logout()">logout</logoutBtn>
-                
+                <user id="screenName" disabled>username</user>
+                <user id="screenPuntaje"  disabled> - PUNTAJE: </user>
+               <user id="screenScore" style="color:#FFD700" disabled>500</user>
             </div> 
+            <div id="cd-logout">
+                 <logoutBtn id="btnlogout" onclick="logout()">logout</logoutBtn>
+                
+            </div>
             <nav class="main-nav">
                 <ul>
                     <!-- inser more links here -->

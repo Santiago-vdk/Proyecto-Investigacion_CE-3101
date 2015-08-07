@@ -15,8 +15,18 @@ public class ListaUsers {
     private User _tail = null;
     private int _tam = 0;
 
-    public void insertar(String pnombre,String ptoken,String pescuela,double plat,double plong,int ppuntaje){
-        User tmp = new User(pnombre,ptoken,pescuela,plat,plong,ppuntaje );
+    /**
+     *
+     * @param pNombre
+     * @param pToken
+     * @param pLong
+     * @param pEscuela
+     * @param pLat
+     * @param pPuntaje
+     * @param pAdmin
+     */
+    public void insertar(String pNombre,String pToken,String pEscuela,double pLat,double pLong,int pPuntaje, boolean pAdmin){
+        User tmp = new User(pNombre,pToken,pEscuela,pLat,pLong,pPuntaje,pAdmin );
         
         if(_head == null){
             _head = tmp;
@@ -31,15 +41,25 @@ public class ListaUsers {
         
     }
     
-    public void borrarConNombre(String ptoken){
+    /**
+     *
+     * @param ptoken
+     */
+    public void borrarConToken(String ptoken){
         
         User tmp = _head;
         
         while(tmp!=null){
-            if(tmp.getToken().compareTo(ptoken)==0){
+            
+            if(tmp.getToken().compareTo(ptoken) == 0){
+                
+                if(_tam ==1){
+                    _head = null;
+                    _tail = null;
+                }
                 
                 //se valida si es el primer elemento
-                if(tmp == _head){
+                else if(tmp == _head){
                     tmp.getNext().setPrev(null);
                     _head = tmp.getNext();
                     _tam--;
@@ -62,8 +82,11 @@ public class ListaUsers {
         }
     }
     
-    
-    
+    /**
+     *
+     * @param ptoken
+     * @return
+     */
     public User buscar(String ptoken){
         User tmp = _head;
         
@@ -74,6 +97,24 @@ public class ListaUsers {
             tmp=tmp.getNext();
         }
         return null;
+    }
+    
+    /**
+     *
+     * @param pIndice
+     * @return
+     */
+    public User buscarConIndice(int pIndice){
+        User tmp = _head;
+        int i=0;
+        if(pIndice>=_tam){
+            return null;
+        }
+        while(i<pIndice){
+            tmp=tmp.getNext();
+            i++;
+        }
+        return tmp;
     }
     
     
