@@ -55,7 +55,8 @@ public class MobileResource {
 
     /**
      * {
-     * "username":username, "lat":latitud, "long":longitud } Recibe la posicion
+     * "username":username, "lat":latitud, "long":longitud } 
+     * Recibe la posicion
      * del usuario
      *
      * @param msg
@@ -80,10 +81,6 @@ public class MobileResource {
     }
 
     /**
-     * {
-     * "username":username }
-     *
-     * @param msg
      * @param headers
      * @return
      */
@@ -125,7 +122,5 @@ public class MobileResource {
         parsed[2] = longitud;
 
         return parsed;
-
     }
-
 }

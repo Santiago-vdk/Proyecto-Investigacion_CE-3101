@@ -45,7 +45,7 @@ public class Jugadores {
      * @return
      */
     public boolean desconectarJugador(String pToken) {
-        //System.out.println("Usuario: " + _usersList.buscar(pToken).getNombre() + ",desconectando.");
+        System.out.println("Usuario: " + _usersList.buscar(pToken).getNombre() + ",desconectando.");
         _usersList.borrarConToken(pToken); 
         return true;
     }
