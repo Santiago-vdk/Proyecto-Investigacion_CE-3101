@@ -17,8 +17,8 @@ public class ListaZonas {
     
     
     
-    public void insertar(String pEscuela){
-        Zona tmp = new Zona(pEscuela);
+    public void insertar(String pEscuela,String pLat1,String pLong1,String pLat2,String pLong2){
+        Zona tmp = new Zona(pEscuela,pLat1,pLong1,pLat2,pLong2);
         if(_head == null){
             _head = tmp;
             _tail = tmp;
