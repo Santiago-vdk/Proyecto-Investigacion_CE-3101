@@ -14,11 +14,17 @@ public class ListaZonas {
     private Zona _tail = null;
     private int _tam = 0;
     
-    
-    
-    
-    public void insertar(String pEscuela,String pLat1,String pLong1,String pLat2,String pLong2){
-        Zona tmp = new Zona(pEscuela,pLat1,pLong1,pLat2,pLong2);
+    /**
+     *
+     * @param pNombre
+     * @param pLat1
+     * @param pLong1
+     * @param pLat2
+     * @param pLong2
+     * @param pColor
+     */
+    public void insertar(String pNombre,String pLat1,String pLong1,String pLat2,String pLong2,String pColor){
+        Zona tmp = new Zona(pNombre,pLat1,pLong1,pLat2,pLong2,pColor);
         if(_head == null){
             _head = tmp;
             _tail = tmp;
@@ -31,6 +37,11 @@ public class ListaZonas {
         _tam++;
     }
     
+    /**
+     *
+     * @param pIndice
+     * @return
+     */
     public Zona buscar(int pIndice){
         Zona tmp = _head;
         for(int i=0;i<_tam && i<pIndice;i++){
@@ -39,6 +50,10 @@ public class ListaZonas {
         return tmp;
     }
     
+    /**
+     *
+     * @param pIndice
+     */
     public void borrar(int pIndice){
         if(pIndice < _tam){
             Zona tmp = _head;
@@ -48,6 +63,7 @@ public class ListaZonas {
             if(_tam ==1){
                     _head = null;
                     _tail = null;
+                    _tam = 0;
                 }
                 
                 //se valida si es el primer elemento

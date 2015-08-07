@@ -1,14 +1,15 @@
 package kingofthehill.logica;
 
+import org.glassfish.hk2.api.Immediate;
 import org.json.simple.*;
 
 /**
  *
- * @author Shagy
+ * @author RafaelAngel
  */
 public class Jugadores {
 
-    private int _admins = 0;
+    private boolean _firstRun = true;
     private static Jugadores _singleton = new Jugadores();
     ListaUsers _usersList;
 
@@ -16,6 +17,15 @@ public class Jugadores {
         _usersList = new ListaUsers();
     }
 
+    /**
+     *
+     * @param pZona
+     * @param pEscuela
+     * @return
+     */
+    public User defensor(String pZona,String pEscuela){
+        return _usersList.defensor(pZona, pEscuela);
+    }
     /**
      *
      * @return
@@ -35,8 +45,16 @@ public class Jugadores {
      * @param pAdmin
      */
     public void conectarJugador(String pNombre, String pToken, String pEscuela, double pLat, double pLong, int pPuntaje, boolean pAdmin) {
-        _usersList.insertar(pNombre, pToken, pEscuela, pLat, pLong, pPuntaje, pAdmin);
-        System.out.println("Usuario: " + pNombre + ",conectando.");
+        if (_firstRun) {
+             System.out.println("First run...");
+            System.out.println("Usuario: " + pNombre + ",conectando.");
+            _usersList.insertar(pNombre, pToken, pEscuela, pLat, pLong, pPuntaje, pAdmin);
+            Regiones.getInstance();
+            _firstRun = false;
+        } else {
+            System.out.println("Usuario: " + pNombre + ",conectando.");
+            _usersList.insertar(pNombre, pToken, pEscuela, pLat, pLong, pPuntaje, pAdmin);
+        }
     }
 
     /**

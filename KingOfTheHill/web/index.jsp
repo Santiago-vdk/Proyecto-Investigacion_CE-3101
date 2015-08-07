@@ -25,7 +25,13 @@
         <script type="text/javascript">
             $(window).load(function () {
                 isLogged();
-                //getMarkers();
+                
+      
+                //if(window.sessionStorage.accessToken !=== null){
+                    getMarkers();
+                    getRectangles();
+                //}
+                
             });
 
         </script>

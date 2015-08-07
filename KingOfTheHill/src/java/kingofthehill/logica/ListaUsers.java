@@ -43,6 +43,23 @@ public class ListaUsers {
     
     /**
      *
+     * @param pZona
+     * @param pEscuela
+     * @return
+     */
+    public User defensor(String pZona,String pEscuela){
+        User user = _head;
+        for(int i=0;i<_tam;i++){
+            if(user.getZonaPrevia().compareTo(pZona)==0 && user.getEscuela().compareTo(pEscuela)==0){
+            //el jugador esta en la zona y es de la escuela que la posee
+                return user;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     *
      * @param ptoken
      */
     public void borrarConToken(String ptoken){
@@ -56,6 +73,7 @@ public class ListaUsers {
                 if(_tam ==1){
                     _head = null;
                     _tail = null;
+                    _tam = 0;
                 }
                 
                 //se valida si es el primer elemento

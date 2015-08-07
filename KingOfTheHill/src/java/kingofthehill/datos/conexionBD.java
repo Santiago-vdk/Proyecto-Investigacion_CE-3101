@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package kingofthehill.datos;
 
 import com.mongodb.MongoClient;
@@ -29,14 +24,15 @@ public class conexionBD {
 
     MongoClient _mongoClient;
     static MongoDatabase _db;
-    private static conexionBD singleton = new conexionBD();
+    private static conexionBD _singleton = new conexionBD();
+    
 
     /**
-     *
+     * Constructor Singleton
      */
     private conexionBD() {
         // To connect to mongodb server
-        _mongoClient = new MongoClient("192.168.1.135", 27017);
+        _mongoClient = new MongoClient("localhost", 27017);
         // Now connect to your databases
         _db = _mongoClient.getDatabase("KingOfTheHill");
 
@@ -48,7 +44,7 @@ public class conexionBD {
      * @return
      */
     public static conexionBD getInstance() {
-        return singleton;
+        return _singleton;
     }
 
     /**
@@ -132,7 +128,6 @@ public class conexionBD {
     public static String[] consultaForgot(String pUsername) throws ParseException {
         MongoCollection<Document> collection = _db.getCollection("users");
         FindIterable<Document> doc = collection.find(eq("username", pUsername));
-
         if (!doc.iterator().hasNext()) {
             return null;
         } else {
@@ -174,7 +169,13 @@ public class conexionBD {
         }
     }
     
-       public boolean consultaAdmin(String pUsername) throws ParseException {
+    /**
+     *
+     * @param pUsername
+     * @return
+     * @throws ParseException
+     */
+    public boolean consultaAdmin(String pUsername) throws ParseException {
         MongoCollection<Document> collection = _db.getCollection("users");
         FindIterable<Document> doc = collection.find(eq("username", pUsername));
         if (!doc.iterator().hasNext()) {
@@ -188,7 +189,42 @@ public class conexionBD {
            return (boolean) json.get("admin");
         }
     }
+       
+    /**
+     *
+     * @param pZona
+     * @param pLat1
+     * @param pLong1
+     * @param pLat2
+     * @param pLong2
+     * @param pColor
+     * @return
+     */
+    public static boolean insertarZona(String pZona, String pLat1, String pLong1, String pLat2, String pLong2, String pColor){
+        MongoCollection<Document> collection = _db.getCollection("zones");
+        FindIterable<Document> doc = collection.find(eq("zone", pZona));
+        if (!doc.iterator().hasNext()) {
+            collection.insertOne(documentZone(pZona, pLat1, pLong1, pLat2, pLong2, pColor));
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
 
+    
+    private static Document documentZone(String pZona, String pLat1, String pLong1, String pLat2, String pLong2, String pColor){
+        Document document = new Document();
+        document.append("zone", pZona);
+        document.append("lat1", pLat1);
+        document.append("long1", pLong1);
+        document.append("lat2", pLat2);
+        document.append("long2", pLong2);
+        document.append("color", pColor);
+
+        return document;
+    }
+    
     private static Document documentRegister(String pUsername, String pPassword, String pQuestion, String pAnswer) {
         Document document = new Document();
         document.append("id", 0);
@@ -196,13 +232,9 @@ public class conexionBD {
         document.append("password", pPassword);
         document.append("school", "null");
         document.append("score", 0);
+       
         document.append("admin", false);
         document.append("username", pUsername);
-
-        /*
-         Document documentDetail = new Document();
-         documentDetail.append("question", pQuestion);
-         documentDetail.append("answer", pAnswer);*/
         document.append("secret", asList(pQuestion, pAnswer));
 
         return document;
@@ -223,5 +255,8 @@ public class conexionBD {
 
         return document;
     }
+    
+   
 
+  
 }

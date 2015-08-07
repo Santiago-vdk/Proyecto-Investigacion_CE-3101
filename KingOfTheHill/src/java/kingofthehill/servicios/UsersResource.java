@@ -108,12 +108,17 @@ public class UsersResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     public Response logout(@Context HttpHeaders headers) throws ParseException {
+        try {
+            String token = headers.getRequestHeaders().getFirst("userToken");
+            if (Jugadores.getInstance().desconectarJugador(token)) {
+                return Response.accepted().type(MediaType.TEXT_HTML).build();
+            } //Check if token matches with a user
+            else {
+                return Response.noContent().type(MediaType.TEXT_HTML).build();
+            }
 
-        String token = headers.getRequestHeaders().getFirst("userToken");
-        if (Jugadores.getInstance().desconectarJugador(token)) {
-            return Response.accepted().type(MediaType.TEXT_HTML).build();
-        } //Check if token matches with a user
-        else {
+        } catch (NullPointerException e) {
+            System.out.println("Deconexion inesperada.");
             return Response.noContent().type(MediaType.TEXT_HTML).build();
         }
 
@@ -133,11 +138,16 @@ public class UsersResource {
             return Response.noContent().type(MediaType.TEXT_HTML).build();
         } //Check if token matches with a user
         else {
-            String username = Jugadores.getInstance().buscarJugador(token).getNombre();
-            String score = Integer.toString(Jugadores.getInstance().buscarJugador(token).getPuntaje());
-            return Response.accepted().header("username", username).header("score", score).type(MediaType.TEXT_HTML).build();
-        }
+            try {
+                String username = Jugadores.getInstance().buscarJugador(token).getNombre();
+                String score = Integer.toString(Jugadores.getInstance().buscarJugador(token).getPuntaje());
+                return Response.accepted().header("username", username).header("score", score).type(MediaType.TEXT_HTML).build();
+            } catch (NullPointerException e) {
+                System.out.println("Desconexion inesperada.");
+                return null;
+            }
 
+        }
     }
 
     /**
@@ -239,7 +249,6 @@ public class UsersResource {
         parsed[2] = school;
 
         return parsed;
-
     }
 
     private String[] registerParser(String pData) throws ParseException {

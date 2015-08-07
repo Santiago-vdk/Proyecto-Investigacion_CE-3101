@@ -12,18 +12,29 @@ package kingofthehill.logica;
 public class Zona {
     private Zona _next = null;
     private Zona _prev = null;
-    private String _escuela = "";
+    private String _color = "";
     private String _lat1 ="";
     private String _long1 = "";
     private String _lat2 ="";
     private String _long2 = "";
+    private String _nombre ="";
     
-    public Zona(String pEscuela,String pLat1,String pLong1,String pLat2,String pLong2){
-        _escuela = pEscuela;
+    /**
+     *
+     * @param pNombre
+     * @param pLat1
+     * @param pLong1
+     * @param pLat2
+     * @param pLong2
+     * @param pColor
+     */
+    public Zona(String pNombre,String pLat1,String pLong1,String pLat2,String pLong2,String pColor){
+        _color = pColor;
         _lat1 = pLat1;
         _long1 = pLong1;
         _lat2 = pLat2;
         _long2 = pLong2;
+        _nombre = pNombre;
     }
 
     /**
@@ -55,17 +66,17 @@ public class Zona {
     }
 
     /**
-     * @return the _escuela
+     * @return the _color
      */
-    public String getEscuela() {
-        return _escuela;
+    public String getColor() {
+        return _color;
     }
 
     /**
-     * @param pescuela the _escuela to set
+     * @param pescuela the _color to set
      */
-    public void setEscuela(String pescuela) {
-        _escuela = pescuela;
+    public void setColor(String pescuela) {
+        _color = pescuela;
     }
 
     /**
@@ -122,6 +133,20 @@ public class Zona {
      */
     public void setLong2(String _long2) {
         this._long2 = _long2;
+    }
+
+    /**
+     * @return the _nombre
+     */
+    public String getNombre() {
+        return _nombre;
+    }
+
+    /**
+     * @param _nombre the _nombre to set
+     */
+    public void setNombre(String _nombre) {
+        this._nombre = _nombre;
     }
     
     

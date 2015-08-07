@@ -19,6 +19,8 @@ public class User {
     private double _lat = 0;
     private double _long = 0;
     private boolean _admin;
+    private boolean _enPelea=false;
+    private String _zonaPrevia ="";
 
     /**
      *
@@ -40,6 +42,18 @@ public class User {
         _admin = pAdmin;
     }
     
+    /**
+     *
+     * @param pZona
+     * @return
+     */
+    public boolean CambioZona(String pZona){
+        if(_zonaPrevia.compareTo(pZona)!=0){
+            _zonaPrevia = pZona;
+            return true;
+        }
+        return false;
+    }
     /**
      * @return the _next
      */
@@ -164,6 +178,34 @@ public class User {
      */
     public void setAdmin(boolean pAdmin) {
         _admin = pAdmin;
+    }
+
+    /**
+     * @return the _enPelea
+     */
+    public boolean isEnPelea() {
+        return _enPelea;
+    }
+
+    /**
+     * @param _enPelea the _enPelea to set
+     */
+    public void setEnPelea(boolean _enPelea) {
+        this._enPelea = _enPelea;
+    }
+
+    /**
+     * @return the _zonaPrevia
+     */
+    public String getZonaPrevia() {
+        return _zonaPrevia;
+    }
+
+    /**
+     * @param _zonaPrevia the _zonaPrevia to set
+     */
+    public void setZonaPrevia(String _zonaPrevia) {
+        this._zonaPrevia = _zonaPrevia;
     }
     
 }

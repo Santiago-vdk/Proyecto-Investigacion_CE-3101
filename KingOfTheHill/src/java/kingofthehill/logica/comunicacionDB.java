@@ -77,6 +77,21 @@ public class comunicacionDB {
     public boolean register(String pUsername, String pPassword, String pQuestion, String pAnswer) {
         return conexionBD.consultaRegistrer(pUsername, pPassword, pQuestion, pAnswer);
     }
+    
+    /**
+     *
+     * @param pZona
+     * @param pLat1
+     * @param pLong1
+     * @param pLat2
+     * @param pLong2
+     * @param pColor
+     * @return
+     */
+    public boolean cargarZona(String pZona, String pLat1, String pLong1, String pLat2, String pLong2, String pColor) {
+        return conexionBD.insertarZona(pZona, pLat1, pLong1, pLat2, pLong2, pColor);
+    }
+
 
     /**
      *
@@ -107,6 +122,12 @@ public class comunicacionDB {
         
     }
     
+    /**
+     *
+     * @param pUsername
+     * @return
+     * @throws ParseException
+     */
     public boolean getAdmin(String pUsername) throws ParseException {
         return conexionBD.getInstance().consultaAdmin(pUsername);
         
