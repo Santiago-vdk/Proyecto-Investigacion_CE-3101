@@ -13,6 +13,10 @@ public class Zona {
     private Zona _next = null;
     private Zona _prev = null;
     private String _escuela = "";
+    
+    public Zona(String pEscuela){
+        _escuela = pEscuela;
+    }
 
     /**
      * @return the _next
