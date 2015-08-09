@@ -2,10 +2,8 @@ package kingofthehill.datos;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
-
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.client.result.UpdateResult;
@@ -28,7 +26,7 @@ public class conexionBD {
     
 
     /**
-     * Constructor Singleton
+     * Singleton Constructor
      */
     private conexionBD() {
         // To connect to mongodb server
@@ -48,8 +46,8 @@ public class conexionBD {
     }
 
     /**
-     * Query a la DB las credenciales
-     *
+     * Se realiza la comprobacion de credenciales.
+     * 
      * @param pUsername
      * @param pPassword
      * @param pSchool
@@ -62,7 +60,8 @@ public class conexionBD {
     }
 
     /**
-     *
+     * Utilizada para cambios de contraseña
+     * 
      * @param pUsername
      * @param pPassword
      * @param pAnswer
@@ -72,18 +71,15 @@ public class conexionBD {
     public static boolean insercionPassword(String pUsername, String pPassword, String pAnswer) throws ParseException {
         MongoCollection<Document> collection = _db.getCollection("users");
          FindIterable<Document> doc = collection.find(eq("username", pUsername));
-
         if (!doc.iterator().hasNext()) {
             return false; //Si el usuario no existe
         } else {
             //El usuario si existe
             JSONParser parser = new JSONParser();
-
             //Extraigo secret
             Object obj = parser.parse(doc.first().toJson());
             JSONObject json = (JSONObject) obj;
             JSONArray array = (JSONArray) json.get("secret");
-
             //La segunda posicion posee la respuesta, la comparo, si es correcta procedo a cambiar la contrase;a
             if(array.get(1).toString().compareTo(pAnswer) == 0){
                 UpdateResult query = collection.updateOne(new Document("username", pUsername), new Document("$set", new Document("password", pPassword)));
@@ -91,16 +87,11 @@ public class conexionBD {
             } else {
                 return false; //Respuesta incorreta
             }
-
-            
         }
-        
-        
-        
     }
 
     /**
-     * Insert a la DB las credenciales
+     * Se utiliza para hacer un registro nuevo.
      *
      * @param pUsername
      * @param pPassword
@@ -120,7 +111,8 @@ public class conexionBD {
     }
 
     /**
-     *
+     * Retorna el 'secret' de un usuario.
+     * 
      * @param pUsername
      * @return
      * @throws ParseException
@@ -132,24 +124,20 @@ public class conexionBD {
             return null;
         } else {
             JSONParser parser = new JSONParser();
-
             Object obj = parser.parse(doc.first().toJson());
             JSONObject json = (JSONObject) obj;
             JSONArray array = (JSONArray) json.get("secret");
-
             String[] res = new String[2];
             res[0] = array.get(0).toString();
             res[1] = array.get(1).toString();
-
             return res;
-
         }
-
     }
 
-    //ObjectId secrets = query.getObjectId("secret");
+
     /**
-     *
+     * Retorna el 'score' de un usuario.
+     * 
      * @param pUsername
      * @return
      * @throws org.json.simple.parser.ParseException
@@ -170,7 +158,8 @@ public class conexionBD {
     }
     
     /**
-     *
+     * Retorna el 'admin' de un usuario.
+     *  
      * @param pUsername
      * @return
      * @throws ParseException
@@ -191,7 +180,8 @@ public class conexionBD {
     }
        
     /**
-     *
+     * Se utiliza para cargar las zonas.
+     * 
      * @param pZona
      * @param pLat1
      * @param pLong1
@@ -212,7 +202,17 @@ public class conexionBD {
         
     }
 
-    
+    /**
+     * Genera documento a insertar.
+     * 
+     * @param pZona
+     * @param pLat1
+     * @param pLong1
+     * @param pLat2
+     * @param pLong2
+     * @param pColor
+     * @return
+     */
     private static Document documentZone(String pZona, String pLat1, String pLong1, String pLat2, String pLong2, String pColor){
         Document document = new Document();
         document.append("zone", pZona);
@@ -225,18 +225,16 @@ public class conexionBD {
         return document;
     }
     
+    
     private static Document documentRegister(String pUsername, String pPassword, String pQuestion, String pAnswer) {
         Document document = new Document();
         document.append("id", 0);
         document.append("username", pUsername);
         document.append("password", pPassword);
-        document.append("school", "null");
         document.append("score", 0);
-       
         document.append("admin", false);
         document.append("username", pUsername);
         document.append("secret", asList(pQuestion, pAnswer));
-
         return document;
     }
 
@@ -244,7 +242,6 @@ public class conexionBD {
         Document document = new Document();
         document.put("username", pUsername);
         document.put("password", pPassword);
-
         return document;
     }
 
@@ -252,11 +249,7 @@ public class conexionBD {
         Document document = new Document();
         document.put("username", pUsername);
         document.put("password", pPassword);
-
         return document;
     }
     
-   
-
-  
 }

@@ -1,7 +1,6 @@
 package kingofthehill.logica;
 
 import com.firebase.security.token.TokenGenerator;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 import kingofthehill.datos.conexionBD;
@@ -13,14 +12,10 @@ import org.json.simple.parser.ParseException;
  */
 public class comunicacionDB {
 
-    //conexionBD _DB;
-
     /**
      *
-     * @throws UnknownHostException
      */
-    public comunicacionDB() throws UnknownHostException {
-        //_DB = conexionBD.getInstance();
+    public comunicacionDB() {
        
     }
     
@@ -56,7 +51,8 @@ public class comunicacionDB {
             String token = tokenGenerator.createToken(authPayload);
             
             //Creo usuario en logica
-            Jugadores.getInstance().conectarJugador(pUsername, token, pSchool, 0, 0, getScore(pUsername),getAdmin(pUsername));
+            String color = parserSchool(pSchool);
+            Jugadores.getInstance().conectarJugador(pUsername, token, color, 0, 0, getScore(pUsername),getAdmin(pUsername));
             
             return token;
         }
@@ -131,6 +127,30 @@ public class comunicacionDB {
     public boolean getAdmin(String pUsername) throws ParseException {
         return conexionBD.getInstance().consultaAdmin(pUsername);
         
+    }
+    
+    /**
+     * Se parsea el nombre de la escuela a un color hexadecimal.
+     * @param pSchool
+     * @return
+     */
+    private String parserSchool(String pSchool) {
+        if(pSchool.compareTo("Computacion")==0){
+            return "#FF0000";
+        }else if(pSchool.compareTo("Matematica")==0){
+            return "#0000FF";
+        }else if(pSchool.compareTo("Fisica")==0){
+            return "#33CC33";
+        }else if(pSchool.compareTo("Forestal")==0){
+            return "#FF9966";
+        }else if(pSchool.compareTo("Electromecanica")==0){
+            return "#FF66CC";
+        }else if(pSchool.compareTo("Produccion Indus")==0){
+            return "#FFFF66";
+        }else if(pSchool.compareTo("Disenio Indus")==0){
+            return "#00FF00";
+        }
+        return null;
     }
 
 }

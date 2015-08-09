@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package kingofthehill.logica;
 
 /**
@@ -11,13 +6,13 @@ package kingofthehill.logica;
  */
 public class BattleManager {
     private static BattleManager _singleton = new BattleManager();
-    private listaBatallas _batallas = new listaBatallas(); 
+    private ListaBatallas _batallas = new ListaBatallas(); 
     
     private BattleManager(){
     }
     
     /**
-     *
+     * Singleton constructor
      * @return
      */
     public static BattleManager getInstance(){
@@ -48,15 +43,61 @@ public class BattleManager {
      * @param pLong
      */
     public void nuevaBatalla(User pUser, double pLat, double pLong){
-        Batalla battle = new Batalla();
-        boolean flag = battle.UserMoved(pUser, pLat, pLong);
-        if(flag){
-            _batallas.insertar(battle);
-        }
-        battle.setNecesario(false);
         
+        Batalla batalla = battleNeeded(pUser,pLat,pLong);
+        if(batalla != null){
+            _batallas.insertar(batalla);
+            }
+        }
+        
+        
+//        Batalla battle = new Batalla();
+//        boolean flag = battle.UserMoved(pUser, pLat, pLong);
+//        if(flag){
+//            _batallas.insertar(battle);
+//        }
+//        battle.setNecesario(false);
         //Meter en lista de batallas
         
+      
+    
+    
+    public Batalla battleNeeded(User user,Double LatJugador,Double LongJugador) {
         
+        for(int i=0;i<Regiones.getInstance().getZonasList().getTam();i++){
+                String nombre = Regiones.getInstance().getZonasList().buscar(i).getNombre();
+                String color = Regiones.getInstance().getZonasList().buscar(i).getColor();
+                
+                Double lat1 = Double.parseDouble(Regiones.getInstance().getZonasList().buscar(i).getLat1());
+                Double long1 = Double.parseDouble(Regiones.getInstance().getZonasList().buscar(i).getLong1());
+                
+                Double lat2 = Double.parseDouble(Regiones.getInstance().getZonasList().buscar(i).getLat2());
+                Double long2 = Double.parseDouble(Regiones.getInstance().getZonasList().buscar(i).getLong2());
+                
+                if(LatJugador>lat1 && LatJugador<lat2 
+                        && LongJugador>long1 && LongJugador<long2){//jugador dentro de la zona
+                    
+                    if(user.CambioZona(nombre)){//entro a una zona nueva
+                        User defensor = Jugadores.getInstance().defensor(nombre,color);
+                        if(defensor!= null){
+                            //pelea entre user y defensor
+                            user.setEnPelea(true);
+                            defensor.setEnPelea(true);
+                            //_jugador1 = user;
+                            //_jugador2 = defensor;
+                            Batalla batalla = new Batalla(user,defensor);
+                            return batalla;
+                            
+                        } else {
+                            //conquisto zona
+                            String escuela = user.getEscuela();
+                            Regiones.getInstance().getZonasList().buscar(i).setColor(escuela);
+                            
+                        }
+                    }
+                }
+        }
+        return null;
     }
+    
 }

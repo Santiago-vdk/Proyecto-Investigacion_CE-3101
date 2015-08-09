@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this tempLate file, choose Tools | TempLates
- * and open the tempLate in the editor.
- */
 package kingofthehill.logica;
 
 /**
@@ -188,10 +183,10 @@ public class User {
     }
 
     /**
-     * @param _enPelea the _enPelea to set
+     * @param pEnPelea
      */
-    public void setEnPelea(boolean _enPelea) {
-        this._enPelea = _enPelea;
+    public void setEnPelea(boolean pEnPelea) {
+        _enPelea = pEnPelea;
     }
 
     /**
@@ -202,10 +197,10 @@ public class User {
     }
 
     /**
-     * @param _zonaPrevia the _zonaPrevia to set
+     * @param pZonaPrevia
      */
-    public void setZonaPrevia(String _zonaPrevia) {
-        this._zonaPrevia = _zonaPrevia;
+    public void setZonaPrevia(String pZonaPrevia) {
+        _zonaPrevia = pZonaPrevia;
     }
     
 }

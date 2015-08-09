@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package kingofthehill.logica;
 
 /**
@@ -45,10 +40,10 @@ public class Zona {
     }
 
     /**
-     * @param pnext the _next to set
+     * @param pNext
      */
-    public void setNext(Zona pnext) {
-        _next = pnext;
+    public void setNext(Zona pNext) {
+        _next = pNext;
     }
 
     /**
@@ -59,10 +54,10 @@ public class Zona {
     }
 
     /**
-     * @param pprev the _prev to set
+     * @param pPrev
      */
-    public void setPrev(Zona pprev) {
-        _prev = pprev;
+    public void setPrev(Zona pPrev) {
+        _prev = pPrev;
     }
 
     /**
@@ -73,10 +68,10 @@ public class Zona {
     }
 
     /**
-     * @param pescuela the _color to set
+     * @param pEscuela
      */
-    public void setColor(String pescuela) {
-        _color = pescuela;
+    public void setColor(String pEscuela) {
+        _color = pEscuela;
     }
 
     /**
@@ -87,10 +82,10 @@ public class Zona {
     }
 
     /**
-     * @param _lat1 the _lat1 to set
+     * @param pLat1
      */
-    public void setLat1(String _lat1) {
-        this._lat1 = _lat1;
+    public void setLat1(String pLat1) {
+        _lat1 = pLat1;
     }
 
     /**
@@ -101,10 +96,10 @@ public class Zona {
     }
 
     /**
-     * @param _long1 the _long1 to set
+     * @param pLong1
      */
-    public void setLong1(String _long1) {
-        this._long1 = _long1;
+    public void setLong1(String pLong1) {
+        _long1 = pLong1;
     }
 
     /**
@@ -115,10 +110,10 @@ public class Zona {
     }
 
     /**
-     * @param _lat2 the _lat2 to set
+     * @param pLat2
      */
-    public void setLat2(String _lat2) {
-        this._lat2 = _lat2;
+    public void setLat2(String pLat2) {
+        _lat2 = pLat2;
     }
 
     /**
@@ -129,10 +124,10 @@ public class Zona {
     }
 
     /**
-     * @param _long2 the _long2 to set
+     * @param pLong2
      */
-    public void setLong2(String _long2) {
-        this._long2 = _long2;
+    public void setLong2(String pLong2) {
+        _long2 = pLong2;
     }
 
     /**
@@ -143,10 +138,10 @@ public class Zona {
     }
 
     /**
-     * @param _nombre the _nombre to set
+     * @param pNombre
      */
-    public void setNombre(String _nombre) {
-        this._nombre = _nombre;
+    public void setNombre(String pNombre) {
+        _nombre = pNombre;
     }
     
     

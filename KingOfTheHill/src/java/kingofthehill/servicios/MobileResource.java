@@ -7,20 +7,15 @@ package kingofthehill.servicios;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import kingofthehill.logica.Batalla;
 import kingofthehill.logica.BattleManager;
 import kingofthehill.logica.Jugadores;
-import kingofthehill.logica.Regiones;
 import kingofthehill.logica.User;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -45,8 +40,7 @@ public class MobileResource {
 
     /**
      * {
-     * "username":username, "lat":latitud, "long":longitud } 
-     * Recibe la posicion
+     * "username":username, "lat":latitud, "long":longitud } Recibe la posicion
      * del usuario
      *
      * @param msg
@@ -59,26 +53,30 @@ public class MobileResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.TEXT_HTML})
     public String sendPosition(String msg, @Context HttpHeaders headers) throws ParseException {
-        String token = headers.getRequestHeaders().getFirst("userToken");
-        User user = Jugadores.getInstance().buscarJugador(token);
-        
-        if (user != null) {
-            String[] parsedData = sendPosParser(msg);
-            Double LatJugador = Double.parseDouble(parsedData[1]);
-            Double LongJugador = Double.parseDouble(parsedData[2]);
-                
-            user.setLat(LatJugador);
-            user.setLong(LongJugador);
+        try {
+            String token = headers.getRequestHeaders().getFirst("userToken");
+            User user = Jugadores.getInstance().buscarJugador(token);
 
-            //Batalla.getInstace().UserMved(user, LatJugador, LongJugador);
-            BattleManager.getInstance().nuevaBatalla(user, LatJugador, LongJugador);
-            return "success";
-        } else {
+            if (user != null) {
+                String[] parsedData = sendPosParser(msg);
+                Double LatJugador = Double.parseDouble(parsedData[1]);
+                Double LongJugador = Double.parseDouble(parsedData[2]);
+
+                user.setLat(LatJugador);
+                user.setLong(LongJugador);
+
+                BattleManager.getInstance().nuevaBatalla(user, LatJugador, LongJugador);
+                return "success";
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            System.out.println("Exception");
             return null;
         }
+
     }
 
-    
     /**
      * @param headers
      * @return
@@ -87,17 +85,23 @@ public class MobileResource {
     @Path("/sendResult")
     @Produces({MediaType.APPLICATION_JSON})
     public String sendResult(@Context HttpHeaders headers) {
-        String token = headers.getRequestHeaders().getFirst("userToken");
-        String score = headers.getRequestHeaders().getFirst("score");
-        
-        if(token != null && score != null){
-            BattleManager.getInstance().scoreBatalla(token, Float.parseFloat(score));
-            return "success";
-        } else {
-            return "fail";
+        try {
+            String token = headers.getRequestHeaders().getFirst("userToken");
+            String score = headers.getRequestHeaders().getFirst("score");
+
+            if (token != null && score != null) {
+                BattleManager.getInstance().scoreBatalla(token, Float.parseFloat(score));
+                return "success";
+            } else {
+                return "fail";
+            }
+        } catch (Exception e) {
+            System.out.println("Exception");
+            return null;
         }
+
     }
-    
+
     /**
      *
      * @param headers
@@ -107,18 +111,21 @@ public class MobileResource {
     @Path("/checkBattle")
     @Produces({MediaType.APPLICATION_JSON})
     public String checkBattle(@Context HttpHeaders headers) {
-        String token = headers.getRequestHeaders().getFirst("userToken");
-        if(Jugadores.getInstance().buscarJugador(token).isEnPelea()){
-            //Jugador debe entrar en batalla
-            return "battle";
-        } else {
-            return "success";
+        try {
+            String token = headers.getRequestHeaders().getFirst("userToken");
+            if (Jugadores.getInstance().buscarJugador(token).isEnPelea()) {
+                //Jugador debe entrar en batalla
+                return "battle";
+            } else {
+                return "success";
+            }
+        } catch (Exception e) {
+            System.out.println("Exception");
+            return null;
         }
-        
-    }
-    
 
-  
+    }
+
     /**
      * @param headers
      * @return
@@ -129,8 +136,8 @@ public class MobileResource {
     public String retrievePosition(@Context HttpHeaders headers) {
         //Si el token es correcto signifca que el usuario esta autenticado y procedo a ver si es
         //admin o user si es user le devuelvo su posicion del marker
-        String token = headers.getRequestHeaders().getFirst("userToken");
         try {
+            String token = headers.getRequestHeaders().getFirst("userToken");
             User user = Jugadores.getInstance().buscarJugador(token);
             if (user == null) {
                 return null;
@@ -148,7 +155,7 @@ public class MobileResource {
             return null;
         }
     }
-    
+
     private String[] sendPosParser(String pData) throws ParseException {
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(pData);

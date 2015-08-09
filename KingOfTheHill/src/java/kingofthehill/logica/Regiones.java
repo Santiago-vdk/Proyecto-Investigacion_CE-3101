@@ -28,11 +28,7 @@ public class Regiones {
     
     private Regiones() {
          _zonasList = new ListaZonas();
-        try {
-            _BD = new comunicacionDB();
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(Regiones.class.getName()).log(Level.SEVERE, null, ex);
-        }
+         _BD = new comunicacionDB();
         leerZonas();
        
         

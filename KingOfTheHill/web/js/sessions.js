@@ -79,11 +79,12 @@ function registerUser() {
     var paramAnswer = document.getElementById("signup-answer").value;
     //Hash para la contraseña
     var hash = hex_md5(paramPassword);
+    var hash2 = hex_md5(paramAnswer);
     var postData = {
         "username": paramUsername,
         "password": hash,
         "question": paramQuestion,
-        "answer": paramAnswer
+        "answer": hash2
     };
     $.ajax({
         type: 'POST',
@@ -266,10 +267,11 @@ function forgotPassword() {
 
 function checkAnswer(paramUsername, inputValue) {
     var answer = inputValue;
+    var hash = hex_md5(inputValue);
     var postAnswer = {
         "username": paramUsername,
         "question": "false",
-        "answer": inputValue
+        "answer": hash
     };
     $.ajax({
         type: 'POST',
@@ -319,10 +321,11 @@ function checkAnswer(paramUsername, inputValue) {
 
 function changePassword(paramUsername, inputValue, answer) {
     var hash = hex_md5(inputValue);
+    var hash2 = hex_md5(answer);
     var postAnswer = {
         "username": paramUsername,
         "password": hash,
-        "answer":answer
+        "answer":hash2
     };
     $.ajax({
         type: 'POST',

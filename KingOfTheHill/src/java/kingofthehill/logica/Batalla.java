@@ -2,7 +2,7 @@ package kingofthehill.logica;
 
 /**
  *
- * @author RafaelAngel
+// * @author RafaelAngel
  */
 public class Batalla extends Thread{
     
@@ -17,7 +17,9 @@ public class Batalla extends Thread{
     /**
      *
      */
-    public Batalla(){
+    public Batalla(User pJugador1,User pJugador2){
+        _jugador1 = pJugador1;
+        _jugador2 = pJugador2;
         start(); //Volatil
     }
     
@@ -28,42 +30,44 @@ public class Batalla extends Thread{
      * @param LongJugador
      * @return 
      */
-    public boolean UserMoved(User user,Double LatJugador,Double LongJugador) {
-        
-        for(int i=0;i<Regiones.getInstance().getZonasList().getTam();i++){
-                String nombre = Regiones.getInstance().getZonasList().buscar(i).getNombre();
-                String color = Regiones.getInstance().getZonasList().buscar(i).getColor();
-                
-                Double lat1 = Double.parseDouble(Regiones.getInstance().getZonasList().buscar(i).getLat1());
-                Double long1 = Double.parseDouble(Regiones.getInstance().getZonasList().buscar(i).getLong1());
-                
-                Double lat2 = Double.parseDouble(Regiones.getInstance().getZonasList().buscar(i).getLat2());
-                Double long2 = Double.parseDouble(Regiones.getInstance().getZonasList().buscar(i).getLong2());
-                
-                if(LatJugador>lat1 && LatJugador<lat2 
-                        && LongJugador>long1 && LongJugador<long2){//jugador dentro de la zona
-                    
-                    if(user.CambioZona(nombre)){//entro a una zona nueva
-                        User defensor = Jugadores.getInstance().defensor(nombre,color);
-                        if(defensor!= null){
-                            //pelea entre user y defensor
-                            user.setEnPelea(true);
-                            defensor.setEnPelea(true);
-                            _jugador1 = user;
-                            _jugador2 = defensor;
-                            return true;
-                            
-                        } else {
-                            //conquisto zona
-                            String escuela = user.getEscuela();
-                            Regiones.getInstance().getZonasList().buscar(i).setColor(escuela);
-                            
-                        }
-                    }
-                }
-        }
-        return false;
-    }
+    
+    
+//    public boolean UserMoved(User user,Double LatJugador,Double LongJugador) {
+//        
+//        for(int i=0;i<Regiones.getInstance().getZonasList().getTam();i++){
+//                String nombre = Regiones.getInstance().getZonasList().buscar(i).getNombre();
+//                String color = Regiones.getInstance().getZonasList().buscar(i).getColor();
+//                
+//                Double lat1 = Double.parseDouble(Regiones.getInstance().getZonasList().buscar(i).getLat1());
+//                Double long1 = Double.parseDouble(Regiones.getInstance().getZonasList().buscar(i).getLong1());
+//                
+//                Double lat2 = Double.parseDouble(Regiones.getInstance().getZonasList().buscar(i).getLat2());
+//                Double long2 = Double.parseDouble(Regiones.getInstance().getZonasList().buscar(i).getLong2());
+//                
+//                if(LatJugador>lat1 && LatJugador<lat2 
+//                        && LongJugador>long1 && LongJugador<long2){//jugador dentro de la zona
+//                    
+//                    if(user.CambioZona(nombre)){//entro a una zona nueva
+//                        User defensor = Jugadores.getInstance().defensor(nombre,color);
+//                        if(defensor!= null){
+//                            //pelea entre user y defensor
+//                            user.setEnPelea(true);
+//                            defensor.setEnPelea(true);
+//                            _jugador1 = user;
+//                            _jugador2 = defensor;
+//                            return true;
+//                            
+//                        } else {
+//                            //conquisto zona
+//                            String escuela = user.getEscuela();
+//                            Regiones.getInstance().getZonasList().buscar(i).setColor(escuela);
+//                            
+//                        }
+//                    }
+//                }
+//        }
+//        return false;
+//    }
     
     /**
      *
@@ -106,6 +110,7 @@ public class Batalla extends Thread{
     public void run(){
         while(_necesario || _scoreJugador1 == -1 || _scoreJugador2 == -1){
         }
+        this.stop();
         //Definir ganador
     }
 
@@ -117,10 +122,10 @@ public class Batalla extends Thread{
     }
 
     /**
-     * @param _next the _next to set
+     * @param pNext
      */
-    public void setNext(Batalla _next) {
-        this._next = _next;
+    public void setNext(Batalla pNext) {
+        _next = pNext;
     }
 
     /**
@@ -131,10 +136,10 @@ public class Batalla extends Thread{
     }
 
     /**
-     * @param _prev the _prev to set
+     * @param pPrev
      */
-    public void setPrev(Batalla _prev) {
-        this._prev = _prev;
+    public void setPrev(Batalla pPrev) {
+        _prev = pPrev;
     }
 
     /**
@@ -145,10 +150,10 @@ public class Batalla extends Thread{
     }
 
     /**
-     * @param _necesario the _necesario to set
+     * @param pNecesario
      */
-    public void setNecesario(boolean _necesario) {
-        this._necesario = _necesario;
+    public void setNecesario(boolean pNecesario) {
+        _necesario = pNecesario;
     }
     
     

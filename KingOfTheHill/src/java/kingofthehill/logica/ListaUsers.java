@@ -50,7 +50,7 @@ public class ListaUsers {
     public User defensor(String pZona,String pEscuela){
         User user = _head;
         for(int i=0;i<_tam;i++){
-            if(user.getZonaPrevia().compareTo(pZona)==0 && user.getEscuela().compareTo(pEscuela)==0){
+            if(user.getZonaPrevia().compareTo(pZona)==0 && user.getEscuela().compareTo(pEscuela)==0 && !user.isEnPelea()){
             //el jugador esta en la zona y es de la escuela que la posee
                 return user;
             }

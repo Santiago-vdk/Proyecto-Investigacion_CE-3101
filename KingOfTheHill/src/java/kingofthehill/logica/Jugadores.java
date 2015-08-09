@@ -1,6 +1,5 @@
 package kingofthehill.logica;
 
-import org.glassfish.hk2.api.Immediate;
 import org.json.simple.*;
 
 /**
@@ -105,7 +104,6 @@ public class Jugadores {
     public JSONArray posicionJugador(String pToken) {
         User user;
         JSONArray array = new JSONArray();
-
         JSONObject object = new JSONObject();
         user = _usersList.buscar(pToken);
         if (!user.isAdmin()) {
@@ -114,7 +112,6 @@ public class Jugadores {
             object.put("long", user.getLong());
             array.add(object);
         }
-        System.out.println(array.get(0));
         return array;
     }
 
