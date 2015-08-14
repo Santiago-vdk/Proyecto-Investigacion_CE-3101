@@ -227,15 +227,13 @@ function getRectangles() {
         beforeSend: function (xhr) {
             // Set the CSRF Token in the header for security
             var token = window.sessionStorage.accessToken;
-            if (token)
+            if (token){
                 xhr.setRequestHeader('userToken', token);
+            } 
         },
         success: function (res, textStatus, jqXHR) {
-
-            /*console.debug(res);
-             console.debug(res[0].zone);*/
-
             if (jqXHR.status !== 204) {
+                alert("correct");
                 for (var i = 0; i < res.length; i++) {
                     if (zoneStore.hasOwnProperty(res[i].name)) {
                         if (zoneStore.hasOwnProperty(res[i].color) !== res[i].color) {
@@ -253,13 +251,14 @@ function getRectangles() {
                                     new google.maps.LatLng(res[i].lat1, res[i].long1),
                                     new google.maps.LatLng(res[i].lat2, res[i].long2))
                         });
-
                         zoneStore[res[i].name] = rectangle;
-
                     }
                 }
                 window.setTimeout(getRectangles, INTERVALREC);
+            } else {
+                alert("Error server");
             }
+            
         },
         error: function () {
             alert('failure');

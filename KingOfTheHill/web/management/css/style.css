@@ -1,0 +1,174 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Aug 9, 2015, 11:24:43 AM
+    Author     : Shagy
+*/
+
+
+.sidebar {
+    display: block;
+    float:right;
+    min-height: 100%; 
+    width: 30%;
+    background: #BDC3C7;
+}
+
+.wrapper {
+    position:fixed;
+    width: 100%;
+    top:50px;
+    height: 100%
+}
+
+.content {
+    display:block;
+    min-height: 100%; 
+   // width:70%;
+   // float:right;
+    background: #FFF;
+}
+
+.server-log {
+
+    border-radius: 25px;
+    border: 2px solid #8AC007;
+    padding: 20px; 
+    width: 200px;
+    height: 150px; 
+}
+.server {
+    display:block;
+    float:right;
+    width:35%;
+    background:#FFF;
+    //left:409px;
+    height:100px; 
+    padding:25px;
+}
+
+.users-info {
+    position:relative;
+    display:block;
+    float:left;
+    padding-left:25px;
+    padding-right:25px;
+    width:100%;
+    top:20px;
+
+}
+.user-list {
+   position:relative;
+    display:block;
+    width: 100%;
+}
+.user-input {
+ /*   position:fixed;
+    display:inherit;
+    
+    width: 100%;
+    bottom:25px;*/
+}
+.input-holder {
+    position:static;
+    display:block;
+    width:100%;
+    padding-top:150px;
+}
+
+
+
+
+
+
+.list {
+  font-family:sans-serif;
+  margin:0;
+  padding:20px 0 0;
+}
+.list > li {
+  display:block;
+  background-color: #eee;
+  padding:10px;
+  box-shadow: inset 0 1px 0 #fff;
+}
+.avatar {
+  max-width: 150px;
+}
+img {
+  max-width: 100%;
+}
+h3 {
+  font-size: 16px;
+  margin:0 0 0.3rem;
+  font-weight: normal;
+  font-weight:bold;
+}
+p {
+  margin:0;
+}
+
+input {
+  border:solid 1px #ccc;
+  border-radius: 5px;
+  padding:7px 14px;
+  margin-bottom:10px
+}
+input:focus {
+  outline:none;
+  border-color:#aaa;
+}
+.sort {
+  padding:8px 30px;
+  border-radius: 6px;
+  border:none;
+  display:inline-block;
+  color:#fff;
+  text-decoration: none;
+  background-color: #28a8e0;
+  height:37px;
+}
+.sort:hover {
+  text-decoration: none;
+  background-color:#1b8aba;
+}
+.sort:focus {
+  outline:none;
+}
+.sort:after {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  content:"";
+  position: relative;
+  top:-10px;
+  right:-5px;
+}
+.sort.asc:after {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #fff;
+  content:"";
+  position: relative;
+  top:13px;
+  right:-5px;
+}
+.sort.desc:after {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #fff;
+  content:"";
+  position: relative;
+  top:-10px;
+  right:-5px;
+}
+

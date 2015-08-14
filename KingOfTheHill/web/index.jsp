@@ -5,7 +5,7 @@
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html class="desktop">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,14 +26,23 @@
             $(window).load(function () {
                 isLogged();
                 
-      
+                
                 //if(window.sessionStorage.accessToken !=== null){
-                    getMarkers();
+                   // getMarkers();
                     getRectangles();
                 //}
                 
             });
 
+        </script>
+
+        <script type="text/javascript">
+    if (/Android|webOS|iPhone|iPad|iPod|pocket|psp|kindle|avantgo|blazer|midori|Tablet|Palm|maemo|plucker|phone|BlackBerry|symbian|IEMobile|mobile|ZuneWP7|Windows Phone|Opera Mini/i.test(navigator.userAgent)){
+     window.onload = function (){
+         document.getElementById('menu').style.display = 'none';
+         
+     }
+   };
         </script>
 
         <link rel="stylesheet" href="css/reset.css">
@@ -55,7 +64,7 @@
 
     </head>
     <body>    
-        <header id="menu" role="banner">
+        <header id="menu" role="banner" >
             <div id="cd-logo">
                 <user id="screenName" disabled>username</user>
                 <user id="screenPuntaje"  disabled> - PUNTAJE: </user>
