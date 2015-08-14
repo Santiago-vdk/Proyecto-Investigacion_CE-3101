@@ -81,14 +81,12 @@ public class BattleManager {
                         User defensor = Jugadores.getInstance().defensor(nombre,color);
                         if(defensor!= null){
                             //pelea entre user y defensor
-                            if(user.getNombre().compareTo(defensor.getNombre())==0){//evita pelea contra si mismo
-                                user.setEnPelea(true);
-                                defensor.setEnPelea(true);
-                                //_jugador1 = user;
-                                //_jugador2 = defensor;
-                                Batalla batalla = new Batalla(user,defensor);
-                                return batalla;
-                            }
+                            user.setEnPelea(true);
+                            defensor.setEnPelea(true);
+                            //_jugador1 = user;
+                            //_jugador2 = defensor;
+                            Batalla batalla = new Batalla(user,defensor);
+                            return batalla;
                             
                         } else {
                             //conquisto zona
