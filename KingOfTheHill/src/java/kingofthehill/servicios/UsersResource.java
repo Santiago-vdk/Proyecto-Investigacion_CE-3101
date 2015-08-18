@@ -1,6 +1,8 @@
 package kingofthehill.servicios;
 
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
@@ -11,8 +13,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import kingofthehill.logica.BotGenerator;
 import kingofthehill.logica.Jugadores;
 import kingofthehill.logica.comunicacionDB;
+import org.jboss.weld.logging.EventLogger;
 
 import org.json.simple.parser.ParseException;
 import org.json.simple.JSONObject;
@@ -34,9 +38,8 @@ public class UsersResource {
     /**
      * Creates a new instance of UsersResource
      *
-     * @throws java.net.UnknownHostException
      */
-    public UsersResource() throws UnknownHostException {
+    public UsersResource() {
         _db = new comunicacionDB();
     }
 
@@ -51,26 +54,78 @@ public class UsersResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.TEXT_HTML})
     public String register(String msg) throws ParseException {
-
         //Obtengo una lista con los valores enviados por el usuario
         String[] parsedData = registerParser(msg);
-
-        System.out.println("En serivicio de register con POST");
         
         //Pasar a BD, validar y retornar success
         if(_db.register(parsedData[0], parsedData[1], parsedData[2], parsedData[3])){
-            System.out.println("REGISTRADO");
             return "success";
         }
         else{
             return null;
         }
-
-        //Pasar a BD, validar y retornar success
-        //return Response.status(200).entity(msg).build();
-
     }
+    
+    /**
+     *
+     * @param headers
+     * @return
+     * @throws org.json.simple.parser.ParseException
+     */
+    @GET
+    @Path("/bot")
+    @Produces({MediaType.TEXT_HTML})
+    public String generateBot(@Context HttpHeaders headers) throws ParseException {
 
+        String token = headers.getRequestHeaders().getFirst("userToken");
+        if (token == null && Jugadores.getInstance().buscarJugador(token) != null) {
+            return null;
+        } //Check if token matches with a user
+        else {
+            try {
+                BotGenerator.getInstance().newBot();
+                return "success";
+            } catch (NullPointerException e) {
+                System.out.println("Error generando BOT");
+                return null;
+            }
+
+        }
+    }
+    
+    @GET
+    @Path("/killbots")
+    @Produces({MediaType.TEXT_HTML})
+    public String killBots(@Context HttpHeaders headers) throws ParseException {
+
+        String token = headers.getRequestHeaders().getFirst("userToken");
+        if (token == null && Jugadores.getInstance().buscarJugador(token) != null) {
+            return null;
+        } //Check if token matches with a user
+        else {
+            try {
+                for(int i = 0; i < Jugadores.getInstance().getAllUsers().getTam(); i++){
+                    if(Jugadores.getInstance().getAllUsers().buscarConIndice(i).isBot()){
+                        Jugadores.getInstance().getAllUsers().buscarConIndice(i).setSuicidarme(true);
+                        Thread.sleep(3000);
+                        Jugadores.getInstance().desconectarJugador(
+                                Jugadores.getInstance().getAllUsers().buscarConIndice(i).getToken());
+                    }
+                }
+                return "success";
+            } catch (NullPointerException e) {
+                System.out.println("Error generando BOT");
+                return null;
+            } catch (InterruptedException ex) {
+                Logger.getLogger(UsersResource.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }
+
+        }
+    }
+    
+    
+    
     /**
      *
      * @param msg
@@ -118,7 +173,7 @@ public class UsersResource {
             }
 
         } catch (NullPointerException e) {
-            System.out.println("Deconexion inesperada.");
+            System.out.println("Deconexion inesperada durante el logout.");
             return Response.noContent().type(MediaType.TEXT_HTML).build();
         }
 
@@ -134,7 +189,8 @@ public class UsersResource {
     @Produces({MediaType.TEXT_HTML})
     public Response isLogged(@Context HttpHeaders headers) {
         String token = headers.getRequestHeaders().getFirst("userToken");
-        if (token == null) {
+        if (token == null || Jugadores.getInstance().buscarJugador(token) == null) {
+            System.out.println("Error autenticacion, token invalido.");
             return Response.noContent().type(MediaType.TEXT_HTML).build();
         } //Check if token matches with a user
         else {
@@ -143,7 +199,7 @@ public class UsersResource {
                 String score = Integer.toString(Jugadores.getInstance().buscarJugador(token).getPuntaje());
                 return Response.accepted().header("username", username).header("score", score).type(MediaType.TEXT_HTML).build();
             } catch (NullPointerException e) {
-                System.out.println("Desconexion inesperada.");
+                System.out.println("Desconexion inesperada durante la autenticacion.");
                 return null;
             }
 

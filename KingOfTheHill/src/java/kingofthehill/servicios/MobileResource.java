@@ -143,7 +143,6 @@ public class MobileResource {
                 return null;
             } else {
                 if (user.isAdmin()) {
-                    //Retorno las posiciones de todos los usuarios
                     return Jugadores.getInstance().posicionJugadores().toString();
                 } else {
                     //Retorno la posicion solo del usuario

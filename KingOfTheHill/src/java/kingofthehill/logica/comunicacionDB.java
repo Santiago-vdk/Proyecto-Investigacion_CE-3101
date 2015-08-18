@@ -16,7 +16,6 @@ public class comunicacionDB {
      *
      */
     public comunicacionDB() {
-       
     }
     
     /**

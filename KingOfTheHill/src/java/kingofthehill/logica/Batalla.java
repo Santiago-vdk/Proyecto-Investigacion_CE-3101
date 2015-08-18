@@ -1,5 +1,8 @@
 package kingofthehill.logica;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
 // * @author RafaelAngel
@@ -8,73 +11,30 @@ public class Batalla extends Thread{
     
     private Batalla _next;
     private Batalla _prev;
-    private float _scoreJugador1 = -1;
-    private float _scoreJugador2 = -1;
+    private int _scoreJugador1 = -1;
+    private int _scoreJugador2 = -1;
     private User _jugador1;
     private User _jugador2;
-    private boolean _necesario =true;
+    private int _IndiceZona=-1;
    
     /**
      *
+     * @param pJugador1
      */
-    public Batalla(User pJugador1,User pJugador2){
+    public Batalla(User pJugador1,User pJugador2,int pIndiceZona){
         _jugador1 = pJugador1;
         _jugador2 = pJugador2;
+        _IndiceZona = pIndiceZona;
         start(); //Volatil
     }
-    
-    /**
-     *
-     * @param user
-     * @param LatJugador
-     * @param LongJugador
-     * @return 
-     */
-    
-    
-//    public boolean UserMoved(User user,Double LatJugador,Double LongJugador) {
-//        
-//        for(int i=0;i<Regiones.getInstance().getZonasList().getTam();i++){
-//                String nombre = Regiones.getInstance().getZonasList().buscar(i).getNombre();
-//                String color = Regiones.getInstance().getZonasList().buscar(i).getColor();
-//                
-//                Double lat1 = Double.parseDouble(Regiones.getInstance().getZonasList().buscar(i).getLat1());
-//                Double long1 = Double.parseDouble(Regiones.getInstance().getZonasList().buscar(i).getLong1());
-//                
-//                Double lat2 = Double.parseDouble(Regiones.getInstance().getZonasList().buscar(i).getLat2());
-//                Double long2 = Double.parseDouble(Regiones.getInstance().getZonasList().buscar(i).getLong2());
-//                
-//                if(LatJugador>lat1 && LatJugador<lat2 
-//                        && LongJugador>long1 && LongJugador<long2){//jugador dentro de la zona
-//                    
-//                    if(user.CambioZona(nombre)){//entro a una zona nueva
-//                        User defensor = Jugadores.getInstance().defensor(nombre,color);
-//                        if(defensor!= null){
-//                            //pelea entre user y defensor
-//                            user.setEnPelea(true);
-//                            defensor.setEnPelea(true);
-//                            _jugador1 = user;
-//                            _jugador2 = defensor;
-//                            return true;
-//                            
-//                        } else {
-//                            //conquisto zona
-//                            String escuela = user.getEscuela();
-//                            Regiones.getInstance().getZonasList().buscar(i).setColor(escuela);
-//                            
-//                        }
-//                    }
-//                }
-//        }
-//        return false;
-//    }
-    
+
     /**
      *
      * @param pToken
      * @return
      */
     public boolean buscarUser(String pToken){
+        
         if(_jugador1.getToken().compareTo(pToken)==0){
             return true;
         }
@@ -90,29 +50,59 @@ public class Batalla extends Thread{
      * @param pScore
      * @return
      */
-    public boolean ScoreBatalla(String pToken,float pScore){
+    public boolean ScoreBatalla(String pToken,int pScore){
         if(_jugador1.getToken().compareTo(pToken)==0){
             _scoreJugador1 = pScore;
-            if(_scoreJugador1 != -1 || _scoreJugador2 != -1){
+            if(_scoreJugador2 != -1){
                 return true;
             }
         }
         else if(_jugador2.getToken().compareTo(pToken)==0){
             _scoreJugador2 = pScore;
-            if(_scoreJugador1 != -1 || _scoreJugador2 != -1){
+            if(_scoreJugador1 != -1){
                 return true;
             }
         }
         return false;
     }
+
     
     @Override
     public void run(){
-        while(_necesario || _scoreJugador1 == -1 || _scoreJugador2 == -1){
+        while(_scoreJugador1 == -1 || _scoreJugador2 == -1){
+            try {
+                //System.out.println("Score1: " + _scoreJugador1 + "," + "Score2: " + _scoreJugador2);
+                Thread.sleep(500);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Batalla.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
-        this.stop();
-        //Definir ganador
+        
+        _jugador1.setEnPelea(false);
+        _jugador2.setEnPelea(false);
+        _jugador1.setPuntaje(_jugador1.getPuntaje() + _scoreJugador1);
+        _jugador2.setPuntaje(_jugador2.getPuntaje() + _scoreJugador2);
+        
+        if(_scoreJugador1>_scoreJugador2){
+            if(_jugador2.isBot()){//gano jugador1 suicidar jugador2 si es bot
+                _jugador2.setSuicidarme(true);
+                System.out.println("Termino Batalla, el ganador fue: " + _jugador2.getNombre());
+            }
+            //cambiar color de zona porque perdio el defensor 
+            String escuela = _jugador1.getEscuela();
+            Regiones.getInstance().getZonasList().buscar(_IndiceZona).setColor(escuela);
+        }
+        else {
+            if(_jugador1.isBot()){//gano jugador2 suicidar jugador1 si es bot
+                _jugador1.setSuicidarme(true);
+                System.out.println("Termino Batalla, el ganador fue: " + _jugador2.getNombre());
+            }
     }
+        
+        System.out.println("Fin");
+    }
+    
 
     /**
      * @return the _next
@@ -140,21 +130,5 @@ public class Batalla extends Thread{
      */
     public void setPrev(Batalla pPrev) {
         _prev = pPrev;
-    }
-
-    /**
-     * @return the _necesario
-     */
-    public boolean isNecesario() {
-        return _necesario;
-    }
-
-    /**
-     * @param pNecesario
-     */
-    public void setNecesario(boolean pNecesario) {
-        _necesario = pNecesario;
-    }
-    
-    
+    }  
 }

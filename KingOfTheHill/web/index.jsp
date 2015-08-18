@@ -28,7 +28,7 @@
                 
                 
                 //if(window.sessionStorage.accessToken !=== null){
-                   // getMarkers();
+                    getMarkers();
                     getRectangles();
                 //}
                 

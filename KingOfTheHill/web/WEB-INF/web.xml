@@ -21,4 +21,7 @@
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
+    <listener>
+        <listener-class>kingofthehill.datos.conexionBD</listener-class>
+    </listener>
 </web-app>

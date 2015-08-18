@@ -1,6 +1,7 @@
 package kingofthehill.datos;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoException;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -8,6 +9,8 @@ import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.client.result.UpdateResult;
 import static java.util.Arrays.asList;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 import org.bson.Document;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -18,7 +21,7 @@ import org.json.simple.parser.ParseException;
  *
  * @author Shagy
  */
-public class conexionBD {
+public class conexionBD implements ServletContextListener{
 
     MongoClient _mongoClient;
     static MongoDatabase _db;
@@ -29,11 +32,6 @@ public class conexionBD {
      * Singleton Constructor
      */
     private conexionBD() {
-        // To connect to mongodb server
-        _mongoClient = new MongoClient("localhost", 27017);
-        // Now connect to your databases
-        _db = _mongoClient.getDatabase("KingOfTheHill");
-
     }
 
     /* Static 'instance' method */
@@ -250,6 +248,31 @@ public class conexionBD {
         document.put("username", pUsername);
         document.put("password", pPassword);
         return document;
+    }
+
+    
+    
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        try{
+        System.out.println("Conectando con la BD...");
+        _mongoClient = new MongoClient("localhost", 27017);
+        _db = _mongoClient.getDatabase("KingOfTheHill");
+        } catch (NullPointerException e){
+            System.out.println("Error...");
+        }
+
+    }
+
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+        try{
+                    System.out.println("Cerrando conexion con la BD...");
+        _mongoClient.close();
+        } catch (MongoException e){
+             System.out.println("Error...");
+        }
+
     }
     
 }

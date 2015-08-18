@@ -1,27 +1,27 @@
 /* global swal, chance */
 
- var opts = {
-                lines: 13 // The number of lines to draw
-                , length: 28 // The length of each line
-                , width: 14 // The line thickness
-                , radius: 42 // The radius of the inner circle
-                , scale: 1 // Scales overall size of the spinner
-                , corners: 1 // Corner roundness (0..1)
-                , color: '#000' // #rgb or #rrggbb or array of colors
-                , opacity: 0.25 // Opacity of the lines
-                , rotate: 0 // The rotation offset
-                , direction: 1 // 1: clockwise, -1: counterclockwise
-                , speed: 1 // Rounds per second
-                , trail: 60 // Afterglow percentage
-                , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
-                , zIndex: 2e9 // The z-index (defaults to 2000000000)
-                , className: 'spinner' // The CSS class to assign to the spinner
-                , top: '50%' // Top position relative to parent
-                , left: '50%' // Left position relative to parent
-                , shadow: false // Whether to render a shadow
-                , hwaccel: false // Whether to use hardware acceleration
-                , position: 'absolute' // Element positioning
-            };
+var opts = {
+    lines: 13 // The number of lines to draw
+    , length: 28 // The length of each line
+    , width: 14 // The line thickness
+    , radius: 42 // The radius of the inner circle
+    , scale: 1 // Scales overall size of the spinner
+    , corners: 1 // Corner roundness (0..1)
+    , color: '#000' // #rgb or #rrggbb or array of colors
+    , opacity: 0.25 // Opacity of the lines
+    , rotate: 0 // The rotation offset
+    , direction: 1 // 1: clockwise, -1: counterclockwise
+    , speed: 1 // Rounds per second
+    , trail: 60 // Afterglow percentage
+    , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+    , zIndex: 2e9 // The z-index (defaults to 2000000000)
+    , className: 'spinner' // The CSS class to assign to the spinner
+    , top: '50%' // Top position relative to parent
+    , left: '50%' // Left position relative to parent
+    , shadow: false // Whether to render a shadow
+    , hwaccel: false // Whether to use hardware acceleration
+    , position: 'absolute' // Element positioning
+};
 
 function loginUser() {
 
@@ -42,7 +42,7 @@ function loginUser() {
         data: JSON.stringify(postData),
         dataType: 'json',
         success: function (data, textStatus, jqXHR) {
-           
+
             var target = document.getElementById('cd-login');
             var spinner = new Spinner(opts).spin(target);
             if (jqXHR.status === 204) {
@@ -67,7 +67,7 @@ function loginUser() {
 
         },
         error: function () {
-            alert('failure');
+            alert("Error en solicitud de Login.");
         }
     });
 }
@@ -121,7 +121,7 @@ function registerUser() {
             }
         },
         error: function () {
-            alert('failure');
+            alert("Error en solicitud de register.");
         }
     });
 }
@@ -152,27 +152,24 @@ function isLogged() {
                 $('logoutBtn').css('visibility', 'hidden');
                 $('a').css('visibility', 'visible');
                 $('screenName').text("null");
-
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            
             if (jqXHR.status === 500) {
-                 window.sessionStorage.removeItem("accessToken");
+                window.sessionStorage.removeItem("accessToken");
                 window.sessionStorage.removeItem("expiresIn");
                 window.location.reload();
                 $('user').css('visibility', 'hidden');
                 $('logoutBtn').css('visibility', 'hidden');
                 $('a').css('visibility', 'visible');
                 $('screenName').text("null");
-                
+            } else {
+                alert("Error en solicitud de auth.");
             }
-
-        }, complete: function (jqXHR, textStatus) {
-
         }
     });
 }
+
 
 function logout() {
     $.ajax({
@@ -205,9 +202,7 @@ function logout() {
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert(jqXHR.status);
-        }, complete: function (jqXHR, textStatus) {
-
+            alert("Error en solicitud de logout.");
         }
     });
 }
@@ -260,7 +255,7 @@ function forgotPassword() {
 
         },
         error: function () {
-            alert('failure reset');
+            alert("Error en solicitud de forgot password.");
         }
     });
 }
@@ -310,11 +305,11 @@ function checkAnswer(paramUsername, inputValue) {
                         swal.showInputError("You need to write something!");
                         return false;
                     }
-                    changePassword(paramUsername, inputValue,answer );
+                    changePassword(paramUsername, inputValue, answer);
                 });
             }
         }, error: function () {
-            alert('failure answer');
+            alert("Error en solicitud de answer.");
         }
     });
 }
@@ -325,7 +320,7 @@ function changePassword(paramUsername, inputValue, answer) {
     var postAnswer = {
         "username": paramUsername,
         "password": hash,
-        "answer":hash2
+        "answer": hash2
     };
     $.ajax({
         type: 'POST',
@@ -349,7 +344,7 @@ function changePassword(paramUsername, inputValue, answer) {
                 });
             }
         }, error: function () {
-            alert('failure answer');
+            alert("Error en solicitud de change password.");
         }
     });
 }

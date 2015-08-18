@@ -7,10 +7,8 @@ package kingofthehill.logica;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.UnknownHostException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import kingofthehill.datos.conexionBD;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -21,16 +19,16 @@ import org.json.simple.parser.ParseException;
  * @author Shagy
  */
 public class Regiones {
-    
+
     private static Regiones _singleton = new Regiones();
     private ListaZonas _zonasList;
     comunicacionDB _BD;
-    
+
     private Regiones() {
-         _zonasList = new ListaZonas();
-         _BD = new comunicacionDB();
-        leerZonas();
-       
+        System.out.println("First");
+        _zonasList = new ListaZonas();
+        _BD = new comunicacionDB();
+         leerZonas();
         
     }
 
@@ -41,7 +39,7 @@ public class Regiones {
     public static Regiones getInstance() {
         return _singleton;
     }
-    
+
     private void leerZonas() {
         System.out.println("Cargando Zonas...");
         JSONParser parser = new JSONParser();
@@ -58,24 +56,27 @@ public class Regiones {
                 String lat2 = json.get("lat2").toString();
                 String long2 = json.get("long2").toString();
                 String color = json.get("color").toString();
-                
-                if(_BD.cargarZona(zone, lat1, long1, lat2, long2, color)){
-                    getZonasList().insertar(zone, lat1, long1, lat2, long2,color);
-                    System.out.println("Server: Nueva zona añadida");
+
+                //Error
+                if (_BD.cargarZona(zone, lat1, long1, lat2, long2, color)) {
+                    getZonasList().insertar(zone, lat1, long1, lat2, long2, color);
+                    //System.out.println("Server: Nueva zona añadida");
                 } else {
-                    getZonasList().insertar(zone, lat1, long1, lat2, long2,color);
+                    getZonasList().insertar(zone, lat1, long1, lat2, long2, color);
                     //System.out.println("Server: Omito zona");
                 }
             }
-        } catch (IOException | ParseException e) {
+            System.out.println(_zonasList.getTam());
+        } catch (IOException | ParseException | NullPointerException e) {
+            System.out.println("fuck");
         }
     }
-    
+
     /**
      *
      * @return
      */
-    public JSONArray getZonas(){
+    public JSONArray getZonas() {
         Zona zone;
         JSONArray array = new JSONArray();
         for (int i = 0; i < getZonasList().getTam(); i++) {
@@ -100,9 +101,22 @@ public class Regiones {
     }
 
     /**
-     * @param _zonasList the _zonasList to set
+     * @param pZonasList
      */
-    public void setZonasList(ListaZonas _zonasList) {
-        this._zonasList = _zonasList;
+    public void setZonasList(ListaZonas pZonasList) {
+        _zonasList = pZonasList;
     }
+/*
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        System.out.println("1");
+        leerZonas();
+    }
+
+    
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+    }
+*/
+
 }

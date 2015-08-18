@@ -5,17 +5,20 @@ package kingofthehill.logica;
  * @author RafaelAngel
  */
 public class User {
+
     private User _next = null;
     private User _prev = null;
     private String _nombre = "";
     private String _token = "";
     private String _escuela = "";
-    private int _puntaje =  0;
+    private int _puntaje = 0;
     private double _lat = 0;
     private double _long = 0;
     private boolean _admin;
-    private boolean _enPelea=false;
-    private String _zonaPrevia ="";
+    private boolean _enPelea = false;
+    private String _zonaPrevia = "";
+    private boolean _isBot = false;
+    private boolean _suicidarme = false;
 
     /**
      *
@@ -27,28 +30,29 @@ public class User {
      * @param pPuntaje
      * @param pAdmin
      */
-    public User(String pNombre,String pToken,String pEscuela,double pLat,double pLong,int pPuntaje,boolean pAdmin){
+    public User(String pNombre, String pToken, String pEscuela, double pLat, double pLong, int pPuntaje, boolean pAdmin) {
         _nombre = pNombre;
         _token = pToken;
         _escuela = pEscuela;
         _lat = pLat;
         _long = pLong;
-        _puntaje  = pPuntaje;
+        _puntaje = pPuntaje;
         _admin = pAdmin;
     }
-    
+
     /**
      *
      * @param pZona
      * @return
      */
-    public boolean CambioZona(String pZona){
-        if(_zonaPrevia.compareTo(pZona)!=0){
+    public boolean CambioZona(String pZona) {
+        if (_zonaPrevia.compareTo(pZona) != 0) {
             _zonaPrevia = pZona;
             return true;
         }
         return false;
     }
+
     /**
      * @return the _next
      */
@@ -202,5 +206,32 @@ public class User {
     public void setZonaPrevia(String pZonaPrevia) {
         _zonaPrevia = pZonaPrevia;
     }
-    
+
+    /**
+     * @return the _isBot
+     */
+    public boolean isBot() {
+        return _isBot;
+    }
+
+    /**
+     * @param pIsBot the _isBot to set
+     */
+    public void setIsBot(boolean pIsBot) {
+        _isBot = pIsBot;
+    }
+
+    /**
+     * @return the _suicidarme
+     */
+    public boolean isSuicidarme() {
+        return _suicidarme;
+    }
+
+    /**
+     * @param pSuicidarme
+     */
+    public void setSuicidarme(boolean pSuicidarme) {
+        _suicidarme = pSuicidarme;
+    }
 }

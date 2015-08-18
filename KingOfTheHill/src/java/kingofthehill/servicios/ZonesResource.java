@@ -7,17 +7,15 @@ package kingofthehill.servicios;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import kingofthehill.logica.Jugadores;
 import kingofthehill.logica.Regiones;
+
 import org.json.simple.parser.ParseException;
 
 /**
@@ -50,8 +48,10 @@ public class ZonesResource {
     public String logout(@Context HttpHeaders headers) throws ParseException {
 
         String token = headers.getRequestHeaders().getFirst("userToken");
-        if (token != null){
-             return Regiones.getInstance().getZonas().toJSONString();
+        if (token != null && Jugadores.getInstance().buscarJugador(token) != null){
+            //Regiones.getInstance().leerZonas(); //Error
+           // System.out.println(Regiones.getInstance().getZonasList().getTam());
+            return Regiones.getInstance().getZonas().toJSONString();
         } else {
             return null;
         }
