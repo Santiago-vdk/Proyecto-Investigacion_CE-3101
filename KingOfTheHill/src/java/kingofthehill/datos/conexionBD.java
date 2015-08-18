@@ -250,8 +250,10 @@ public class conexionBD implements ServletContextListener{
         return document;
     }
 
-    
-    
+    /**
+     *
+     * @param sce
+     */
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         try{
@@ -264,6 +266,10 @@ public class conexionBD implements ServletContextListener{
 
     }
 
+    /**
+     *
+     * @param sce
+     */
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         try{

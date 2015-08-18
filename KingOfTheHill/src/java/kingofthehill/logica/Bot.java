@@ -22,6 +22,12 @@ public class Bot extends Thread {
     private IntegerGenerator score = new IntegerGenerator(70);
     //private User _user;
 
+    /**
+     *
+     * @param pToken
+     * @param pLat
+     * @param pLong
+     */
     public Bot(String pToken, double pLat, double pLong) {
         _token = pToken;
         _initLat = pLat;

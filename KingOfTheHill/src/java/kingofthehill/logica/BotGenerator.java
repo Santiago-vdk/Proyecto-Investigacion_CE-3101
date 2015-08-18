@@ -27,10 +27,17 @@ public class BotGenerator  {
     private BotGenerator() {
     }
     
+    /**
+     *
+     * @return
+     */
     public static BotGenerator getInstance() {
         return _singleton;
     }
 
+    /**
+     *
+     */
     public void newBot() {
         NameGenerator name = new NameGenerator();
         AlphabeticStringGenerator password = new AlphabeticStringGenerator(6);

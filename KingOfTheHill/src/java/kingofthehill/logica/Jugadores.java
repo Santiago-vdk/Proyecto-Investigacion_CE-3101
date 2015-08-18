@@ -20,6 +20,7 @@ public class Jugadores {
      *
      * @param pZona
      * @param pEscuela
+     * @param pRival
      * @return
      */
     public User defensor(String pZona,String pEscuela, String pRival){
@@ -33,6 +34,10 @@ public class Jugadores {
         return _singleton;
     }
     
+    /**
+     *
+     * @return
+     */
     public ListaUsers getAllUsers(){
         return _usersList;
     }
@@ -60,6 +65,10 @@ public class Jugadores {
         }
     }
 
+    /**
+     *
+     * @param pUser
+     */
     public void conectarJugador(User pUser){
         if(pUser.isBot()){
             _usersList.insertar(pUser.getNombre(), pUser.getToken(), pUser.getEscuela(), 
@@ -107,6 +116,7 @@ public class Jugadores {
                 object.put("lat", user.getLat());
                 object.put("long", user.getLong());
                 object.put("alive",user.isSuicidarme());
+                object.put("color",user.getEscuela().subSequence(1, user.getEscuela().length()));
                 array.add(object);
             }
         }
@@ -127,6 +137,7 @@ public class Jugadores {
             object.put("username", user.getNombre());
             object.put("lat", user.getLat());
             object.put("long", user.getLong());
+            object.put("color",user.getEscuela().subSequence(1, user.getEscuela().length()));
             array.add(object);
         }
         return array;

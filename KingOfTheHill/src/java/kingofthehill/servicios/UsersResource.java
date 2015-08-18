@@ -93,6 +93,12 @@ public class UsersResource {
         }
     }
     
+    /**
+     *
+     * @param headers
+     * @return
+     * @throws ParseException
+     */
     @GET
     @Path("/killbots")
     @Produces({MediaType.TEXT_HTML})

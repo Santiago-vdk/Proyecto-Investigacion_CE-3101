@@ -51,7 +51,15 @@ public class BattleManager {
 
 
     //Meter en lista de batallas
-    public Batalla battleNeeded(User user, Double LatJugador, Double LongJugador) {
+
+    /**
+     *
+     * @param user
+     * @param LatJugador
+     * @param LongJugador
+     * @return
+     */
+        public Batalla battleNeeded(User user, Double LatJugador, Double LongJugador) {
 
         for (int i = 0; i < Regiones.getInstance().getZonasList().getTam(); i++) {
             String nombre = Regiones.getInstance().getZonasList().buscar(i).getNombre();

@@ -44,6 +44,7 @@ public class ListaUsers {
      *
      * @param pZona
      * @param pEscuela
+     * @param pRival
      * @return
      */
     public User defensor(String pZona, String pEscuela, String pRival) {

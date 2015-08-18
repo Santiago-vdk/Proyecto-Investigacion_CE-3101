@@ -20,6 +20,8 @@ public class Batalla extends Thread {
     /**
      *
      * @param pJugador1
+     * @param pJugador2
+     * @param pIndiceZona
      */
     public Batalla(User pJugador1, User pJugador2, int pIndiceZona) {
         _jugador1 = pJugador1;

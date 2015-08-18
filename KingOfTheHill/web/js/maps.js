@@ -111,9 +111,11 @@ function getMarkers() {
                     } 
                     else {
                         //Si no existe lo creo
+                        var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + res[i].color);
                         var marker = new google.maps.Marker({
                             position: new google.maps.LatLng(res[i].lat, res[i].long),
                             title: res[i].username,
+                            icon: pinImage,
                             map: map
                         });
                         markerStore[res[i].username] = marker;
@@ -124,7 +126,7 @@ function getMarkers() {
             }
         },
         error: function () {
-            alert("Error de solicitud al cargar marcadores.")
+            alert("Error de solicitud al cargar marcadores.");
         }
     });
 }
