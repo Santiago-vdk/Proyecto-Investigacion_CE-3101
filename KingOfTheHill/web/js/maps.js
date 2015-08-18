@@ -102,6 +102,7 @@ function getMarkers() {
                         if(res[i].alive){
                             //alert(markerStore[res[i].username].alive + " Suicide");
                             markerStore[res[i].username].setMap(null);
+                            //delete markerStore[res[i].username];
                         }
                         else{
                             markerStore[res[i].username].setPosition(new google.maps.LatLng(res[i].lat, res[i].long));

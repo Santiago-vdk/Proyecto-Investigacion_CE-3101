@@ -50,11 +50,11 @@ public class ListaUsers {
         User user = _head;
 
         for (int i = 0; i < _tam; i++) {
-           /* System.out.println(user.getNombre().compareTo(pRival) == 0);
-            System.out.println(user.getZonaPrevia().compareTo(pZona) == 0);
-            System.out.println(user.getEscuela().compareTo(pEscuela) == 0);
-            System.out.println(!user.isEnPelea());*/
-            if (user.getNombre().compareTo(pRival) != 0 && user.getZonaPrevia().compareTo(pZona) == 0 && user.getEscuela().compareTo(pEscuela) == 0 && !user.isEnPelea()) {
+            Zona zona = Regiones.getInstance().getZonasList().buscarPorNombre(pZona);
+            if (user.getNombre().compareTo(pRival) != 0 && user.getZonaPrevia().compareTo(pZona) == 0 
+                    && user.getEscuela().compareTo(pEscuela) == 0 && !user.isEnPelea() &&
+                    (user.getLat() < Float.parseFloat(zona.getLat1()) && user.getLong() > Float.parseFloat(zona.getLong1()) && 
+                    user.getLat() > Float.parseFloat(zona.getLat2()) && user.getLong() < Float.parseFloat(zona.getLong2()))) {
                 //el jugador esta en la zona y es de la escuela que la posee
                 return user;
             }

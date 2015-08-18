@@ -66,7 +66,6 @@ public class BattleManager {
 
             if (LatJugador < lat1 && LatJugador > lat2
                     && LongJugador > long1 && LongJugador < long2) {//jugador dentro de la zona
-                
 
                 if (user.CambioZona(nombre)) {//entro a una zona nueva
                    // System.out.println("jugador: " + user.getNombre() + " en zona: " + nombre);

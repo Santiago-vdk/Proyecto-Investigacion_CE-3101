@@ -50,6 +50,14 @@ public class ListaZonas {
         return tmp;
     }
     
+    public Zona buscarPorNombre(String pNombre){
+        Zona tmp = _head;
+        while(tmp != null && tmp.getNombre().compareTo(pNombre) != 0) {
+            tmp = tmp.getNext();
+        }
+        return tmp;
+    }
+    
     /**
      *
      * @param pIndice
