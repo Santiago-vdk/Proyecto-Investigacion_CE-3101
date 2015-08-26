@@ -76,9 +76,31 @@ public class Regiones {
      *
      * @return
      */
-    public JSONArray getZonas() {
+    public JSONObject getZonas() {
         Zona zone;
         JSONArray array = new JSONArray();
+        JSONObject obj = new JSONObject();
+        
+        for (int i = 0; i < getZonasList().getTam(); i++) {
+            JSONObject object = new JSONObject();
+            zone = getZonasList().buscar(i);
+            object.put("name", zone.getNombre());
+            object.put("lat1", Double.parseDouble(zone.getLat1()));
+            object.put("long1", Double.parseDouble(zone.getLong1()));
+            object.put("lat2", Double.parseDouble(zone.getLat2()));
+            object.put("long2", Double.parseDouble(zone.getLong2()));
+            object.put("color", zone.getColor());
+            array.add(object);
+        }
+        obj.put("zonas",array);
+        return obj;
+        
+    }
+
+    public JSONArray getZonasAdmin() {
+        Zona zone;
+        JSONArray array = new JSONArray();
+        
         for (int i = 0; i < getZonasList().getTam(); i++) {
             JSONObject object = new JSONObject();
             zone = getZonasList().buscar(i);
@@ -92,7 +114,8 @@ public class Regiones {
         }
         return array;
     }
-
+    
+    
     /**
      * @return the _zonasList
      */

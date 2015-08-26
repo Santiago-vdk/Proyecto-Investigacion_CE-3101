@@ -15,6 +15,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import kingofthehill.logica.Jugadores;
 import kingofthehill.logica.Regiones;
+import org.json.JSONString;
 
 import org.json.simple.parser.ParseException;
 
@@ -35,8 +36,19 @@ public class ZonesResource {
     public ZonesResource() {
     }
 
+    
+    @GET
+    @Path("/test")
+    @Produces({MediaType.APPLICATION_JSON})
+    public String test() {
+        System.out.println("EUREKA!");
+        return "test";
+    }
+    
+    
+    
+    
     /**
-     *
      * @param headers
      * @return
      * @throws ParseException
@@ -46,13 +58,14 @@ public class ZonesResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     public String logout(@Context HttpHeaders headers) throws ParseException {
-
+        
         String token = headers.getRequestHeaders().getFirst("userToken");
-        if (token != null && Jugadores.getInstance().buscarJugador(token) != null){
-            //Regiones.getInstance().leerZonas(); //Error
-           // System.out.println(Regiones.getInstance().getZonasList().getTam());
+        if (token != null && Jugadores.getInstance().buscarJugador(token) != null && !Jugadores.getInstance().buscarJugador(token).isAdmin()){
             return Regiones.getInstance().getZonas().toJSONString();
-        } else {
+        } else if (token != null && Jugadores.getInstance().buscarJugador(token) != null && Jugadores.getInstance().buscarJugador(token).isAdmin()){
+                return Regiones.getInstance().getZonasAdmin().toJSONString();
+            
+        }else{
             return null;
         }
 

@@ -128,9 +128,9 @@ public class Jugadores {
      * @param pToken
      * @return
      */
-    public JSONArray posicionJugador(String pToken) {
+    public JSONObject posicionJugador(String pToken) {
         User user;
-        JSONArray array = new JSONArray();
+        //JSONArray array = new JSONArray();
         JSONObject object = new JSONObject();
         user = _usersList.buscar(pToken);
         if (!user.isAdmin()) {
@@ -138,9 +138,9 @@ public class Jugadores {
             object.put("lat", user.getLat());
             object.put("long", user.getLong());
             object.put("color",user.getEscuela().subSequence(1, user.getEscuela().length()));
-            array.add(object);
+            //array.add(object);
         }
-        return array;
+        return object;
     }
     
     

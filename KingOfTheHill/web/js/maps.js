@@ -7,7 +7,8 @@ function initialize() {
             lat: 9.8560355,
             lng: -83.9120774
         },
-        zoom: 18
+        zoom: 18,
+        mapTypeId: google.maps.MapTypeId.HYBRID
     };
     map = new google.maps.Map(document.getElementById('map-canvas'),
             mapOptions);

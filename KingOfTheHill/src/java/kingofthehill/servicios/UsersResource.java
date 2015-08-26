@@ -171,6 +171,7 @@ public class UsersResource {
     public Response logout(@Context HttpHeaders headers) throws ParseException {
         try {
             String token = headers.getRequestHeaders().getFirst("userToken");
+            Jugadores.getInstance().buscarJugador(token).setSuicidarme(true);
             if (Jugadores.getInstance().desconectarJugador(token)) {
                 return Response.accepted().type(MediaType.TEXT_HTML).build();
             } //Check if token matches with a user

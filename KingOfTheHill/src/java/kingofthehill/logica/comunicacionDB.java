@@ -70,6 +70,7 @@ public class comunicacionDB {
      * @return 
      */
     public boolean register(String pUsername, String pPassword, String pQuestion, String pAnswer) {
+        System.out.println("Registro");
         return conexionBD.consultaRegistrer(pUsername, pPassword, pQuestion, pAnswer);
     }
     

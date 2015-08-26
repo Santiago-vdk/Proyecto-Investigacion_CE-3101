@@ -21,7 +21,7 @@ public class Bot extends Thread {
     private IntegerGenerator number = new IntegerGenerator(15);
     private IntegerGenerator score = new IntegerGenerator(70);
     //private User _user;
-
+    
     /**
      *
      * @param pToken

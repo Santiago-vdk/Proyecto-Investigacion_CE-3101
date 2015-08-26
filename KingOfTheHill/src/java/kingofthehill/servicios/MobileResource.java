@@ -53,11 +53,14 @@ public class MobileResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.TEXT_HTML})
     public String sendPosition(String msg, @Context HttpHeaders headers) throws ParseException {
+
         try {
+
             String token = headers.getRequestHeaders().getFirst("userToken");
             User user = Jugadores.getInstance().buscarJugador(token);
 
             if (user != null) {
+
                 String[] parsedData = sendPosParser(msg);
                 Double LatJugador = Double.parseDouble(parsedData[1]);
                 Double LongJugador = Double.parseDouble(parsedData[2]);
@@ -71,7 +74,7 @@ public class MobileResource {
                 return null;
             }
         } catch (Exception e) {
-            System.out.println("Exception");
+            System.out.println("Exception send position");
             return null;
         }
 
@@ -81,22 +84,24 @@ public class MobileResource {
      * @param headers
      * @return
      */
-    @GET
-    @Path("/sendResult")
+    @POST
+    @Path("/sendresult")
     @Produces({MediaType.APPLICATION_JSON})
-    public String sendResult(@Context HttpHeaders headers) {
+    public String sendResult(String msg, @Context HttpHeaders headers) {
         try {
             String token = headers.getRequestHeaders().getFirst("userToken");
             String score = headers.getRequestHeaders().getFirst("score");
 
-            if (token != null && score != null) {
-                BattleManager.getInstance().scoreBatalla(token, Float.parseFloat(score));
+            if (token != null) {
+                String[] parsedData = sendResultParser(msg);
+                float res = Float.parseFloat(parsedData[0]);
+                BattleManager.getInstance().scoreBatalla(token, res);
                 return "success";
             } else {
                 return "fail";
             }
         } catch (Exception e) {
-            System.out.println("Exception");
+            System.out.println("Exception send result");
             return null;
         }
 
@@ -108,19 +113,32 @@ public class MobileResource {
      * @return
      */
     @GET
-    @Path("/checkBattle")
+    @Path("/checkbattle")
     @Produces({MediaType.APPLICATION_JSON})
     public String checkBattle(@Context HttpHeaders headers) {
         try {
             String token = headers.getRequestHeaders().getFirst("userToken");
-            if (Jugadores.getInstance().buscarJugador(token).isEnPelea()) {
+            if (Jugadores.getInstance().buscarJugador(token).isEnPelea() && !Jugadores.getInstance().buscarJugador(token).isBot()) {
                 //Jugador debe entrar en batalla
+                System.out.println("Batte");
+                JSONObject batt = new JSONObject();
+                batt.put("battle", "true");
+                System.out.println(batt);
+                return batt.toJSONString();
+            } else if (Jugadores.getInstance().buscarJugador(token).isEnPelea() && Jugadores.getInstance().buscarJugador(token).isBot()) {
                 return "battle";
             } else {
-                return "success";
+                if (!Jugadores.getInstance().buscarJugador(token).isBot()) {
+                    JSONObject batt = new JSONObject();
+                    batt.put("battle", "false");
+                    return batt.toJSONString();
+                } else {
+                    return "success";
+                }
+
             }
         } catch (Exception e) {
-            System.out.println("Exception");
+            System.out.println("Exception check battle");
             return null;
         }
 
@@ -151,6 +169,7 @@ public class MobileResource {
             }
         } catch (NullPointerException e) {
             System.out.println("Desconexion inseperada o token invalido.");
+
             return null;
         }
     }
@@ -161,8 +180,8 @@ public class MobileResource {
         JSONObject jsonObject = (JSONObject) obj;
 
         String username = (String) jsonObject.get("username");
-        String latitud = (String) jsonObject.get("lat");
-        String longitud = (String) jsonObject.get("long");
+        String latitud = Double.toString((double) jsonObject.get("lat"));
+        String longitud = Double.toString((double) jsonObject.get("long"));
 
         String[] parsed = new String[3];
         parsed[0] = username;
@@ -170,5 +189,22 @@ public class MobileResource {
         parsed[2] = longitud;
 
         return parsed;
+    }
+
+    private String[] sendResultParser(String pData) throws ParseException {
+        
+        JSONParser parser = new JSONParser();
+        Object obj = parser.parse(pData);
+        JSONObject jsonObject = (JSONObject) obj;
+
+        String puntaje = (String) jsonObject.get("points");
+  
+
+        String[] parsed = new String[1];
+        parsed[0] = puntaje;
+
+
+        return parsed;
+    
     }
 }
