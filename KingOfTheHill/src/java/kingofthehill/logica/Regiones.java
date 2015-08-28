@@ -1,14 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package kingofthehill.logica;
 
 import java.io.FileReader;
 import java.io.IOException;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -25,11 +18,10 @@ public class Regiones {
     comunicacionDB _BD;
 
     private Regiones() {
-        System.out.println("First");
         _zonasList = new ListaZonas();
         _BD = new comunicacionDB();
-         leerZonas();
-        
+        leerZonas();
+
     }
 
     /**
@@ -80,7 +72,7 @@ public class Regiones {
         Zona zone;
         JSONArray array = new JSONArray();
         JSONObject obj = new JSONObject();
-        
+
         for (int i = 0; i < getZonasList().getTam(); i++) {
             JSONObject object = new JSONObject();
             zone = getZonasList().buscar(i);
@@ -92,9 +84,9 @@ public class Regiones {
             object.put("color", zone.getColor());
             array.add(object);
         }
-        obj.put("zonas",array);
+        obj.put("zonas", array);
         return obj;
-        
+
     }
 
     /**
@@ -104,7 +96,7 @@ public class Regiones {
     public JSONArray getZonasAdmin() {
         Zona zone;
         JSONArray array = new JSONArray();
-        
+
         for (int i = 0; i < getZonasList().getTam(); i++) {
             JSONObject object = new JSONObject();
             zone = getZonasList().buscar(i);
@@ -118,8 +110,7 @@ public class Regiones {
         }
         return array;
     }
-    
-    
+
     /**
      * @return the _zonasList
      */
@@ -133,17 +124,17 @@ public class Regiones {
     public void setZonasList(ListaZonas pZonasList) {
         _zonasList = pZonasList;
     }
-/*
-    @Override
-    public void contextInitialized(ServletContextEvent sce) {
-        System.out.println("1");
-        leerZonas();
-    }
+    /*
+     @Override
+     public void contextInitialized(ServletContextEvent sce) {
+     System.out.println("1");
+     leerZonas();
+     }
 
     
-    @Override
-    public void contextDestroyed(ServletContextEvent sce) {
-    }
-*/
+     @Override
+     public void contextDestroyed(ServletContextEvent sce) {
+     }
+     */
 
 }

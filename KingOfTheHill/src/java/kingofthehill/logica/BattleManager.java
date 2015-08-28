@@ -23,12 +23,13 @@ public class BattleManager {
 
     /**
      *
+     *
      * @param pToken
      * @param pScore
      */
     public void scoreBatalla(String pToken, float pScore) {//metodo llamado por el post de batalla result
         Batalla batalla = _batallas.buscarConToken(pToken);
-        if (batalla.buscarUser(pToken)) {       
+        if (batalla.buscarUser(pToken)) {
             boolean flag = batalla.ScoreBatalla(pToken, (int) pScore);
             if (flag) {
                 _batallas.borrarConToken(pToken);
@@ -37,6 +38,7 @@ public class BattleManager {
     }
 
     /**
+     * Inicia la batalla y la inserta en una lista.
      *
      * @param pUser
      * @param pLat
@@ -49,23 +51,19 @@ public class BattleManager {
         }
     }
 
-
-    //Meter en lista de batallas
-
     /**
+     * Evalua si se debe comenzar una nueva batalla.
      *
      * @param user
      * @param LatJugador
      * @param LongJugador
      * @return
      */
-        public Batalla battleNeeded(User user, Double LatJugador, Double LongJugador) {
-
+    public Batalla battleNeeded(User user, Double LatJugador, Double LongJugador) {
         for (int i = 0; i < Regiones.getInstance().getZonasList().getTam(); i++) {
             String nombre = Regiones.getInstance().getZonasList().buscar(i).getNombre();
             String color = Regiones.getInstance().getZonasList().buscar(i).getColor();
 
-               
             Double lat1 = Double.parseDouble(Regiones.getInstance().getZonasList().buscar(i).getLat1());
             Double long1 = Double.parseDouble(Regiones.getInstance().getZonasList().buscar(i).getLong1());
 
@@ -76,18 +74,17 @@ public class BattleManager {
                     && LongJugador > long1 && LongJugador < long2) {//jugador dentro de la zona
 
                 if (user.CambioZona(nombre)) {//entro a una zona nueva
-                   // System.out.println("jugador: " + user.getNombre() + " en zona: " + nombre);
+                    // System.out.println("jugador: " + user.getNombre() + " en zona: " + nombre);
                     User defensor = Jugadores.getInstance().defensor(nombre, color, user.getNombre());
                     if (defensor != null) {
                         //pelea entre user y defensor
                         user.setEnPelea(true);
                         defensor.setEnPelea(true);
-                            //_jugador1 = user;
+                        //_jugador1 = user;
                         //_jugador2 = defensor;
                         Batalla batalla = new Batalla(user, defensor, i);
                         System.out.println("Fight! " + user.getNombre() + " vs " + defensor.getNombre());
                         return batalla;
-
                     } else {
                         //conquisto zona
                         String escuela = user.getEscuela();
@@ -98,5 +95,4 @@ public class BattleManager {
         }
         return null;
     }
-
 }

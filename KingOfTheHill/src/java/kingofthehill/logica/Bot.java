@@ -20,8 +20,7 @@ public class Bot extends Thread {
     private int _goingTo = -1;
     private IntegerGenerator number = new IntegerGenerator(15);
     private IntegerGenerator score = new IntegerGenerator(70);
-    //private User _user;
-    
+
     /**
      *
      * @param pToken
@@ -70,7 +69,7 @@ public class Bot extends Thread {
                                 break;
                             }
                             if (_lat >= toLat) {
-                                _lat = _lat - 0.00001; 
+                                _lat = _lat - 0.00001;
                             }
                             if (_lat <= toLat2) {
                                 _lat = _lat + 0.00001;
@@ -81,11 +80,11 @@ public class Bot extends Thread {
                             if (_long <= toLong2) {
                                 _long = _long + 0.00001;
                             }
-                            
+
                             //if (Jugadores.getInstance().buscarJugador(_token) != null) {
-                                Jugadores.getInstance().buscarJugador(_token).setLat(_lat);
-                                Jugadores.getInstance().buscarJugador(_token).setLong(_long);
-                                BattleManager.getInstance().nuevaBatalla(Jugadores.getInstance().buscarJugador(_token), _lat, _long);
+                            Jugadores.getInstance().buscarJugador(_token).setLat(_lat);
+                            Jugadores.getInstance().buscarJugador(_token).setLong(_long);
+                            BattleManager.getInstance().nuevaBatalla(Jugadores.getInstance().buscarJugador(_token), _lat, _long);
                             //}
                         }
                     } else {
@@ -103,6 +102,8 @@ public class Bot extends Thread {
 
     }
 
+    
+    //Mejora futura.
     private void cargarRutas() {
         //Escuela de Fisica
         ArrayList<String> ruta1 = new ArrayList<String>();
@@ -114,7 +115,7 @@ public class Bot extends Thread {
 
         //B-3
         ArrayList<String> ruta2 = new ArrayList<String>();
-        ruta2.add("9.856397"); 
+        ruta2.add("9.856397");
         ruta2.add("-83.912681");
         ruta2.add("9.856330");
         ruta2.add("-83.912504");
@@ -124,26 +125,26 @@ public class Bot extends Thread {
         ArrayList<String> ruta3 = new ArrayList<String>();
         ruta3.add("9.856175");
         ruta3.add("-83.912674");
-        ruta3.add("9.856102"); 
+        ruta3.add("9.856102");
         ruta3.add("-83.912491");
         _listRutas.add(ruta3);
-        
+
         //B-1
         ArrayList<String> ruta4 = new ArrayList<String>();
         ruta4.add("9.855974");
         ruta4.add("-83.912685");
-        ruta4.add("9.855906"); 
+        ruta4.add("9.855906");
         ruta4.add("-83.912532");
         _listRutas.add(ruta4);
-        
-         //B-6
+
+        //B-6
         ArrayList<String> ruta5 = new ArrayList<String>();
         ruta5.add("9.856044");
         ruta5.add("-83.912170");
         ruta5.add("9.855970");
         ruta5.add("-83.911974");
         _listRutas.add(ruta5);
-        
+
         //C-1
         ArrayList<String> ruta6 = new ArrayList<String>();
         ruta6.add("9.855746");
@@ -151,7 +152,7 @@ public class Bot extends Thread {
         ruta6.add("9.855674");
         ruta6.add("-83.913086");
         _listRutas.add(ruta6);
-        
+
         //C-10
         ArrayList<String> ruta7 = new ArrayList<String>();
         ruta7.add("9.855481");
@@ -159,7 +160,7 @@ public class Bot extends Thread {
         ruta7.add("9.855290");
         ruta7.add("-83.912784");
         _listRutas.add(ruta7);
-        
+
         //A-3
         ArrayList<String> ruta8 = new ArrayList<String>();
         ruta8.add("9.856645");
@@ -167,18 +168,18 @@ public class Bot extends Thread {
         ruta8.add("9.856562");
         ruta8.add("-83.912924");
         _listRutas.add(ruta8);
-        
+
         //A-2
         ArrayList<String> ruta9 = new ArrayList<String>();
         ruta9.add("9.856943");
         ruta9.add("-83.912634");
-        ruta9.add("9.856682"); 
+        ruta9.add("9.856682");
         ruta9.add("-83.9125764");
         _listRutas.add(ruta9);
 
         //B-6 UP
         ArrayList<String> ruta10 = new ArrayList<String>();
-        ruta10.add("9.856614"); 
+        ruta10.add("9.856614");
         ruta10.add("-83.912196");
         ruta10.add("9.856508");
         ruta10.add("-83.911842");
@@ -204,13 +205,13 @@ public class Bot extends Thread {
         ArrayList<String> ruta13 = new ArrayList<String>();
         ruta13.add("9.855505");
         ruta13.add("-83.912323");
-        ruta13.add("9.855374"); 
+        ruta13.add("9.855374");
         ruta13.add("-83.912163");
         _listRutas.add(ruta13);
 
         //Escuela de mate
         ArrayList<String> ruta14 = new ArrayList<String>();
-        ruta14.add("9.856291"); 
+        ruta14.add("9.856291");
         ruta14.add("-83.913212");
         ruta14.add("9.856242");
         ruta14.add("-83.913096");
@@ -218,12 +219,11 @@ public class Bot extends Thread {
 
         //Cancha
         ArrayList<String> ruta15 = new ArrayList<String>();
-        ruta15.add("9.856251"); 
+        ruta15.add("9.856251");
         ruta15.add("-83.909614");
         ruta15.add("9.855919");
         ruta15.add("-83.909218");
         _listRutas.add(ruta15);
-
 
     }
 }

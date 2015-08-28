@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * // * @author RafaelAngel
+ * @author RafaelAngel
  */
 public class Batalla extends Thread {
 
@@ -31,7 +31,8 @@ public class Batalla extends Thread {
     }
 
     /**
-     *
+     * Buscar jugadores por medio de tokens.
+     * 
      * @param pToken
      * @return
      */
@@ -46,7 +47,7 @@ public class Batalla extends Thread {
     }
 
     /**
-     *
+     * 
      * @param pToken
      * @param pScore
      * @return

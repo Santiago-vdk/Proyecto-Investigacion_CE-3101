@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package kingofthehill.logica;
 
 /**
@@ -110,10 +105,10 @@ public class ListaZonas {
     }
 
     /**
-     * @param phead the _head to set
+     * @param pHead
      */
-    public void setHead(Zona phead) {
-        _head = phead;
+    public void setHead(Zona pHead) {
+        _head = pHead;
     }
 
     /**
@@ -124,10 +119,10 @@ public class ListaZonas {
     }
 
     /**
-     * @param ptail the _tail to set
+     * @param pTail
      */
-    public void setTail(Zona ptail) {
-        _tail = ptail;
+    public void setTail(Zona pTail) {
+        _tail = pTail;
     }
 
     /**

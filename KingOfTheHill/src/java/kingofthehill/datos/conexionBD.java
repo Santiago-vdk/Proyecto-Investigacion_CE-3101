@@ -167,10 +167,8 @@ public class conexionBD implements ServletContextListener {
             return false;
         } else {
             JSONParser parser = new JSONParser();
-
             Object obj = parser.parse(doc.first().toJson());
             JSONObject json = (JSONObject) obj;
-
             return (boolean) json.get("admin");
         }
     }
@@ -198,7 +196,8 @@ public class conexionBD implements ServletContextListener {
     }
 
     /**
-     *
+     * Actualiza el puntaje del usuario cuando desconecta.
+     * 
      * @param pUsername
      * @param pPuntaje
      * @return
@@ -207,8 +206,9 @@ public class conexionBD implements ServletContextListener {
         MongoCollection<Document> collection = _db.getCollection("users");
         UpdateResult query = collection.updateOne(new Document("username", pUsername), new Document("$set", new Document("score", pPuntaje)));
         return query.wasAcknowledged();
-                
-        }
+
+    }
+
     /**
      * Genera documento a insertar.
      *
@@ -228,7 +228,6 @@ public class conexionBD implements ServletContextListener {
         document.append("lat2", pLat2);
         document.append("long2", pLong2);
         document.append("color", pColor);
-
         return document;
     }
 
@@ -259,7 +258,7 @@ public class conexionBD implements ServletContextListener {
     }
 
     /**
-     *
+     * Conecta con la base de datos
      * @param sce
      */
     @Override
@@ -275,7 +274,8 @@ public class conexionBD implements ServletContextListener {
     }
 
     /**
-     *
+     * Desconecta la BD cuando se reinicia la instancia.
+     * 
      * @param sce
      */
     @Override

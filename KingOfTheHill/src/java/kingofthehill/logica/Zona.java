@@ -143,6 +143,4 @@ public class Zona {
     public void setNombre(String pNombre) {
         _nombre = pNombre;
     }
-    
-    
 }

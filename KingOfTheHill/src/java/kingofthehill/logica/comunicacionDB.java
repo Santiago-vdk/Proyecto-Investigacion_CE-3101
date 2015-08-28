@@ -70,7 +70,7 @@ public class comunicacionDB {
      * @return 
      */
     public boolean register(String pUsername, String pPassword, String pQuestion, String pAnswer) {
-        System.out.println("Registro");
+        System.out.println("Registrando Nuevo Usuario!");
         return conexionBD.consultaRegistrer(pUsername, pPassword, pQuestion, pAnswer);
     }
     
@@ -115,7 +115,6 @@ public class comunicacionDB {
      */
     public int getScore(String pUsername) throws ParseException {
         return conexionBD.getInstance().consultaScore(pUsername);
-        
     }
     
     /**
@@ -126,7 +125,6 @@ public class comunicacionDB {
      */
     public boolean getAdmin(String pUsername) throws ParseException {
         return conexionBD.getInstance().consultaAdmin(pUsername);
-        
     }
     
     /**

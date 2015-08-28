@@ -5,7 +5,6 @@ package kingofthehill.logica;
  * @author RafaelAngel
  */
 public class User {
-
     private User _next = null;
     private User _prev = null;
     private String _nombre = "";

@@ -169,16 +169,9 @@ public class MobileResource {
             }
         } catch (NullPointerException e) {
             System.out.println("Error al consultar puntaje.");
-
             return null;
         }
     }
-    
-    
-    
-    
-    
-    
     
     /**
      * @param headers
@@ -205,7 +198,6 @@ public class MobileResource {
             }
         } catch (NullPointerException e) {
             System.out.println("Desconexion inseperada o token invalido.");
-
             return null;
         }
     }

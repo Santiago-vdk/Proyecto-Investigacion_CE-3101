@@ -24,9 +24,10 @@ public class Jugadores {
      * @param pRival
      * @return
      */
-    public User defensor(String pZona,String pEscuela, String pRival){
-        return _usersList.defensor(pZona, pEscuela,pRival);
+    public User defensor(String pZona, String pEscuela, String pRival) {
+        return _usersList.defensor(pZona, pEscuela, pRival);
     }
+
     /**
      *
      * @return
@@ -34,12 +35,12 @@ public class Jugadores {
     public static Jugadores getInstance() {
         return _singleton;
     }
-    
+
     /**
      *
      * @return
      */
-    public ListaUsers getAllUsers(){
+    public ListaUsers getAllUsers() {
         return _usersList;
     }
 
@@ -54,53 +55,54 @@ public class Jugadores {
      * @param pAdmin
      */
     public void conectarJugador(String pNombre, String pToken, String pEscuela, double pLat, double pLong, int pPuntaje, boolean pAdmin) {
-       if (_firstRun) {
-             System.out.println("First run...");
-            System.out.println("Usuario: " + pNombre + ",conectando.");
+        if (_firstRun) {
+            System.out.println("Usuario: " + pNombre + ", conectando.");
             _usersList.insertar(pNombre, pToken, pEscuela, pLat, pLong, pPuntaje, pAdmin);
             Regiones.getInstance();
             _firstRun = false;
         } else {
-            System.out.println("Usuario: " + pNombre + ",conectando.");
+            System.out.println("Usuario: " + pNombre + ", conectando.");
             _usersList.insertar(pNombre, pToken, pEscuela, pLat, pLong, pPuntaje, pAdmin);
         }
     }
 
     /**
-     *
+     * Para conectar un bot.
+     * 
      * @param pUser
      */
-    public void conectarJugador(User pUser){
-        if(pUser.isBot()){
-            _usersList.insertar(pUser.getNombre(), pUser.getToken(), pUser.getEscuela(), 
-                pUser.getLat(), pUser.getLong(), pUser.getPuntaje(), false);
+    public void conectarJugador(User pUser) {
+        if (pUser.isBot()) {
+            _usersList.insertar(pUser.getNombre(), pUser.getToken(), pUser.getEscuela(),
+                    pUser.getLat(), pUser.getLong(), pUser.getPuntaje(), false);
             _usersList.buscar(pUser.getToken()).setIsBot(true);
-        }
-        else {
+        } else {
             System.out.println("Bot connecting... Error :S");
         }
-        
+
     }
-    
+
     /**
-     *
+     * Desconecta jugadores por medio del token.
+     * 
      * @param pToken
      * @return
      */
     public boolean desconectarJugador(String pToken) {
-        System.out.println("Usuario: " + _usersList.buscar(pToken).getNombre() + ",desconectando.");
-        
+        System.out.println("Usuario: " + _usersList.buscar(pToken).getNombre() + ", desconectando.");
+
         //Guardo el puntaje del jugador
         conexionBD.getInstance().actualizarPuntaje(_usersList.buscar(pToken).getNombre(), _usersList.buscar(pToken).getPuntaje());
-        
+
         //Borro al jugador logico
-        _usersList.borrarConToken(pToken); 
-        
+        _usersList.borrarConToken(pToken);
+
         return true;
     }
 
     /**
-     *
+     * Realiza busqueda de jugadores por medio del token.
+     * 
      * @param pToken
      * @return
      */
@@ -109,7 +111,8 @@ public class Jugadores {
     }
 
     /**
-     *
+     * Crea JSON con la posicion de todos los jugadores.
+     * 
      * @return
      */
     public JSONArray posicionJugadores() {
@@ -122,16 +125,17 @@ public class Jugadores {
                 object.put("username", user.getNombre());
                 object.put("lat", user.getLat());
                 object.put("long", user.getLong());
-                object.put("alive",user.isSuicidarme());
-                object.put("color",user.getEscuela().subSequence(1, user.getEscuela().length()));
+                object.put("alive", user.isSuicidarme());
+                object.put("color", user.getEscuela().subSequence(1, user.getEscuela().length()));
                 array.add(object);
             }
         }
         return array;
     }
-    
+
     /**
-     *
+     * Crea JSON para responder la posicion de 1 jugador.
+     * 
      * @param pToken
      * @return
      */
@@ -144,7 +148,7 @@ public class Jugadores {
             object.put("username", user.getNombre());
             object.put("lat", user.getLat());
             object.put("long", user.getLong());
-            object.put("color",user.getEscuela().subSequence(1, user.getEscuela().length()));
+            object.put("color", user.getEscuela().subSequence(1, user.getEscuela().length()));
             //array.add(object);
         }
         return object;
