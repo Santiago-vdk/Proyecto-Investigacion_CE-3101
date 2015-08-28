@@ -58,7 +58,7 @@ public class Regiones {
                     //System.out.println("Server: Omito zona");
                 }
             }
-            System.out.println(_zonasList.getTam());
+            System.out.println("Numero de zonas cargadas: " + _zonasList.getTam());
         } catch (IOException | ParseException | NullPointerException e) {
             System.out.println("fuck");
         }
