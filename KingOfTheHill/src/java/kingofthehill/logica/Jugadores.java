@@ -1,5 +1,6 @@
 package kingofthehill.logica;
 
+import kingofthehill.datos.conexionBD;
 import org.json.simple.*;
 
 /**
@@ -88,7 +89,13 @@ public class Jugadores {
      */
     public boolean desconectarJugador(String pToken) {
         System.out.println("Usuario: " + _usersList.buscar(pToken).getNombre() + ",desconectando.");
+        
+        //Guardo el puntaje del jugador
+        conexionBD.getInstance().actualizarPuntaje(_usersList.buscar(pToken).getNombre(), _usersList.buscar(pToken).getPuntaje());
+        
+        //Borro al jugador logico
         _usersList.borrarConToken(pToken); 
+        
         return true;
     }
 
@@ -142,7 +149,4 @@ public class Jugadores {
         }
         return object;
     }
-    
-    
-
 }

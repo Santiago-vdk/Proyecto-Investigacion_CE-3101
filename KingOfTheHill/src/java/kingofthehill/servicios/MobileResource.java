@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package kingofthehill.servicios;
 
 import javax.ws.rs.core.Context;
@@ -60,7 +55,6 @@ public class MobileResource {
             User user = Jugadores.getInstance().buscarJugador(token);
 
             if (user != null) {
-
                 String[] parsedData = sendPosParser(msg);
                 Double LatJugador = Double.parseDouble(parsedData[1]);
                 Double LongJugador = Double.parseDouble(parsedData[2]);
@@ -77,10 +71,10 @@ public class MobileResource {
             System.out.println("Exception send position");
             return null;
         }
-
     }
 
     /**
+     * @param msg
      * @param headers
      * @return
      */
@@ -90,8 +84,7 @@ public class MobileResource {
     public String sendResult(String msg, @Context HttpHeaders headers) {
         try {
             String token = headers.getRequestHeaders().getFirst("userToken");
-            String score = headers.getRequestHeaders().getFirst("score");
-
+         
             if (token != null) {
                 String[] parsedData = sendResultParser(msg);
                 float res = Float.parseFloat(parsedData[0]);
@@ -100,12 +93,26 @@ public class MobileResource {
             } else {
                 return "fail";
             }
-        } catch (Exception e) {
+        } catch (ParseException | NumberFormatException e) {
+            e.printStackTrace();
             System.out.println("Exception send result");
             return null;
         }
 
     }
+    
+    /**
+     *
+     * @return
+     */
+    @GET
+    @Path("/check")
+    @Produces({MediaType.APPLICATION_JSON})
+    public String check() {
+        return "rekt";
+    }
+    
+    
 
     /**
      *
@@ -120,10 +127,8 @@ public class MobileResource {
             String token = headers.getRequestHeaders().getFirst("userToken");
             if (Jugadores.getInstance().buscarJugador(token).isEnPelea() && !Jugadores.getInstance().buscarJugador(token).isBot()) {
                 //Jugador debe entrar en batalla
-                System.out.println("Batte");
                 JSONObject batt = new JSONObject();
                 batt.put("battle", "true");
-                System.out.println(batt);
                 return batt.toJSONString();
             } else if (Jugadores.getInstance().buscarJugador(token).isEnPelea() && Jugadores.getInstance().buscarJugador(token).isBot()) {
                 return "battle";
@@ -144,6 +149,37 @@ public class MobileResource {
 
     }
 
+    /**
+     *
+     * @param headers
+     * @return
+     */
+    @GET
+    @Path("/score")
+    @Produces({MediaType.APPLICATION_JSON})
+    public String score(@Context HttpHeaders headers) {
+        try {
+            String token = headers.getRequestHeaders().getFirst("userToken");
+            User user = Jugadores.getInstance().buscarJugador(token);
+            if (user == null) {
+                return null;
+            } else {
+                int puntaje = user.getPuntaje();
+                return "{score:" + puntaje + "}";
+            }
+        } catch (NullPointerException e) {
+            System.out.println("Error al consultar puntaje.");
+
+            return null;
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
     /**
      * @param headers
      * @return
@@ -191,20 +227,15 @@ public class MobileResource {
         return parsed;
     }
 
-    private String[] sendResultParser(String pData) throws ParseException {
-        
+    private String[] sendResultParser(String pData) throws ParseException {      
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(pData);
         JSONObject jsonObject = (JSONObject) obj;
 
-        String puntaje = (String) jsonObject.get("points");
-  
-
+        String puntaje =  Double.toString((double) jsonObject.get("points"));
         String[] parsed = new String[1];
         parsed[0] = puntaje;
 
-
         return parsed;
-    
     }
 }

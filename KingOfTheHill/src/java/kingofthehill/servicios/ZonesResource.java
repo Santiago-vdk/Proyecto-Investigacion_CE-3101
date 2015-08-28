@@ -36,7 +36,10 @@ public class ZonesResource {
     public ZonesResource() {
     }
 
-    
+    /**
+     *
+     * @return
+     */
     @GET
     @Path("/test")
     @Produces({MediaType.APPLICATION_JSON})

@@ -52,13 +52,16 @@ public class Batalla extends Thread {
      * @return
      */
     public boolean ScoreBatalla(String pToken, int pScore) {
+        
         if (_jugador1.getToken().compareTo(pToken) == 0) {
             _scoreJugador1 = pScore;
+            _jugador1.setEnPelea(false);
             if (_scoreJugador2 != -1) {
                 return true;
             }
         } else if (_jugador2.getToken().compareTo(pToken) == 0) {
             _scoreJugador2 = pScore;
+            _jugador2.setEnPelea(false);
             if (_scoreJugador1 != -1) {
                 return true;
             }
@@ -78,10 +81,10 @@ public class Batalla extends Thread {
 
         }
 
-        _jugador1.setEnPelea(false);
-        _jugador2.setEnPelea(false);
         _jugador1.setPuntaje(_jugador1.getPuntaje() + _scoreJugador1);
         _jugador2.setPuntaje(_jugador2.getPuntaje() + _scoreJugador2);
+        
+        
 
         if (_scoreJugador1 > _scoreJugador2) {
             if (_jugador2.isBot()) {//gano jugador1 suicidar jugador2 si es bot

@@ -21,12 +21,11 @@ import org.json.simple.parser.ParseException;
  *
  * @author Shagy
  */
-public class conexionBD implements ServletContextListener{
+public class conexionBD implements ServletContextListener {
 
     MongoClient _mongoClient;
     static MongoDatabase _db;
     private static conexionBD _singleton = new conexionBD();
-    
 
     /**
      * Singleton Constructor
@@ -45,7 +44,7 @@ public class conexionBD implements ServletContextListener{
 
     /**
      * Se realiza la comprobacion de credenciales.
-     * 
+     *
      * @param pUsername
      * @param pPassword
      * @param pSchool
@@ -59,7 +58,7 @@ public class conexionBD implements ServletContextListener{
 
     /**
      * Utilizada para cambios de contraseña
-     * 
+     *
      * @param pUsername
      * @param pPassword
      * @param pAnswer
@@ -68,7 +67,7 @@ public class conexionBD implements ServletContextListener{
      */
     public static boolean insercionPassword(String pUsername, String pPassword, String pAnswer) throws ParseException {
         MongoCollection<Document> collection = _db.getCollection("users");
-         FindIterable<Document> doc = collection.find(eq("username", pUsername));
+        FindIterable<Document> doc = collection.find(eq("username", pUsername));
         if (!doc.iterator().hasNext()) {
             return false; //Si el usuario no existe
         } else {
@@ -79,7 +78,7 @@ public class conexionBD implements ServletContextListener{
             JSONObject json = (JSONObject) obj;
             JSONArray array = (JSONArray) json.get("secret");
             //La segunda posicion posee la respuesta, la comparo, si es correcta procedo a cambiar la contrase;a
-            if(array.get(1).toString().compareTo(pAnswer) == 0){
+            if (array.get(1).toString().compareTo(pAnswer) == 0) {
                 UpdateResult query = collection.updateOne(new Document("username", pUsername), new Document("$set", new Document("password", pPassword)));
                 return query.wasAcknowledged();
             } else {
@@ -110,7 +109,7 @@ public class conexionBD implements ServletContextListener{
 
     /**
      * Retorna el 'secret' de un usuario.
-     * 
+     *
      * @param pUsername
      * @return
      * @throws ParseException
@@ -132,10 +131,9 @@ public class conexionBD implements ServletContextListener{
         }
     }
 
-
     /**
      * Retorna el 'score' de un usuario.
-     * 
+     *
      * @param pUsername
      * @return
      * @throws org.json.simple.parser.ParseException
@@ -150,14 +148,14 @@ public class conexionBD implements ServletContextListener{
 
             Object obj = parser.parse(doc.first().toJson());
             JSONObject json = (JSONObject) obj;
-            
-           return Integer.decode(json.get("score").toString());
+
+            return Integer.decode(json.get("score").toString());
         }
     }
-    
+
     /**
      * Retorna el 'admin' de un usuario.
-     *  
+     *
      * @param pUsername
      * @return
      * @throws ParseException
@@ -172,14 +170,14 @@ public class conexionBD implements ServletContextListener{
 
             Object obj = parser.parse(doc.first().toJson());
             JSONObject json = (JSONObject) obj;
-            
-           return (boolean) json.get("admin");
+
+            return (boolean) json.get("admin");
         }
     }
-       
+
     /**
      * Se utiliza para cargar las zonas.
-     * 
+     *
      * @param pZona
      * @param pLat1
      * @param pLong1
@@ -188,7 +186,7 @@ public class conexionBD implements ServletContextListener{
      * @param pColor
      * @return
      */
-    public static boolean insertarZona(String pZona, String pLat1, String pLong1, String pLat2, String pLong2, String pColor){
+    public static boolean insertarZona(String pZona, String pLat1, String pLong1, String pLat2, String pLong2, String pColor) {
         MongoCollection<Document> collection = _db.getCollection("zones");
         FindIterable<Document> doc = collection.find(eq("zone", pZona));
         if (!doc.iterator().hasNext()) {
@@ -197,12 +195,23 @@ public class conexionBD implements ServletContextListener{
         } else {
             return false;
         }
-        
     }
 
     /**
+     *
+     * @param pUsername
+     * @param pPuntaje
+     * @return
+     */
+    public boolean actualizarPuntaje(String pUsername, int pPuntaje) {
+        MongoCollection<Document> collection = _db.getCollection("users");
+        UpdateResult query = collection.updateOne(new Document("username", pUsername), new Document("$set", new Document("score", pPuntaje)));
+        return query.wasAcknowledged();
+                
+        }
+    /**
      * Genera documento a insertar.
-     * 
+     *
      * @param pZona
      * @param pLat1
      * @param pLong1
@@ -211,7 +220,7 @@ public class conexionBD implements ServletContextListener{
      * @param pColor
      * @return
      */
-    private static Document documentZone(String pZona, String pLat1, String pLong1, String pLat2, String pLong2, String pColor){
+    private static Document documentZone(String pZona, String pLat1, String pLong1, String pLat2, String pLong2, String pColor) {
         Document document = new Document();
         document.append("zone", pZona);
         document.append("lat1", pLat1);
@@ -222,8 +231,7 @@ public class conexionBD implements ServletContextListener{
 
         return document;
     }
-    
-    
+
     private static Document documentRegister(String pUsername, String pPassword, String pQuestion, String pAnswer) {
         Document document = new Document();
         document.append("id", 0);
@@ -256,11 +264,11 @@ public class conexionBD implements ServletContextListener{
      */
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        try{
-        System.out.println("Conectando con la BD...");
-        _mongoClient = new MongoClient("localhost", 27017);
-        _db = _mongoClient.getDatabase("KingOfTheHill");
-        } catch (NullPointerException e){
+        try {
+            System.out.println("Conectando con la BD...");
+            _mongoClient = new MongoClient("localhost", 27017);
+            _db = _mongoClient.getDatabase("KingOfTheHill");
+        } catch (NullPointerException e) {
             System.out.println("Error...");
         }
 
@@ -272,13 +280,12 @@ public class conexionBD implements ServletContextListener{
      */
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        try{
-                    System.out.println("Cerrando conexion con la BD...");
-        _mongoClient.close();
-        } catch (MongoException e){
-             System.out.println("Error...");
+        try {
+            System.out.println("Cerrando conexion con la BD...");
+            _mongoClient.close();
+        } catch (MongoException e) {
+            System.out.println("Error...");
         }
 
     }
-    
 }

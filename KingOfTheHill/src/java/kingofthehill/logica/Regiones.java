@@ -97,6 +97,10 @@ public class Regiones {
         
     }
 
+    /**
+     *
+     * @return
+     */
     public JSONArray getZonasAdmin() {
         Zona zone;
         JSONArray array = new JSONArray();
