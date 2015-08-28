@@ -5,26 +5,26 @@ package kingofthehill.logica;
  * @author RafaelAngel
  */
 public class ListaBatallas {
-    private Batalla _head=null;
-    private Batalla _tail=null;
+
+    private Batalla _head = null;
+    private Batalla _tail = null;
     private int _tam = 0;
-    
+
     /**
      *
      * @param pBatalla
      */
-    public void insertar(Batalla pBatalla){
-        if(_head == null){
+    public void insertar(Batalla pBatalla) {
+        if (_head == null) {
             _head = pBatalla;
             _tail = pBatalla;
-        }
-        else{
+        } else {
             _tail.setNext(pBatalla);
             pBatalla.setPrev(_tail);
             _tail = pBatalla;
         }
         _tam++;
-    
+
     }
 
     /**
@@ -32,57 +32,52 @@ public class ListaBatallas {
      * @param pToken
      * @return
      */
-    public Batalla buscarConToken(String pToken){
+    public Batalla buscarConToken(String pToken) {
         Batalla tmp = getHead();
-        while(tmp != null && !tmp.buscarUser(pToken)){
+        while (tmp != null && !tmp.buscarUser(pToken)) {
             tmp = tmp.getNext();
         }
         return tmp;
     }
-    
+
     /**
      *
      * @param pIndice
      * @return
      */
-    public Batalla buscarConIndice(int pIndice){
+    public Batalla buscarConIndice(int pIndice) {
         Batalla tmp = getHead();
-        for(int i=0;i<getTam() && i<pIndice;i++){
+        for (int i = 0; i < getTam() && i < pIndice; i++) {
             tmp = tmp.getNext();
         }
         return tmp;
     }
-    
+
     /**
      *
      * @param pIndice
      */
-    public void borrar(int pIndice){
-        if(pIndice < _tam){
+    public void borrar(int pIndice) {
+        if (pIndice < _tam) {
             Batalla tmp = _head;
-            for(int i=0;i<_tam && i<pIndice;i++){
+            for (int i = 0; i < _tam && i < pIndice; i++) {
                 tmp = tmp.getNext();
             }
-            if(_tam ==1){
+            if (_tam == 1) {
                 _head = null;
                 _tail = null;
                 _tam = 0;
-            }
-
-            //se valida si es el primer elemento
-            else if(tmp == _head){
+            } //se valida si es el primer elemento
+            else if (tmp == _head) {
                 tmp.getNext().setPrev(null);
                 _head = tmp.getNext();
                 _tam--;
-            }
-
-            //se valida si es el ultimo elemento
-            else if(tmp == _tail){
+            } //se valida si es el ultimo elemento
+            else if (tmp == _tail) {
                 tmp.getPrev().setNext(null);
                 _tail = tmp.getPrev();
                 _tam--;
-            }
-            else{
+            } else {
                 tmp.getPrev().setNext(tmp.getNext());
                 tmp.getNext().setPrev(tmp.getPrev());
                 _tam--;
@@ -94,34 +89,29 @@ public class ListaBatallas {
      *
      * @param pToken
      */
-    public void borrarConToken(String pToken){
+    public void borrarConToken(String pToken) {
         Batalla tmp = getHead();
-        while(tmp != null && !tmp.buscarUser(pToken)){
+        while (tmp != null && !tmp.buscarUser(pToken)) {
             tmp = tmp.getNext();
         }
-        
-        if(tmp!= null){
-            
-            if(_tam ==1){
+
+        if (tmp != null) {
+
+            if (_tam == 1) {
                 _head = null;
                 _tail = null;
                 _tam = 0;
-            }
-
-            //se valida si es el primer elemento
-            else if(tmp == _head){
+            } //se valida si es el primer elemento
+            else if (tmp == _head) {
                 tmp.getNext().setPrev(null);
                 _head = tmp.getNext();
                 _tam--;
-            }
-
-            //se valida si es el ultimo elemento
-            else if(tmp == _tail){
+            } //se valida si es el ultimo elemento
+            else if (tmp == _tail) {
                 tmp.getPrev().setNext(null);
                 _tail = tmp.getPrev();
                 _tam--;
-            }
-            else{
+            } else {
                 tmp.getPrev().setNext(tmp.getNext());
                 tmp.getNext().setPrev(tmp.getPrev());
                 _tam--;
@@ -137,10 +127,10 @@ public class ListaBatallas {
     }
 
     /**
-     * @param _head the _head to set
+     * @param pHead
      */
-    public void setHead(Batalla _head) {
-        this._head = _head;
+    public void setHead(Batalla pHead) {
+        _head = pHead;
     }
 
     /**
@@ -151,10 +141,10 @@ public class ListaBatallas {
     }
 
     /**
-     * @param _tail the _tail to set
+     * @param pTail
      */
-    public void setTail(Batalla _tail) {
-        this._tail = _tail;
+    public void setTail(Batalla pTail) {
+        _tail = pTail;
     }
 
     /**
@@ -165,11 +155,10 @@ public class ListaBatallas {
     }
 
     /**
-     * @param _tam the _tam to set
+     * @param pTam
      */
-    public void setTam(int _tam) {
-        this._tam = _tam;
+    public void setTam(int pTam) {
+        this._tam = pTam;
     }
-    
-}
 
+}
