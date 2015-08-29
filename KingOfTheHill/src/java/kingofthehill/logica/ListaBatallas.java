@@ -39,7 +39,7 @@ public class ListaBatallas {
      */
     public Batalla buscarConToken(String pToken){
         Batalla tmp = getHead();
-        while(tmp != null || !tmp.buscarUser(pToken)){
+        while(tmp != null && !tmp.buscarUser(pToken)){
             tmp = tmp.getNext();
         }
         return tmp;
@@ -101,7 +101,7 @@ public class ListaBatallas {
      */
     public void borrarConToken(String pToken){
         Batalla tmp = getHead();
-        while(tmp != null || !tmp.buscarUser(pToken)){
+        while(tmp != null && !tmp.buscarUser(pToken)){
             tmp = tmp.getNext();
         }
         if(tmp!= null){
@@ -156,10 +156,10 @@ public class ListaBatallas {
     }
 
     /**
-     * @param _tail the _tail to set
+     * @param pTail
      */
-    public void setTail(Batalla _tail) {
-        this._tail = _tail;
+    public void setTail(Batalla pTail) {
+        _tail = pTail;
     }
 
     /**
@@ -170,10 +170,10 @@ public class ListaBatallas {
     }
 
     /**
-     * @param _tam the _tam to set
+     * @param pTam
      */
-    public void setTam(int _tam) {
-        this._tam = _tam;
+    public void setTam(int pTam) {
+        _tam = pTam;
     }
     
 }

@@ -14,6 +14,10 @@ public class ListaMensajes {
     private Mensaje _tail=null;
     private int _tam=0;
     
+    /**
+     *
+     * @param pMsj
+     */
     public void insertar(String pMsj){
         Mensaje tmp = new Mensaje(pMsj);
     if (_head == null) {
@@ -28,6 +32,10 @@ public class ListaMensajes {
         _tam ++;
     }
     
+    /**
+     *
+     * @return
+     */
     public String pop(){
         if(getTam() > 0){
             String tmp = _head.getMsj();

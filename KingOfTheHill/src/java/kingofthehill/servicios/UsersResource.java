@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import kingofthehill.logica.BotGenerator;
 import kingofthehill.logica.Jugadores;
+import kingofthehill.logica.ListaUsers;
 import kingofthehill.logica.User;
 import kingofthehill.logica.comunicacionDB;
 
@@ -66,6 +67,81 @@ public class UsersResource {
 
     /**
      *
+     * @param msg
+     * @param headers
+     * @return
+     * @throws ParseException
+     */
+    @POST
+    @Path("/command")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.TEXT_HTML})
+    public String command(String msg, @Context HttpHeaders headers) throws ParseException {
+        try {
+            String token = headers.getRequestHeaders().getFirst("userToken");
+            User user = Jugadores.getInstance().buscarJugador(token);
+            if (user.isAdmin()) {
+
+                JSONParser parser = new JSONParser();
+                Object obj = parser.parse(msg);
+                JSONObject jsonObject = (JSONObject) obj;
+
+                String request = (String) jsonObject.get("command");
+
+                if (request.compareTo("/createbot") == 0) {
+                    BotGenerator.getInstance().newBot();
+                    return "success";
+                } else if (request.compareTo("/killbots") == 0) {
+                    for (int i = 0; i < Jugadores.getInstance().getAllUsers().getTam(); i++) {
+                        if (Jugadores.getInstance().getAllUsers().buscarConIndice(i).isBot()) {
+                            Jugadores.getInstance().getAllUsers().buscarConIndice(i).setSuicidarme(true);
+                            Thread.sleep(2000);
+                            Jugadores.getInstance().desconectarJugador(
+                                    Jugadores.getInstance().getAllUsers().buscarConIndice(i).getToken());
+                        }
+                    }
+                    return "success";
+                } else if (request.compareTo("/top10") == 0) {
+                    String top10 = "{top10:[";
+                    String[] top = new String[10];
+                    ListaUsers users = Jugadores.getInstance().getAllUsers();
+                    int tam = Jugadores.getInstance().getAllUsers().getTam();
+                    int contador = 0;
+                    while (contador < 10) {
+                        if(tam == contador){
+                            break;
+                        }
+                        //Busco el mejor en la primera corrida
+                        int puntaje1 = users.buscarConIndice(0).getPuntaje();
+                        for (int i = 0; i < Jugadores.getInstance().getAllUsers().getTam(); i++) {
+                            int puntajeTmp = users.buscarConIndice(i + 1).getPuntaje();
+
+                            if (puntaje1 < puntajeTmp) {
+                                puntaje1 = puntajeTmp;
+                            }
+                        }
+                        System.out.println(puntaje1);
+                        top[contador] = String.valueOf(puntaje1);
+                        
+                        contador ++;
+                    }
+
+                    return "{";
+                            
+                } else {
+                    return null;
+                }
+
+            }
+
+        } catch (ParseException | InterruptedException e) {
+            System.out.println("Error al solicitar comando");
+        }
+        return null;
+    }
+
+    /**
+     *
      * @param headers
      * @return
      */
@@ -73,21 +149,21 @@ public class UsersResource {
     @Path("/serverlog")
     @Produces({MediaType.TEXT_HTML})
     public String serverLog(@Context HttpHeaders headers) {
-        try{
-        String token = headers.getRequestHeaders().getFirst("userToken");
-        User user = Jugadores.getInstance().buscarJugador(token);
-        if (user != null && user.isAdmin()) {
-            if (Jugadores.getInstance().getMensajes().getTam() > 0) {
-                String msg = Jugadores.getInstance().getMensajes().pop();
-                
-                return msg;
+        try {
+            String token = headers.getRequestHeaders().getFirst("userToken");
+            User user = Jugadores.getInstance().buscarJugador(token);
+            if (user != null && user.isAdmin()) {
+                if (Jugadores.getInstance().getMensajes().getTam() > 0) {
+                    String msg = Jugadores.getInstance().getMensajes().pop();
+
+                    return msg;
+                } else {
+                    return null;
+                }
             } else {
                 return null;
             }
-        } else {
-            return null;
-        }
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             return null;
         }
     }

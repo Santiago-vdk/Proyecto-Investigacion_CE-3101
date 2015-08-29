@@ -14,6 +14,10 @@ public class Mensaje {
     private Mensaje _prev=null;
     private String _msj="";
 
+    /**
+     *
+     * @param pMsj
+     */
     public Mensaje(String pMsj){
         _msj = pMsj;
     }
@@ -39,7 +43,7 @@ public class Mensaje {
     }
 
     /**
-     * @param _prev the _prev to set
+     * @param pPrev
      */
     public void setPrev(Mensaje pPrev) {
         _prev = pPrev;
