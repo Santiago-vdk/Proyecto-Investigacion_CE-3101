@@ -67,8 +67,6 @@ public class ListaMensajes {
     public void setTam(int pTam) {
         _tam = pTam;
     }
-    
-    
-    
+ 
     
 }

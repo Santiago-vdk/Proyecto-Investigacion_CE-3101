@@ -11,6 +11,8 @@ import com.mongodb.client.result.UpdateResult;
 import static java.util.Arrays.asList;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import kingofthehill.logica.ListaZonas;
+import kingofthehill.logica.Regiones;
 import org.bson.Document;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -281,11 +283,24 @@ public class conexionBD implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         try {
+            System.out.println("Guardando zonas...");
+            actualizarZonas();
             System.out.println("Cerrando conexion con la BD...");
             _mongoClient.close();
         } catch (MongoException e) {
             System.out.println("Error...");
         }
 
+    }
+
+    private void actualizarZonas() {
+        ListaZonas zonas = Regiones.getInstance().getZonasList();
+        MongoCollection<Document> collection = _db.getCollection("zones");
+        for(int i = 0; i < zonas.getTam(); i++){
+            UpdateResult query = collection.updateOne(new Document("zone", zonas.buscar(i).getNombre()), new Document("$set", new Document("color", zonas.buscar(i).getColor())));
+            if(!query.wasAcknowledged()){
+                System.out.println("ERRORRRRR");
+            }
+        }
     }
 }

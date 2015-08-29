@@ -102,31 +102,7 @@ public class UsersResource {
                     }
                     return "success";
                 } else if (request.compareTo("/top10") == 0) {
-                    String top10 = "{top10:[";
-                    String[] top = new String[10];
-                    ListaUsers users = Jugadores.getInstance().getAllUsers();
-                    int tam = Jugadores.getInstance().getAllUsers().getTam();
-                    int contador = 0;
-                    while (contador < 10) {
-                        if(tam == contador){
-                            break;
-                        }
-                        //Busco el mejor en la primera corrida
-                        int puntaje1 = users.buscarConIndice(0).getPuntaje();
-                        for (int i = 0; i < Jugadores.getInstance().getAllUsers().getTam(); i++) {
-                            int puntajeTmp = users.buscarConIndice(i + 1).getPuntaje();
-
-                            if (puntaje1 < puntajeTmp) {
-                                puntaje1 = puntajeTmp;
-                            }
-                        }
-                        System.out.println(puntaje1);
-                        top[contador] = String.valueOf(puntaje1);
-                        
-                        contador ++;
-                    }
-
-                    return "{";
+                    
                             
                 } else {
                     return null;
