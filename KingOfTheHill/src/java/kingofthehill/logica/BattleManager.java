@@ -48,6 +48,7 @@ public class BattleManager {
         Batalla batalla = battleNeeded(pUser, pLat, pLong);
         if (batalla != null) {
             _batallas.insertar(batalla);
+            batalla.start();
         }
     }
 
@@ -83,7 +84,9 @@ public class BattleManager {
                         //_jugador1 = user;
                         //_jugador2 = defensor;
                         Batalla batalla = new Batalla(user, defensor, i);
-                        System.out.println("Fight! " + user.getNombre() + " vs " + defensor.getNombre());
+                        String mensaje = "Fight! " + user.getNombre() + " vs " + defensor.getNombre();
+                        System.out.println(mensaje);
+                        Jugadores.getInstance().getMensajes().insertar(mensaje);
                         return batalla;
                     } else {
                         //conquisto zona

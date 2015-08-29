@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">     
 
 
-       <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'> 
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'> 
 
 
         <!-- Bootstrap -->
@@ -38,17 +38,31 @@
                     <li class="btn-primary">
                         <a href="#" style="color: black; font-family: 'Open Sans', sans-serif;">Configuration</a>
                     </li>
-                    
+
                 </ul>
             </div>        
         </nav>
 
         <div class="wrapper">
-<!--
+            <!--
             <div class="sidebar">
                 <h1>Side Bar</h1>
- 
-            </div> -->
+                <textarea id="alltext"></textarea>
+
+                <ol onclick="addText(event)">
+                    <li>Hello</li>
+                    <li>World</li>
+                    <li>Earthlings</li>
+                </ol>
+
+                <script>
+                    function addText(event) {
+                        var targ = event.target || event.srcElement;
+                        document.getElementById("alltext").value += targ.textContent || targ.innerText;
+                    }
+                </script>
+-->
+            </div> 
             <div class="content">
                 <div class="users-info">
                     <div class="user-list">
@@ -104,7 +118,7 @@
 
 
                 </div>
-              <!--  <div class="server">
+                <!-- <div class="server">
                     
 
                    <div class="server-log">
@@ -112,7 +126,7 @@
 
                     </div> 
                     
-                </div> -->
+                </div>  -->
             </div>
 
 
@@ -130,12 +144,12 @@
         <script src="js/jquery.fs.stepper.min.js"></script>
 
         <script>
-                            var options = {
-                                valueNames: ['name', 'born']
-                            }
-                            ;
+    var options = {
+        valueNames: ['name', 'born']
+    }
+    ;
 
-                            var userList = new List('users', options);
+    var userList = new List('users', options);
 
         </script>
 

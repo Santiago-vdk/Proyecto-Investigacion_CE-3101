@@ -1,5 +1,6 @@
 package kingofthehill.logica;
 
+import java.util.ArrayList;
 import kingofthehill.datos.conexionBD;
 import org.json.simple.*;
 
@@ -11,7 +12,8 @@ public class Jugadores {
 
     private boolean _firstRun = true;
     private static Jugadores _singleton = new Jugadores();
-    ListaUsers _usersList;
+    ListaUsers _usersList; //Debe ser private
+    private ListaMensajes _mensajes = new ListaMensajes();
 
     private Jugadores() {
         _usersList = new ListaUsers();
@@ -56,12 +58,16 @@ public class Jugadores {
      */
     public void conectarJugador(String pNombre, String pToken, String pEscuela, double pLat, double pLong, int pPuntaje, boolean pAdmin) {
         if (_firstRun) {
-            System.out.println("Usuario: " + pNombre + ", conectando.");
+            String mensaje = "Usuario: " + pNombre + ", conectando.";
+            System.out.println(mensaje);
+            _mensajes.insertar(mensaje);
             _usersList.insertar(pNombre, pToken, pEscuela, pLat, pLong, pPuntaje, pAdmin);
             Regiones.getInstance();
             _firstRun = false;
         } else {
-            System.out.println("Usuario: " + pNombre + ", conectando.");
+            String mensaje = "Usuario: " + pNombre + ", conectando.";
+            System.out.println(mensaje);
+            _mensajes.insertar(mensaje);
             _usersList.insertar(pNombre, pToken, pEscuela, pLat, pLong, pPuntaje, pAdmin);
         }
     }
@@ -89,8 +95,9 @@ public class Jugadores {
      * @return
      */
     public boolean desconectarJugador(String pToken) {
-        System.out.println("Usuario: " + _usersList.buscar(pToken).getNombre() + ", desconectando.");
-
+        String mensaje = "Usuario: " + _usersList.buscar(pToken).getNombre() + ", desconectando.";
+        System.out.println(mensaje);
+        _mensajes.insertar(mensaje);
         //Guardo el puntaje del jugador
         conexionBD.getInstance().actualizarPuntaje(_usersList.buscar(pToken).getNombre(), _usersList.buscar(pToken).getPuntaje());
 
@@ -148,9 +155,24 @@ public class Jugadores {
             object.put("username", user.getNombre());
             object.put("lat", user.getLat());
             object.put("long", user.getLong());
-            object.put("color", user.getEscuela().subSequence(1, user.getEscuela().length()));
+            object.put("color", user.getEscuela().subSequence(1, user.getEscuela().length())); //Hmmm
             //array.add(object);
         }
         return object;
+    }
+ 
+
+    /**
+     * @return the _mensajes
+     */
+    public ListaMensajes getMensajes() {
+        return _mensajes;
+    }
+
+    /**
+     * @param pMensajes
+     */
+    public void setMensajes(ListaMensajes pMensajes) {
+        _mensajes = pMensajes;
     }
 }

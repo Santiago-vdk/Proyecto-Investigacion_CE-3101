@@ -48,9 +48,12 @@ public class BotGenerator {
 
         User bot = new User(botName, token, parserSchool(_escuelas[random]), 9.855685, -83.912867, 0, false);
         bot.setIsBot(true);
-        System.out.println("Jugador: " + botName + ", conectando... Escuela: " + _escuelas[random]);
+        String mensaje = "Jugador: " + botName + ", conectando... Escuela: " + _escuelas[random];
+        System.out.println(mensaje);
+        Jugadores.getInstance().getMensajes().insertar(mensaje);
         Jugadores.getInstance().conectarJugador(bot);
         Bot botThread = new Bot(token, 9.855685, -83.912867);
+        botThread.start();
     }
 
     //Mejora futura

@@ -15,6 +15,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import kingofthehill.logica.Jugadores;
 import kingofthehill.logica.Regiones;
+import kingofthehill.logica.User;
 import org.json.JSONString;
 
 import org.json.simple.parser.ParseException;
@@ -63,11 +64,11 @@ public class ZonesResource {
     public String logout(@Context HttpHeaders headers) throws ParseException {
         
         String token = headers.getRequestHeaders().getFirst("userToken");
-        if (token != null && Jugadores.getInstance().buscarJugador(token) != null && !Jugadores.getInstance().buscarJugador(token).isAdmin()){
+        User user = Jugadores.getInstance().buscarJugador(token) ;
+        if (token != null && user!= null && !user.isAdmin()){
             return Regiones.getInstance().getZonas().toJSONString();
-        } else if (token != null && Jugadores.getInstance().buscarJugador(token) != null && Jugadores.getInstance().buscarJugador(token).isAdmin()){
+        } else if (token != null && user != null && user.isAdmin()){
                 return Regiones.getInstance().getZonasAdmin().toJSONString();
-            
         }else{
             return null;
         }

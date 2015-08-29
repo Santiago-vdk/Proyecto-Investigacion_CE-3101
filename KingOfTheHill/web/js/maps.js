@@ -27,7 +27,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 
 
-var INTERVALREC = 1000;
+var INTERVALREC = 250;
 var zoneStore = {};
 
 function getRectangles() {
@@ -39,9 +39,9 @@ function getRectangles() {
         beforeSend: function (xhr) {
             // Set the CSRF Token in the header for security
             var token = window.sessionStorage.accessToken;
-            if (token)
+              if (token){
                 xhr.setRequestHeader('userToken', token);
-             
+            }
         },
         success: function (res, textStatus, jqXHR) {
             if (jqXHR.status !== 204) {
@@ -70,18 +70,16 @@ function getRectangles() {
             }
         },
         error: function () { 
-            alert("Error de solicitud al cargar zonas.");
+            console.log("Error de solicitud al cargar zonas.");
         }
     });
 }
-
-
 
 //Used to remember markers
 var markerStore = {};
 
 //Time between marker refreshes
-var INTERVAL = 50;
+var INTERVAL = 250;
 
 function getMarkers() {
     $.ajax({
@@ -92,8 +90,9 @@ function getMarkers() {
         beforeSend: function (xhr) {
             // Set the CSRF Token in the header for security
             var token = window.sessionStorage.accessToken;
-            if (token)
+              if (token) {
                 xhr.setRequestHeader('userToken', token);
+              }
         },
         success: function (res, textStatus, jqXHR) {
             if (jqXHR.status !== 204) {
@@ -108,7 +107,6 @@ function getMarkers() {
                         else{
                             markerStore[res[i].username].setPosition(new google.maps.LatLng(res[i].lat, res[i].long));
                         }
-                        
                     } 
                     else {
                         //Si no existe lo creo
@@ -127,7 +125,8 @@ function getMarkers() {
             }
         },
         error: function () {
-            alert("Error de solicitud al cargar marcadores.");
+            
+            console.log("Error de solicitud al cargar marcadores.");
         }
     });
 }

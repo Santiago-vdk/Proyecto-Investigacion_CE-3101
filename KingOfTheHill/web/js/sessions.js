@@ -67,7 +67,7 @@ function loginUser() {
 
         },
         error: function () {
-            alert("Error en solicitud de Login.");
+            console.log("Error en solicitud de Login.");
         }
     });
 }
@@ -121,7 +121,7 @@ function registerUser() {
             }
         },
         error: function () {
-            alert("Error en solicitud de register.");
+            console.log("Error en solicitud de register.");
         }
     });
 }
@@ -135,8 +135,9 @@ function isLogged() {
         beforeSend: function (xhr) {
             // Set the CSRF Token in the header for security
             var token = window.sessionStorage.accessToken;
-            if (token)
+              if (token)
                 xhr.setRequestHeader('userToken', token);
+           
         },
         success: function (res, textStatus, jqXHR) {
             //El usuario si esta loggeado
@@ -164,7 +165,7 @@ function isLogged() {
                 $('a').css('visibility', 'visible');
                 $('screenName').text("null");
             } else {
-                alert("Error en solicitud de auth.");
+                console.log("Error en solicitud de auth.");
             }
         }
     });
@@ -178,8 +179,9 @@ function logout() {
         beforeSend: function (xhr) {
             // Set the CSRF Token in the header for security
             var token = window.sessionStorage.accessToken;
-            if (token)
+              if (token)
                 xhr.setRequestHeader('userToken', token);
+            
         },
         success: function (res, textStatus, jqXHR) {
             //El usuario si esta loggeado
@@ -202,7 +204,7 @@ function logout() {
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert("Error en solicitud de logout.");
+            console.log("Error en solicitud de logout.");
         }
     });
 }
@@ -255,7 +257,7 @@ function forgotPassword() {
 
         },
         error: function () {
-            alert("Error en solicitud de forgot password.");
+            console.log("Error en solicitud de forgot password.");
         }
     });
 }
@@ -309,7 +311,7 @@ function checkAnswer(paramUsername, inputValue) {
                 });
             }
         }, error: function () {
-            alert("Error en solicitud de answer.");
+            console.log("Error en solicitud de answer.");
         }
     });
 }
@@ -344,7 +346,39 @@ function changePassword(paramUsername, inputValue, answer) {
                 });
             }
         }, error: function () {
-            alert("Error en solicitud de change password.");
+            console.log("Error en solicitud de change password.");
+        }
+    });
+}
+
+
+var INTERVALLOG = 1500;
+
+function getLog() {
+    $.ajax({
+        type: 'GET',
+        url: 'webresources/users/serverlog',
+        //contentType: 'application/json',
+        //dataType: "json", 
+        beforeSend: function (xhr) {
+            // Set the CSRF Token in the header for security
+            var token = window.sessionStorage.accessToken;
+            if (token){
+                xhr.setRequestHeader('userToken', token);
+            } else {
+                xhr.abort();
+            }
+                
+        },
+        success: function (res, textStatus, jqXHR) {
+            if(jqXHR.status !== 204){
+                toastr.info(res);
+                
+            }
+            window.setTimeout(getLog, INTERVALLOG);
+        },
+        error: function () {
+            console.log("Error al solicitar log");
         }
     });
 }

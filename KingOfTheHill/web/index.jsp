@@ -13,6 +13,8 @@
         <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGh7D7tuU8uPFGbK2Og8cVz0bRC9vYkfo"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <link href="css/toastr.css" rel="stylesheet"/>
+        
         
         <script src="js/sweetalert.min.js"></script>
         <link rel="stylesheet" type="text/css" href="css/sweetalert.css">
@@ -21,28 +23,29 @@
         <script type="text/javascript" src="js/md5-min.js"></script>
         <script type="text/javascript" src="js/sessions.js"></script>
         <script src="js/chance.js"></script>
-        
+        <script src="js/toastr.js"></script>
+
         <script type="text/javascript">
             $(window).load(function () {
                 isLogged();
-                
-                
                 //if(window.sessionStorage.accessToken !=== null){
-                    getMarkers();
-                    getRectangles();
+                getMarkers();
+                getRectangles();       
+                getLog();
                 //}
-                
+
             });
 
         </script>
 
         <script type="text/javascript">
-    if (/Android|webOS|iPhone|iPad|iPod|pocket|psp|kindle|avantgo|blazer|midori|Tablet|Palm|maemo|plucker|phone|BlackBerry|symbian|IEMobile|mobile|ZuneWP7|Windows Phone|Opera Mini/i.test(navigator.userAgent)){
-     window.onload = function (){
-         document.getElementById('menu').style.display = 'none';
-         
-     }
-   };
+            if (/Android|webOS|iPhone|iPad|iPod|pocket|psp|kindle|avantgo|blazer|midori|Tablet|Palm|maemo|plucker|phone|BlackBerry|symbian|IEMobile|mobile|ZuneWP7|Windows Phone|Opera Mini/i.test(navigator.userAgent)) {
+                window.onload = function () {
+                    document.getElementById('menu').style.display = 'none';
+
+                };
+            }
+            ;
         </script>
 
         <link rel="stylesheet" href="css/reset.css">
@@ -68,11 +71,11 @@
             <div id="cd-logo">
                 <user id="screenName" disabled>username</user>
                 <user id="screenPuntaje"  disabled> - PUNTAJE: </user>
-               <user id="screenScore" style="color:#FFD700" disabled>500</user>
+                <user id="screenScore" style="color:#FFD700" disabled>500</user>
             </div> 
             <div id="cd-logout">
-                 <logoutBtn id="btnlogout" onclick="logout()">logout</logoutBtn>
-                
+                <logoutBtn id="btnlogout" onclick="logout()">logout</logoutBtn>
+
             </div>
             <nav class="main-nav">
                 <ul>
@@ -96,7 +99,7 @@
                 <div id="cd-login">
                     <!-- log in form -->
                     <form class="cd-form" onSubmit="loginUser();
-                return false;" method="POST">
+                            return false;" method="POST">
                         <p class="fieldset">
                             <label class="image-replace cd-username" for="login-username">Username</label>
                             <input class="full-width has-padding has-border" id="login-username" type="text" placeholder="Username" pattern=".{3,}"  required title="Mínimo de caracteres: 4">

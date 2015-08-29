@@ -34,7 +34,7 @@ public class Bot extends Thread {
         cargarRutas();
         _goingTo = number.generate();
         //_user = Jugadores.getInstance().buscarJugador(pToken);
-        start();
+        //start();
     }
 
     @Override

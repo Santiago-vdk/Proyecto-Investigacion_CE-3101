@@ -27,13 +27,13 @@ and open the template in the editor.
 .content {
     display:block;
     min-height: 100%; 
-   // width:70%;
-   // float:right;
+    //width:65%;
+    float:right;
+    
     background: #FFF;
 }
 
 .server-log {
-
     border-radius: 25px;
     border: 2px solid #8AC007;
     padding: 20px; 

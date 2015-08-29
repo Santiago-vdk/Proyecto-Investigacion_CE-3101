@@ -48,12 +48,9 @@ public class MobileResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.TEXT_HTML})
     public String sendPosition(String msg, @Context HttpHeaders headers) throws ParseException {
-
         try {
-
             String token = headers.getRequestHeaders().getFirst("userToken");
             User user = Jugadores.getInstance().buscarJugador(token);
-
             if (user != null) {
                 String[] parsedData = sendPosParser(msg);
                 Double LatJugador = Double.parseDouble(parsedData[1]);
@@ -67,7 +64,8 @@ public class MobileResource {
             } else {
                 return null;
             }
-        } catch (Exception e) {
+        } catch (ParseException | NumberFormatException e) {
+            
             System.out.println("Exception send position");
             return null;
         }
@@ -125,24 +123,25 @@ public class MobileResource {
     public String checkBattle(@Context HttpHeaders headers) {
         try {
             String token = headers.getRequestHeaders().getFirst("userToken");
-            if (Jugadores.getInstance().buscarJugador(token).isEnPelea() && !Jugadores.getInstance().buscarJugador(token).isBot()) {
+            User user = Jugadores.getInstance().buscarJugador(token);
+            if (user.isEnPelea() && !user.isBot()) {
                 //Jugador debe entrar en batalla
                 JSONObject batt = new JSONObject();
                 batt.put("battle", "true");
-                return batt.toJSONString();
-            } else if (Jugadores.getInstance().buscarJugador(token).isEnPelea() && Jugadores.getInstance().buscarJugador(token).isBot()) {
+                return batt.toString(); //Hmmm
+            } else if (user.isEnPelea() && user.isBot()) {
                 return "battle";
             } else {
-                if (!Jugadores.getInstance().buscarJugador(token).isBot()) {
+                if (!user.isBot()) {
                     JSONObject batt = new JSONObject();
                     batt.put("battle", "false");
-                    return batt.toJSONString();
+                    return batt.toString();
                 } else {
                     return "success";
                 }
-
             }
         } catch (Exception e) {
+           // e.printStackTrace();
             System.out.println("Exception check battle");
             return null;
         }
@@ -197,6 +196,7 @@ public class MobileResource {
                 }
             }
         } catch (NullPointerException e) {
+            e.printStackTrace();
             System.out.println("Desconexion inseperada o token invalido.");
             return null;
         }

@@ -27,7 +27,7 @@ public class Batalla extends Thread {
         _jugador1 = pJugador1;
         _jugador2 = pJugador2;
         _IndiceZona = pIndiceZona;
-        start(); //Volatil
+        //start(); //Volatil
     }
 
     /**
@@ -84,21 +84,23 @@ public class Batalla extends Thread {
 
         _jugador1.setPuntaje(_jugador1.getPuntaje() + _scoreJugador1);
         _jugador2.setPuntaje(_jugador2.getPuntaje() + _scoreJugador2);
-        
-        
 
         if (_scoreJugador1 > _scoreJugador2) {
+            String mensaje = "Termino Batalla, el ganador fue: " + _jugador1.getNombre();
+            System.out.println(mensaje);
+            Jugadores.getInstance().getMensajes().insertar(mensaje);
             if (_jugador2.isBot()) {//gano jugador1 suicidar jugador2 si es bot
                 _jugador2.setSuicidarme(true);
-                System.out.println("Termino Batalla, el ganador fue: " + _jugador1.getNombre());
             }
             //cambiar color de zona porque perdio el defensor 
             String escuela = _jugador1.getEscuela();
             Regiones.getInstance().getZonasList().buscar(_IndiceZona).setColor(escuela);
         } else {
+            String mensaje = "Termino Batalla, el ganador fue: " + _jugador2.getNombre();
+            System.out.println(mensaje);
+            Jugadores.getInstance().getMensajes().insertar(mensaje);
             if (_jugador1.isBot()) {//gano jugador2 suicidar jugador1 si es bot
                 _jugador1.setSuicidarme(true);
-                System.out.println("Termino Batalla, el ganador fue: " + _jugador2.getNombre());
             }
         }
 
