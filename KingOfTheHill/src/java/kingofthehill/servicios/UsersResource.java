@@ -270,6 +270,7 @@ public class UsersResource {
     @Path("/auth")
     @Produces({MediaType.TEXT_HTML})
     public Response isLogged(@Context HttpHeaders headers) {
+        try{
         String token = headers.getRequestHeaders().getFirst("userToken");
         User user = Jugadores.getInstance().buscarJugador(token);
         if (token == null || user == null) {
@@ -286,6 +287,11 @@ public class UsersResource {
                 return null;
             }
 
+        }
+        }
+        catch (NullPointerException e){
+            System.out.println("Error al autenticar");
+            return null;
         }
     }
 

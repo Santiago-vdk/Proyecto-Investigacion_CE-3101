@@ -48,10 +48,7 @@ public class ZonesResource {
         System.out.println("EUREKA!");
         return "test";
     }
-    
-    
-    
-    
+
     /**
      * @param headers
      * @return
@@ -62,14 +59,18 @@ public class ZonesResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     public String logout(@Context HttpHeaders headers) throws ParseException {
-        
-        String token = headers.getRequestHeaders().getFirst("userToken");
-        User user = Jugadores.getInstance().buscarJugador(token) ;
-        if (token != null && user!= null && !user.isAdmin()){
-            return Regiones.getInstance().getZonas().toJSONString();
-        } else if (token != null && user != null && user.isAdmin()){
+        try {
+            String token = headers.getRequestHeaders().getFirst("userToken");
+            User user = Jugadores.getInstance().buscarJugador(token);
+            if (token != null && user != null && !user.isAdmin()) {
+                return Regiones.getInstance().getZonas().toJSONString();
+            } else if (token != null && user != null && user.isAdmin()) {
                 return Regiones.getInstance().getZonasAdmin().toJSONString();
-        }else{
+            } else {
+                return null;
+            }
+        } catch (NullPointerException e) {
+            System.out.println("Error al solicitar zonas");
             return null;
         }
 

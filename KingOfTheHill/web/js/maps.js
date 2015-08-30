@@ -42,6 +42,9 @@ function getRectangles() {
               if (token){
                 xhr.setRequestHeader('userToken', token);
             }
+             else {
+                xhr.abort();
+            }
         },
         success: function (res, textStatus, jqXHR) {
             if (jqXHR.status !== 204) {
@@ -93,6 +96,9 @@ function getMarkers() {
               if (token) {
                 xhr.setRequestHeader('userToken', token);
               }
+               else {
+                xhr.abort();
+            }
         },
         success: function (res, textStatus, jqXHR) {
             if (jqXHR.status !== 204) {
